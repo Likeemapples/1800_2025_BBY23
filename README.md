@@ -1,4 +1,4 @@
-# EcoAction
+# EcoAction Project
 
 ## Overview
 
