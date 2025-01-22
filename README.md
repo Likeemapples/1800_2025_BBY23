@@ -13,6 +13,7 @@ Developed for the [Course Name] course, applying User-Centred Design practices, 
 # Names of Contributors
 
 - Hi, my name is Jason!
+- Hi, Hazel here!
 
 ## Features
 
@@ -66,6 +67,7 @@ project-name/
 ## Contributors
 
 - **Your Name** - BCIT CST Student with a passion for creating user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
+
 - **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 
 ---
