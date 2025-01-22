@@ -16,6 +16,8 @@ Developed for the [Course Name] course, applying User-Centred Design practices, 
 - Hi, Hazel here!
 - Hello, I'm Yehor.
 
+---
+
 ## Features
 
 Example:
