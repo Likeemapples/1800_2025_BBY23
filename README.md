@@ -10,7 +10,7 @@ This client-side JavaScript web application provides real-time weather updates f
 
 Developed for the [Course Name] course, applying User-Centred Design practices, agile project management processes, integrating a weather API, and Firebase backend services.
 
-# Names of Contributors
+## Names of Contributors
 
 - Hi, my name is Jason!
 - Hi, Hazel here!
