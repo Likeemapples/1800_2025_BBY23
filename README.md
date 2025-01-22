@@ -12,7 +12,7 @@ Developed for the [Course Name] course, applying User-Centred Design practices, 
 
 # Names of Contributors
 
-- Hi, my name is Name!
+- Hi, my name is Jason!
 - Hi, Hazel here!
 - Hello, I'm Yehor.
 
