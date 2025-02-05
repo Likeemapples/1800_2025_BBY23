@@ -1,1 +1,16 @@
 
+#nav{
+    margin-bottom: 20pt;
+}
+.card-img-top {
+    width: 100%;
+    height: 100pt;
+    object-fit: contain;    
+    object-fit: cover;
+}
+.container{
+    margin-bottom: 20pt;
+}
+#nav img{
+    margin-right: 10pt;
+}
