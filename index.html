@@ -3,7 +3,7 @@
 
 <head>
     <title>EcoAction</title>
-    <meta name="comp1800 template" content="My 1800 App">
+    <meta name="comp1800 template" content="EcoAction App">
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,6 +17,8 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Other libraries go here -->
 
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./styles/style.css">
@@ -30,7 +32,7 @@
     <!------------------------------>
     <!-- Stuff for body goes here -->
 
-    <nav class="navbar navbar-expand-lg bg-success">
+    <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <img src="images/logo.jpg" height="36">
@@ -45,85 +47,221 @@
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Challenges</a>
                 </li>
                 <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
+                    Resources
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Eco Tips</a></li>
+                    <li><a class="dropdown-item" href="#">Community Projects</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><a class="dropdown-item" href="#">Get Involved</a></li>
                 </ul>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="#">About Us</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-light" type="submit">Search</button>
             </form>
             </div>
         </div>
     </nav>
 
-
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold">EcoAction</h1>
-          <p class="col-md-8 fs-4">Let's start the adventure now</p>
-  
-          <button class="btn btn-primary btn-lg" type="button">Login/Signup</button>
-          
-          <!-- Add an onclick attribute to define click event handler -->
-          <!-- <button onclick="window.location.href='login.html'" class="btn btn-primary btn-lg" type="button">Login/Signup</button> -->
+    <div class="container">
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Welcome to EcoAction</h1>
+            <p class="col-md-8 fs-4">Join us in making a difference for our planet. Start your eco-friendly journey today!</p>
+            
+            <!-- Add an onclick attribute to define click event handler -->
+            <button onclick="window.location.href='login.html'" class="btn btn-dark bg-success btn-lg" type="button">Login/Signup</button>
+            </div>
         </div>
-    </div>
 
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-          <div class="card h-100">
-            <img src="images/hike1.jpg" class="card-img-top" alt="Mountain Trail">
-            <div class="card-body">
-              <h5 class="card-title">Mountain Adventure</h5>
-              <p class="card-text">Explore breathtaking mountain trails, surrounded by stunning landscapes and fresh alpine air. A perfect escape into nature.</p>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+            <div class="card h-100">
+                <img src="images/hike1.jpg" class="card-img-top" alt="Community Cleanup">
+                <div class="card-body">
+                <h5 class="card-title">Community Cleanup</h5>
+                <p class="card-text">Join local cleanup events to help keep our neighborhoods and natural spaces clean and green.</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
             </div>
-          </div>
+            <div class="col">
+            <div class="card h-100">
+                <img src="images/hike2.jpg" class="card-img-top" alt="Tree Planting">
+                <div class="card-body">
+                <h5 class="card-title">Tree Planting</h5>
+                <p class="card-text">Participate in tree-planting initiatives to restore forests and combat climate change.</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            </div>
+            <div class="col">
+            <div class="card h-100">
+                <img src="images/hike3.jpg" class="card-img-top" alt="Recycling Drive">
+                <div class="card-body">
+                <h5 class="card-title">Recycling Drive</h5>
+                <p class="card-text">Learn how to recycle effectively and join drives to reduce waste in your community.</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            </div>
         </div>
-        <div class="col">
-          <div class="card h-100">
-            <img src="images/hike2.jpg" class="card-img-top" alt="Forest Path">
-            <div class="card-body">
-              <h5 class="card-title">Deep Forest Trek</h5>
-              <p class="card-text">Immerse yourself in the tranquility of dense forests, where the sounds of birds and rustling leaves guide your journey.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-          </div>
         </div>
-        <div class="col">
-          <div class="card h-100">
-            <img src="images/hike3.jpg" class="card-img-top" alt="Lakeside Hiking">
-            <div class="card-body">
-              <h5 class="card-title">Lakeside Escape</h5>
-              <p class="card-text">Hike along serene lakeshores, where the water reflects the beauty of the sky and the surrounding wilderness. A perfect spot for relaxation.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
+    </body>
+        <!-- Footer -->
+        <footer
+                class="text-center text-lg-start text-white"
+                style="background-color: #198754">
+          <!-- Grid container -->
+          <div class="p-4 pb-0">
+            <!-- Section: Links -->
+            <section class="">
+              <!--Grid row-->
+              <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                  <h6 class="text-uppercase mb-4 font-weight-bold">
+                    EcoAction
+                  </h6>
+                  <p>
+                    Empowering communities to take action for a sustainable future. Together, we can make a difference.
+                  </p>
+                </div>
+                <!-- Grid column -->
+      
+                <hr class="w-100 clearfix d-md-none" />
+      
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                  <h6 class="text-uppercase mb-4 font-weight-bold">Initiatives</h6>
+                  <p>
+                    <a class="text-white">Cleanups</a>
+                  </p>
+                  <p>
+                    <a class="text-white">Tree Planting</a>
+                  </p>
+                  <p>
+                    <a class="text-white">Recycling</a>
+                  </p>
+                  <p>
+                    <a class="text-white">Education</a>
+                  </p>
+                </div>
+                <!-- Grid column -->
+      
+                <hr class="w-100 clearfix d-md-none" />
+      
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                  <h6 class="text-uppercase mb-4 font-weight-bold">
+                    Useful links
+                  </h6>
+                  <p>
+                    <a class="text-white">Your Impact</a>
+                  </p>
+                  <p>
+                    <a class="text-white">Volunteer</a>
+                  </p>
+                  <p>
+                    <a class="text-white">Donate</a>
+                  </p>
+                  <p>
+                    <a class="text-white">Contact Us</a>
+                  </p>
+                </div>
+      
+                <!-- Grid column -->
+                <hr class="w-100 clearfix d-md-none" />
+      
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                  <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+                  <p><i class="fas fa-home mr-3"></i> Vancouver, BC, Canada</p>
+                  <p><i class="fas fa-envelope mr-3"></i> info@ecoaction.com</p>
+                  <p><i class="fas fa-phone mr-3"></i> + 1 234 567 890</p>
+                  <p><i class="fas fa-print mr-3"></i> + 1 234 567 891</p>
+                </div>
+                <!-- Grid column -->
+              </div>
+              <!--Grid row-->
+            </section>
+            <!-- Section: Links -->
+      
+            <hr class="my-3">
+      
+            <!-- Section: Copyright -->
+            <section class="p-3 pt-0">
+              <div class="row d-flex align-items-center">
+                <!-- Grid column -->
+                <div class="col-md-7 col-lg-8 text-center text-md-start">
+                  <!-- Copyright -->
+                  <div class="p-3">
+                    © 2023 Copyright:
+                    <a class="text-white" href="https://ecoaction.com/"
+                       >EcoAction.com</a
+                      >
+                  </div>
+                  <!-- Copyright -->
+                </div>
+                <!-- Grid column -->
+      
+                <!-- Grid column -->
+                <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+                  <!-- Facebook -->
+                  <a
+                     class="btn btn-outline-light btn-floating m-1"
+                     class="text-white"
+                     role="button"
+                     ><i class="fab fa-facebook-f"></i
+                    ></a>
+      
+                  <!-- Twitter -->
+                  <a
+                     class="btn btn-outline-light btn-floating m-1"
+                     class="text-white"
+                     role="button"
+                     ><i class="fab fa-twitter"></i
+                    ></a>
+      
+                  <!-- Instagram -->
+                  <a
+                     class="btn btn-outline-light btn-floating m-1"
+                     class="text-white"
+                     role="button"
+                     ><i class="fab fa-instagram"></i
+                    ></a>
+      
+                  <!-- LinkedIn -->
+                  <a
+                     class="btn btn-outline-light btn-floating m-1"
+                     class="text-white"
+                     role="button"
+                     ><i class="fab fa-linkedin-in"></i
+                    ></a>
+                </div>
+                <!-- Grid column -->
+              </div>
+            </section>
+            <!-- Section: Copyright -->
           </div>
-        </div>
-      </div>
-    </div>
-    
+          <!-- Grid container -->
+        </footer>
     <!---------------------------------------------->
     <!-- Your own JavaScript functions go here    -->
     <!---------------------------------------------->
