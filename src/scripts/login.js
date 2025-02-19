@@ -2,7 +2,7 @@ const ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 const uiConfig = {
   callbacks: {
-    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+    signInSuccessWithAuthResult: (authResult, redirectUrl) => {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
       // or whether we leave that to developer to handle.
@@ -22,4 +22,6 @@ const uiConfig = {
   privacyPolicyUrl: "<your-privacy-policy-url>",
 };
 
-ui.start("#firebaseui-auth-container", uiConfig);
+ui.start("#firebase-ui-auth-container", uiConfig);
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
