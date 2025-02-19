@@ -1,5 +1,8 @@
-const ui = new firebaseui.auth.AuthUI(firebase.auth());
+import { firebaseConfig } from "./auth.js";
 
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const ui = new firebaseui.auth.AuthUI(firebase.auth());
 const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: (authResult, redirectUrl) => {
@@ -8,12 +11,10 @@ const uiConfig = {
       // or whether we leave that to developer to handle.
       return true;
     },
-    uiShown: function () {
-      document.getElementById("loader").style.display = "none";
-    },
+    uiShown: () => {},
   },
   signInFlow: "popup",
-  signInSuccessUrl: "main.html",
+  signInSuccessUrl: "/index",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -23,5 +24,3 @@ const uiConfig = {
 };
 
 ui.start("#firebase-ui-auth-container", uiConfig);
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();

@@ -11,7 +11,7 @@ liveReloadServer.watch("./public/");
 app.use(connectLiveReload());
 
 app.use(json());
-app.use("/js", expressStatic("./src/scripts"));
+app.use("/scripts", expressStatic("./src/scripts"));
 app.use("/css", expressStatic("./public/styles"));
 app.use("/assets", expressStatic("./public/assets"));
 app.use("/html", expressStatic("./public/html"));
