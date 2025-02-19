@@ -1,6 +1,10 @@
 :root {
   /* TODO */
-  --green-primary: #198754;
+  --green-primary: #177245;
+  --white: #f1fffa;
+  --black: #0d0a0b;
+  --green-accent-primary: #004953;
+  --green-accent-secondary: #1d7874;
 }
 
 /* Poppins for headings */
