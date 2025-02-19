@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Summarize your project's purpose, problem solved, key features, user benefits, development context, and main technologies used.",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/Likeemapples/1800_2025_BBY23#readme",
   "dependencies": {
+    "connect-livereload": "^0.6.1",
     "express": "^4.21.2",
     "livereload": "^0.9.3"
   }
