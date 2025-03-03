@@ -1,0 +1,35 @@
+.card {
+    width: 40%;
+    margin: auto;
+    margin-bottom: 20pt;
+  }
+.card-body {
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.2s ease-in-out;
+    padding: 0 15px;
+  }
+
+  .card-header {
+    cursor: pointer;
+}
+h1 {
+  margin: 10pt 10pt 15pt 10pt;
+  text-align: center;
+}
+
+  .card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.2s ease-in-out;
+    padding: 0 15px;
+}
+
+.card-body img{
+    width: 100%;
+    height: auto;
+}
+.image-clip{
+  height: 200pt;
+  overflow: hidden;
+  border-radius: 8pt;
+}
