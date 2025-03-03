@@ -1,0 +1,38 @@
+  #nav {
+      background-color: var(--green-primary); /* Use the custom green */
+  }
+  
+  .navbar-brand, .nav-link {
+      color: var(--white) !important; /* Custom white text */
+  }
+  
+  .nav-link:hover {
+      color: var(--green-accent-secondary) !important; /* Custom hover color */
+  }
+  
+  .navbar-toggler-icon {
+      filter: invert(100%); /* Makes the toggler (☰) white */
+  }
+
+  .form-control {
+    border-radius: 12px !important; /* Adjust the roundness of input */
+}
+
+.btn {
+    border-radius: 12px !important; /* Adjust the roundness of button */
+}
+
+  
+  /* Dropdown Menu */
+  .dropdown-menu {
+      background-color: var(--green-accent-primary); /* Use accent green */
+  }
+  
+  .dropdown-item {
+      color: var(--white) !important;
+  }
+  
+  .dropdown-item:hover {
+      background-color: var(--green-accent-secondary) !important;
+  }
+  

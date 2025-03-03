@@ -28,7 +28,6 @@
     text-align: center;
 }
 .card {
-    background: var(--background-color);;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -36,11 +35,30 @@
     margin-bottom: 1rem;
 }
 .form-control {
-    border: 1px solid #596280;
+    border: 1px solid var(--green-primary);
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
     font-size: .825rem;
-    background: #bccaed;
-    color: #bcd0f7;
+    background-color: var(--white);
+    color: var(--white);
+}
+
+.form-control:focus {
+    background-color: var(--white);
+    border: 1px solid var(--green-primary);
+    box-shadow: 0pt 0pt 0pt 2pt var(--green-accent-secondary-transparent); /* Optional glow effect */
+    outline: none;
+}
+
+input:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+}
+.btn-secondary{
+    background-color: var(--green-accent-secondary);
+    border: 0pt;
+}
+.btn-secondary:hover{
+    background-color: var(--green-primary);
+    border: 0pt;
 }
