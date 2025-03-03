@@ -28,6 +28,10 @@ app.get("/settings", (request, response) => {
   response.status(200).send(readFileSync("./public/html/settings.html", "utf8"));
 });
 
+app.get("/daily_tasks", (request, response) => {
+  response.status(200).send(readFileSync("./public/html/daily_tasks.html", "utf8"));
+});
+
 // for resoure not found (404)
 app.use((request, response, next) => {
   response.status(404).send(readFileSync("./public/html/404.html", "utf8"));

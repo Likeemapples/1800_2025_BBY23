@@ -1,33 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>EcoAction</title>
-    <meta name="comp1800 template" content="EcoAction App" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous" />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="./styles/style.css" />
-  </head>
+<head>
+    <div id="head"></div>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
 
   <body>
     <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-success">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <img src="images/logo.jpg" height="36" />
+          <img src="/assets/images/logo.jpg" height="36" />
           EcoAction
         </a>
         <button
@@ -98,7 +81,7 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
           <div class="card h-100">
-            <img src="images/hike1.jpg" class="card-img-top" alt="Community Cleanup" />
+            <img src="/assets/images/hike1.jpg" class="card-img-top" alt="Community Cleanup" />
             <div class="card-body">
               <h5 class="card-title">Community Cleanup</h5>
               <p class="card-text">
@@ -113,7 +96,7 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img src="images/hike2.jpg" class="card-img-top" alt="Tree Planting" />
+            <img src="/assets/images/hike2.jpg" class="card-img-top" alt="Tree Planting" />
             <div class="card-body">
               <h5 class="card-title">Tree Planting</h5>
               <p class="card-text">
@@ -128,7 +111,7 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img src="images/hike3.jpg" class="card-img-top" alt="Recycling Drive" />
+            <img src="/assets/images/hike3.jpg" class="card-img-top" alt="Recycling Drive" />
             <div class="card-body">
               <h5 class="card-title">Recycling Drive</h5>
               <p class="card-text">
@@ -142,82 +125,11 @@
         </div>
       </div>
     </div>
-    <footer class="text-center text-lg-start text-white" style="background-color: #198754">
-      <div class="p-4 pb-0">
-        <section class="">
-          <div class="row">
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-              <h6 class="text-uppercase mb-4 font-weight-bold">EcoAction</h6>
-              <p>
-                Empowering communities to take action for a sustainable future. Together, we can
-                make a difference.
-              </p>
-            </div>
-            <hr class="w-100 clearfix d-md-none" />
-            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-              <h6 class="text-uppercase mb-4 font-weight-bold">Initiatives</h6>
-              <p>
-                <a class="text-white">Cleanups</a>
-              </p>
-              <p>
-                <a class="text-white">Tree Planting</a>
-              </p>
-              <p>
-                <a class="text-white">Recycling</a>
-              </p>
-              <p>
-                <a class="text-white">Education</a>
-              </p>
-            </div>
-            <hr class="w-100 clearfix d-md-none" />
-            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-              <h6 class="text-uppercase mb-4 font-weight-bold">Useful links</h6>
-              <p>
-                <a class="text-white">Your Impact</a>
-              </p>
-              <p>
-                <a class="text-white">Volunteer</a>
-              </p>
-              <p>
-                <a class="text-white">Donate</a>
-              </p>
-              <p>
-                <a class="text-white">Contact Us</a>
-              </p>
-            </div>
-            <hr class="w-100 clearfix d-md-none" />
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-              <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
-              <p><i class="fas fa-home mr-3"></i> Vancouver, BC, Canada</p>
-              <p><i class="fas fa-envelope mr-3"></i> info@ecoaction.com</p>
-              <p><i class="fas fa-phone mr-3"></i> + 1 234 567 890</p>
-              <p><i class="fas fa-print mr-3"></i> + 1 234 567 891</p>
-            </div>
-          </div>
-        </section>
-        <hr class="my-3" />
-        <section class="p-3 pt-0">
-          <div class="row d-flex align-items-center">
-            <div class="col-md-7 col-lg-8 text-center text-md-start">
-              <div class="p-3">
-                © 2023 Copyright:
-                <a class="text-white" href="https://ecoaction.com/">EcoAction.com</a>
-              </div>
-            </div>
-            <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
-              <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"
-                ><i class="fab fa-facebook-f"></i
-              ></a>
-              <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"
-                ><i class="fab fa-instagram"></i
-              ></a>
-            </div>
-          </div>
-        </section>
-      </div>
-    </footer>
-  </body>
+</body>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+<script src="/scripts/app_shell.js"></script>
+
 </html>
