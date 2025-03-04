@@ -40,6 +40,16 @@ body {
       padding: 0 0 30px 9vw;
 
       #demo-wrapper {
+        --black: #4c4c4c;
+        --white: #eaeaea;
+        --gray: #808080;
+        --text-arrow-space: 14px;
+        --shaft-width: 1px;
+        --newshaft-width: 64px;
+        --shaft-thickness: 1px;
+        --arrow-head-width: 6px;
+        --arrow-head-thickness: var(--shaft-thickness);
+
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -48,17 +58,6 @@ body {
         line-height: 26px;
         font-family: "Open Sans", sans-serif;
         cursor: pointer;
-
-        --black: #4c4c4c;
-        --white: #eaeaea;
-        --gray: #808080;
-
-        --text-arrow-space: 14px;
-        --shaft-width: 1px;
-        --newshaft-width: 64px;
-        --shaft-thickness: 1px;
-        --arrow-head-width: 6px;
-        --arrow-head-thickness: var(--shaft-thickness);
 
         .the-arrow {
           width: var(--shaft-width);
