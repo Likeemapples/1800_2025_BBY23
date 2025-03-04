@@ -1,4 +1,4 @@
-const PORT = 80;
+const PORT = 8050;
 import express, { json, static as expressStatic } from "express";
 const app = express();
 import { readFileSync, writeFileSync } from "fs";
