@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.9)),
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.8)),
     url("/assets/images/login-bg.jpg") no-repeat center center fixed;
   background-size: cover;
 }
@@ -12,16 +12,20 @@ body {
 #container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 100vh;
   width: 100%;
 
-  #logo {
-    position: absolute;
-    top: 30px;
-    left: 15%;
-    max-width: 100px;
+  #logo-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    padding: 30px 0 0 10%;
+
+    #logo {
+      max-width: 100px;
+    }
   }
   #form-container {
     display: flex;
@@ -313,6 +317,20 @@ body {
           }
         }
       }
+    }
+  }
+
+  footer {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    padding: 0 0 50px 10%;
+
+    #footer-wrapper {
+      color: #acacac;
+      font-weight: 500;
+      font-size: 0.75rem;
+      font-family: "Open Sans", sans-serif;
     }
   }
 }
