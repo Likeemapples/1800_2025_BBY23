@@ -14,7 +14,7 @@ const uiConfig = {
     uiShown: () => {},
   },
   signInFlow: "popup",
-  signInSuccessUrl: "/index",
+  signInSuccessUrl: "/html/home.html",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
