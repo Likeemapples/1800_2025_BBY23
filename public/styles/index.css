@@ -21,6 +21,12 @@ background-color: #d2d2d2;
 /* Navbar Bottom */ 
 .navbar {
     background-color: var(--green-primary);
+
+    a {
+        font-size: 200%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
 }
 
 /* Leave space for fixed bottom */
@@ -29,5 +35,5 @@ background-color: #d2d2d2;
     850pt is so arbitrary it hurts me 
 */
 body {
-    padding-bottom: 850pt;
+    padding-bottom: 875pt;
 }
