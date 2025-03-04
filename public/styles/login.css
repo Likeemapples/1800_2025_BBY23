@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.9)),
     url("/assets/images/login-bg.jpg") no-repeat center center fixed;
   background-size: cover;
 }
@@ -17,26 +17,114 @@ body {
   height: 100vh;
   width: 100%;
 
-  #login-container {
+  #logo {
+    position: absolute;
+    top: 30px;
+    left: 15%;
+    max-width: 100px;
+  }
+  #form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 40%;
     min-width: 600px;
-    padding: 50px;
+    padding: 60px 50px 60px 50px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 10px;
     -webkit-box-shadow: -3px 5px 7px 2px rgba(0, 0, 0, 0.87);
     box-shadow: -3px 5px 7px 2px rgba(0, 0, 0, 0.5);
 
-    #login-title {
-      font-family: "Poppins", sans-serif;
-      font-size: 2.4vw;
-      font-weight: 400;
+    #form-title {
+      margin: 0;
+      padding: 0 0 15px 0;
+      text-align: center;
       color: var(--white);
+      font-size: 1.6rem;
+      font-weight: 400;
+      font-family: "Poppins", sans-serif;
     }
+
+    /* #form-switch-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 0 0 20px 0;
+      gap: 30px;
+
+      /* ::selection {
+        background: #1a75ff;
+        color: #fff;
+      } */
+    /* #form-switch-slider {
+        position: relative;
+        display: flex;
+        height: 50px;
+        width: 10%;
+        overflow: hidden;
+        margin: 30px 0 10px 0;
+        justify-content: space-between;
+        border: 1px solid lightgrey;
+        border-radius: 15px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: var(--white);
+      } */
+    /* .slide-controls .slide {
+        height: 100%;
+        width: 100%;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        text-align: center;
+        line-height: 48px;
+        cursor: pointer;
+        z-index: 1;
+        transition: all 0.6s ease;
+      } */
+    /* .slide-controls label.signup {
+        color: #000;
+      }
+      .slide-controls .slider-tab {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        left: 0;
+        z-index: 0;
+        border-radius: 15px;
+        background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      } */
+    /* input[type="radio"] {
+        display: none;
+      } */
+    /* #signup:checked ~ .slider-tab {
+        left: 50%;
+      }
+      #signup:checked ~ label.signup {
+        color: #fff;
+        cursor: default;
+        user-select: none;
+      }
+      #signup:checked ~ label.login {
+        color: #000;
+      }
+      #login:checked ~ label.signup {
+        color: #000;
+      }
+      #login:checked ~ label.login {
+        cursor: default;
+        user-select: none;
+      } 
+    } */
     #align-demo {
       width: 100%;
       display: flex;
@@ -145,7 +233,6 @@ body {
             }
           }
         }
-
         .animated-arrow {
           display: inline-block;
           color: var(--white);
