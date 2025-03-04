@@ -1,5 +1,7 @@
 body {
-  background-color: var(--green-primary);
+  background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+    url("/assets/images/login-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
 }
 
 * {
@@ -23,26 +25,26 @@ body {
     width: 40%;
     min-width: 600px;
     padding: 50px;
-    background-color: var(--white);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 10px;
-    box-shadow: 0px 5px 9px 4px rgba(0, 0, 0, 0.24);
+    -webkit-box-shadow: -3px 5px 7px 2px rgba(0, 0, 0, 0.87);
+    box-shadow: -3px 5px 7px 2px rgba(0, 0, 0, 0.5);
 
     #login-title {
       font-family: "Poppins", sans-serif;
-      font-size: 3.2vw;
-      font-weight: 600;
+      font-size: 2.4vw;
+      font-weight: 400;
+      color: var(--white);
     }
     #align-demo {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: start;
-      padding: 0 0 30px 9vw;
+      padding: 20px 0 10px 9vw;
 
       #demo-wrapper {
-        --black: #4c4c4c;
-        --white: #eaeaea;
-        --gray: #808080;
         --text-arrow-space: 14px;
         --shaft-width: 1px;
         --newshaft-width: 64px;
@@ -61,7 +63,7 @@ body {
 
         .the-arrow {
           width: var(--shaft-width);
-          transition: all 0.4s ease-in-out;
+          transition: all 0.3s ease-in-out;
 
           &.-left {
             position: absolute;
@@ -70,12 +72,12 @@ body {
 
             > .shaft {
               width: 0;
-              background-color: var(--black);
+              background-color: var(--white);
 
               &:before,
               &:after {
                 width: 0;
-                background-color: var(--black);
+                background-color: var(--white);
               }
 
               &:before {
@@ -99,7 +101,7 @@ body {
               &:after {
                 width: var(--arrow-head-width);
                 transition-delay: 0.3s;
-                transition: all 0.4s ease-in-out;
+                transition: all 0.3s ease-in-out;
               }
 
               &:before {
@@ -113,7 +115,7 @@ body {
           }
 
           > .shaft {
-            background-color: var(--black);
+            background-color: var(--white);
             display: block;
             height: var(--shaft-thickness);
             position: relative;
@@ -123,14 +125,14 @@ body {
 
             &:before,
             &:after {
-              background-color: var(--black);
+              background-color: var(--white);
               content: "";
               display: block;
               height: var(--arrow-head-thickness);
               position: absolute;
               top: 0;
               right: 0;
-              transition: all 0.4s ease-in-out;
+              transition: all 0.3s ease-in-out;
               transition-delay: 0;
             }
 
@@ -146,27 +148,27 @@ body {
 
         .animated-arrow {
           display: inline-block;
-          color: var(--black);
+          color: var(--white);
           font-size: 1rem;
           font-style: italic;
           text-decoration: none;
           position: relative;
-          transition: all 0.4s ease-in-out;
+          transition: all 0.3s ease-in-out;
 
           &:hover {
-            color: var(--gray);
+            color: var(--white);
 
             > .the-arrow.-left {
               > .shaft {
                 width: var(--newshaft-width);
                 transition-delay: 0.1s;
-                background-color: var(--gray);
+                background-color: var(--white);
 
                 &:before,
                 &:after {
                   width: var(--arrow-head-width);
                   transition-delay: 0.1s;
-                  background-color: var(--gray);
+                  background-color: var(--white);
                 }
 
                 &:before {
@@ -193,7 +195,7 @@ body {
                   &:after {
                     width: 0;
                     transition-delay: 0;
-                    transition: all 0.4s ease-in-out;
+                    transition: all 0.3s ease-in-out;
                   }
 
                   &:before {
@@ -211,7 +213,7 @@ body {
           > .main {
             display: flex;
             align-items: center;
-            transition: all 0.4s ease-in-out;
+            transition: all 0.3s ease-in-out;
 
             > .text {
               margin: 0 var(--text-arrow-space) 0 0;
