@@ -41,3 +41,20 @@
   }
   
 
+/* Hide navbar unless on phone */
+.navbar {
+    content-visibility: hidden;
+}
+@media only screen and (max-width: 810px) {
+/* Navbar Bottom */ 
+.navbar {
+    content-visibility: visible;
+    background-color: var(--green-primary);
+
+    a {
+        font-size: 200%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+}
