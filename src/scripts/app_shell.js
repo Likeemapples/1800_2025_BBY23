@@ -6,12 +6,12 @@ fetch("/html/app_shell/footer.html")
 fetch("/html/app_shell/nav_bar.html")
     .then(response => response.text())
     .then(data => document.getElementById("nav_bar").innerHTML = data)
-    .catch(error => console.error("Error loading footer:", error));
+    .catch(error => console.error("Error loading nav-bar:", error));
 
 fetch("/html/app_shell/head.html")
     .then(response => response.text())
     .then(data => document.getElementById("head").innerHTML = data)
-    .catch(error => console.error("Error loading footer:", error));
+    .catch(error => console.error("Error loading header:", error));
 
 fetch("/html/app_shell/footer-nav.html")
     .then(response => response.text())
