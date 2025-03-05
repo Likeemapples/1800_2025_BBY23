@@ -1,13 +1,17 @@
   #nav {
-      background-color: var(--green-primary); /* Use the custom green */
+      background-image: linear-gradient(to right, var(--green-accent-primary), var(--green-primary));
   }
   
   .navbar-brand, .nav-link {
       color: var(--white) !important; /* Custom white text */
   }
+  .nav-link {
+    border-radius: 8pt;
+  }
   
   .nav-link:hover {
-      color: var(--green-accent-secondary) !important; /* Custom hover color */
+      background-color: white !important;
+      color: black !important;
   }
   
   .navbar-toggler-icon {

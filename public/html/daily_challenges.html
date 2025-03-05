@@ -3,6 +3,7 @@
 <head>
     <div id="head"></div>
     <link rel="stylesheet" href="/css/daily_challenges.css">
+
 </head>
 
 <body>
@@ -15,11 +16,11 @@
 
     <div class="card">
       <div class="card-header" onclick="toggleCollapse(this)">
-          <div class="d-flex">
-            <h5 class="mb-0 pt-1">Challenge 1</h5>
-            <a href="#" class="btn btn-primary btn-sm ms-auto">Finish</a>
-          </div>    
-          <p class="mb-0 pt-1">Short description</p>
+            <h5 class="mb-0 title">Challenge 1</h5>
+            <p class="mb-0 description">Short description</p>
+            <div class="finish_button">
+              <a href="#" class="btn btn-primary btn-sm ms-auto">Finish</a>
+            </div>
 
       </div>
 
@@ -27,27 +28,15 @@
         <div class="image-clip">
           <img src="/assets/images/hike1.jpg" class="card-img-top" alt="Community Cleanup" />
         </div>
-        <p class="card-text">Long <br> Long description</p>
-      </div>
-    </div>
+        <div class="card-text">
+          <h2>Title</h2>
+          <p>Description of the challenge</p>
 
-    <div class="card">
-      <div class="card-header" onclick="toggleCollapse(this)">
-          <div class="d-flex">
-            <h5 class="mb-0 pt-1">Challenge 2</h5>
-            <a href="#" class="btn btn-primary btn-sm ms-auto">Finish</a>
-          </div>    
-          <p class="mb-0 pt-1">Short description</p>
-      </div>
-
-      <div class="card-body">
-        <div class="image-clip">
-          <img src="/assets/images/hike1.jpg" class="card-img-top" alt="Community Cleanup" />
         </div>
-        <p class="card-text">Long <br> Long description</p>
       </div>
     </div>
   </main>
+   
 
   <footer id="footer">Footer Content</footer>
 
