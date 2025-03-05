@@ -7,7 +7,16 @@
   --green-accent-secondary-transparent: #2dab8149;
 }
 
-html, body {
+/* Element widths include padding */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* this messes with login page that is still using the css vars above but not the standard footer/header */
+/* html,
+body {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -15,15 +24,14 @@ html, body {
 }
 
 main {
-  flex: 1; /* Makes content take up available space */
+  flex: 1;
 }
 
 #footer {
   color: white;
   text-align: center;
-  margin-top: auto; /* Pushes footer to the bottom */
-}
-
+  margin-top: auto;
+} */
 
 /* Poppins for headings */
 /* Open sans for body */

@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <div id="head"></div>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+
+    <link rel="stylesheet" href="/css/theme.css" />
     <link rel="stylesheet" href="/css/login.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   </head>
 
   <body>
@@ -29,21 +44,13 @@
           </div>
         </div>
       </div>
-      <footer><div id="footer-wrapper">&copy; 2025 EcoAction. All Rights Reserved.</div></footer>
+      <footer id="footer">
+        <div id="footer-wrapper">&copy; 2025 EcoAction. All Rights Reserved.</div>
+      </footer>
     </div>
   </body>
 
   <footer id="footer"></footer>
 
   <script type="module" src="/scripts/login.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-  <link
-    type="text/css"
-    rel="stylesheet"
-    href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-  <script src="/scripts/app_shell.js"></script>
 </html>

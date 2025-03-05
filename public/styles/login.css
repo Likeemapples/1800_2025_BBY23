@@ -16,6 +16,7 @@ body {
   align-items: center;
   height: 100vh;
   width: 100%;
+  /* overflow: hidden; */
 
   #logo-wrapper {
     display: flex;
@@ -33,7 +34,6 @@ body {
     justify-content: center;
     align-items: center;
     width: 40%;
-    min-width: 600px;
     padding: 60px 50px 60px 50px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -134,7 +134,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: start;
-      padding: 20px 0 10px 9vw;
+      padding: 20px 0 10px min(6vw, 12%);
 
       #demo-wrapper {
         --text-arrow-space: 14px;
@@ -320,7 +320,7 @@ body {
     }
   }
 
-  footer {
+  #footer {
     display: flex;
     justify-content: start;
     width: 100%;
