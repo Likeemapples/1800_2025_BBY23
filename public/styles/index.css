@@ -18,22 +18,3 @@ footer{
 background-color: #d2d2d2;
 }
 
-/* Navbar Bottom */ 
-.navbar {
-    background-color: var(--green-primary);
-
-    a {
-        font-size: 200%;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
-}
-
-/* Leave space for fixed bottom */
-/* 
-    NOTE: If someone can think of a better way to do this please do,
-    850pt is so arbitrary it hurts me 
-*/
-body {
-    padding-bottom: 875pt;
-}

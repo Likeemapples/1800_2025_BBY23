@@ -25,7 +25,7 @@ app.get("/", (request, response) => {
 });
 
 
-// for resoure not found (404)
+// for resource not found (404)
 app.use((request, response, next) => {
   response.status(404).send(readFileSync("./public/html/404.html", "utf8"));
 });
