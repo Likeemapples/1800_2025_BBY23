@@ -55,10 +55,10 @@ input:-webkit-autofill {
     transition: background-color 5000s ease-in-out 0s;
 }
 .btn-secondary{
-    background-color: var(--green-accent-secondary);
+    background-color: var(--green-primary);
     border: 0pt;
 }
 .btn-secondary:hover{
-    background-color: var(--green-primary);
+    background-color: var(--green-accent-primary);
     border: 0pt;
 }
