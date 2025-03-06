@@ -32,21 +32,21 @@ async function addUserToDB(authResult, redirectUrl) {
     body: JSON.stringify(authResult),
   });
 
-  // try {
-  //   //if the userDoc doesn't exist, create it
-  //   if (!(await userDoc.get().exists)) {
-  //     await userDoc.set({
-  //       email: userAuth.email,
-  //       displayName: userAuth.displayName || "",
-  //       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  //     });
-  //     console.log("User document created");
-  //   } else {
-  //     console.log("User document already exists");
-  //   }
-  // } catch (error) {
-  //   console.error("Error creating user document:", error);
-  // }
+  try {
+    //if the userDoc doesn't exist, create it
+    if (!(await userDoc.get().exists)) {
+      await userDoc.set({
+        email: userAuth.email,
+        displayName: userAuth.displayName || "",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      console.log("User document created");
+    } else {
+      console.log("User document already exists");
+    }
+  } catch (error) {
+    console.error("Error creating user document:", error);
+  }
   return true;
 }
 
