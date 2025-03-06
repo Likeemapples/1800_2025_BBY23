@@ -129,6 +129,43 @@ body {
         user-select: none;
       } 
     } */
+
+    #firebase-ui-auth-container {
+      .firebaseui-container {
+        background-color: transparent;
+        border-radius: 10px;
+        box-shadow: none;
+
+        .firebaseui-title {
+          /* color: var(--white); */
+          display: none;
+        }
+        .firebaseui-label {
+          color: rgb(193, 193, 193);
+        }
+        .firebaseui-textfield.mdl-textfield .firebaseui-input {
+          border-color: rgb(193, 193, 193);
+        }
+        .mdl-button--primary.mdl-button--primary {
+          color: var(--green-primary);
+        }
+        .mdl-button--raised.mdl-button--colored {
+          background-color: var(--green-primary);
+        }
+        .firebaseui-link {
+          color: var(--green-secondary);
+        }
+        .firebaseui-card-actions {
+          /* display: block; */
+        }
+        .mdl-textfield--floating-label.is-focused .mdl-textfield__label,
+        .mdl-textfield--floating-label.is-dirty .mdl-textfield__label,
+        .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label {
+          color: var(--green-primary);
+        }
+      }
+    }
+
     #align-demo {
       width: 100%;
       display: flex;
