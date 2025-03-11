@@ -38,12 +38,7 @@ function addUserToDB(authResult) {
        userDoc.set({
         email: userAuth.email,
         displayName: userAuth.displayName || "",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        phoneNumber: "",
-        street: "",
-        city: "",
-        province: "",
-        postalCode: ""
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }).then(function () {
         console.log("New user added to firestore");
         window.location.assign("/html/home.html");       //re-direct to main.html after signup

@@ -58,3 +58,8 @@ input:-webkit-autofill {
 .bottom-menu{
     text-align: right;
 }
+#about{
+
+    height: 100pt;
+    width: 100pt;
+}

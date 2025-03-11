@@ -52,6 +52,10 @@ function populateUserInfo() {
                             }
 
                             //Public Details
+                            let bio = userDoc.data().bio;
+                            if (bio != null) {
+                                document.getElementById("bio").textContent = bio;
+                            }
                             if (displayName != null) {
                                 document.getElementById("publicName").textContent = displayName;
                             }
@@ -85,6 +89,7 @@ function editUserInfo() {
     let _city = document.getElementById('city').value;  
     let _province = document.getElementById('province').value;  
     let _postalCode = document.getElementById('postalCode').value;  
+    let _bio = document.getElementById('bio').value;  
 
     currentUser.update({
         displayName: _displayName,
@@ -93,7 +98,8 @@ function editUserInfo() {
         street: _street,
         city: _city,
         province: _province,
-        postalCode: _postalCode
+        postalCode: _postalCode,
+        bio: _bio
     })
     .then(() => {
         console.log("Document successfully updated!");
