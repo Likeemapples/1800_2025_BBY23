@@ -4,6 +4,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0;
+  overflow: hidden;
 }
 
 main {
@@ -14,4 +15,13 @@ main {
   color: white;
   text-align: center;
   margin-top: auto;
+}
+
+.gbtn{
+  background-color: var(--green-primary);
+  border: 0pt;
+}
+.gbtn:hover{
+  background-color: var(--green-accent-primary);
+  border: 0pt;
 }

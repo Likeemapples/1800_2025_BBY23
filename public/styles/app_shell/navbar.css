@@ -10,7 +10,7 @@
   }
   
   .nav-link:hover {
-      background-color: white !important;
+      background-color: var(--white) !important;
       color: black !important;
   }
   
@@ -40,4 +40,57 @@
       background-color: var(--green-accent-secondary) !important;
   }
   
+#profileDropdown img {
+    transition: transform 0.2s ease-in-out;
+}
+  #profileDropdown img:hover {
+    transform: scale(1.1); /* Increase size */
+}
+
+.dropdown-menu {
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+    display: block; /* Override Bootstrap's instant hiding */
+    visibility: hidden;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(10px);
+    visibility: visible;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* Hide dropdown after animation */
+.dropdown-menu.hiding {
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    visibility: hidden;
+}
+
+
+
+
+
+#profileDropdown:hover {
+background-color: transparent;
+}
+#profileDropdown {
+    background-color: transparent;
+    }
+#profile .dropdown-menu{
+    background: linear-gradient(45deg, var(--green-accent-primary), var(--green-primary) 200%);
+    border: 0;
+}
+#profile .dropdown-menu li{
+padding: 0 4pt;
+}
+.dropdown-item:hover, 
+.dropdown-item:focus {
+    background-color: var(--white) !important;
+    border-radius: 4pt;
+    color: black !important;
+}
 
