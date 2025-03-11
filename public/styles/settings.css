@@ -41,7 +41,7 @@
     border-radius: 2px;
     font-size: .825rem;
     background-color: var(--white);
-    color: var(--white);
+    color: var(--black);
 }
 
 .form-control:focus {

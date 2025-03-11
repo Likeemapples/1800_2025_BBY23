@@ -5,6 +5,8 @@ import { readFileSync, writeFileSync } from "fs";
 import { createServer } from "livereload";
 import connectLiveReload from "connect-livereload";
 
+
+
 const liveReloadServer = createServer();
 liveReloadServer.watch("./src/");
 liveReloadServer.watch("./public/");
