@@ -4,6 +4,15 @@
 <head>
     <div id="head"></div>
     <link rel="stylesheet" href="/css/settings.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script> 
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
 </head>
 
 <body>
@@ -13,7 +22,7 @@
     </header>
 
     <main class="container">
-        <div class="row gutters">
+        <div class="row gutters" >
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="card h-100">
                     <div class="card-body">
@@ -22,12 +31,12 @@
                                 <div class="user-avatar">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
                                 </div>
-                                <h5 class="user-name">Yuki Hayashi</h5>
-                                <h6 class="user-email">yuki@Maxwell.com</h6>
+                                <h5 id="publicName" class="user-name">Yuki Hayashi</h5>
+                                <h6 id="publicEmail" class="user-email">yuki@Maxwell.com</h6>
                             </div>
                             <div class="about">
-                                <h5 class="mb-2">About</h5>
-                                <p>I'm Yuki. Full Stack Designer. I enjoy creating user-centric, delightful, and human experiences.</p>
+                                <h5 id="publicAbout" class="mb-2">About</h5>
+                                <textarea class="form-control" id="bio" rows="5" placeholder="Enter your bio..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -44,25 +53,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+                                    <input type="text" class="form-control" id="displayName" placeholder="Enter full name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="eMail">Email</label>
-                                    <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                                    <input type="email" class="form-control" id="email" placeholder="Enter email ID">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="website">Website URL</label>
-                                    <input type="url" class="form-control" id="website" placeholder="Website url">
+                                    <input type="text" class="form-control" id="phoneNumber" placeholder="Enter phone number">
                                 </div>
                             </div>
                         </div>
@@ -85,22 +88,21 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="state">State</label>
-                                    <input type="text" class="form-control" id="state" placeholder="Enter State">
+                                    <label for="state">Province</label>
+                                    <input type="text" class="form-control" id="province" placeholder="Enter State">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="zip">Zip Code</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="Zip Code">
+                                    <label for="zip">Postal Code</label>
+                                    <input type="text" class="form-control" id="postalCode" placeholder="Zip Code">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row gutters">
-                            <div class="col-12 text-right pt-3">
-                                <a id="cancel" class="btn gbtn btn-secondary" href="/html/profile.html">Cancel</a>
-                                <button type="button" id="update" class="btn gbtn btn-secondary">Update</button>
+                            <div class="col-12 bottom-menu text-right pt-3">
+                                <button type="button" id="update"  class="btn gbtn btn-secondary">Update</button>
                             </div>
                         </div>
                     </div>
@@ -115,6 +117,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/scripts/app_shell.js"></script>
+    <script type="module" src="/scripts/settings.js"></script>
 
 </body>
 

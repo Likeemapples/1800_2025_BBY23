@@ -12,6 +12,8 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
+
+
 const liveReloadServer = createServer();
 liveReloadServer.watch("./src/");
 liveReloadServer.watch("./public/");
