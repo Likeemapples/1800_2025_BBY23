@@ -1,11 +1,23 @@
 export const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: 
+    authDomain: 
+    projectId: 
+    storageBucket: 
+    messagingSenderId: 
+    appId: 
   };
-  
+  export const serviceAccount = {
+    "type": 
+    "project_id": 
+    "private_key_id": 
+    "private_key": 
+    "client_email": 
+    "client_id": 
+    "auth_uri": 
+    "token_uri": 
+    "auth_provider_x509_cert_url": 
+    "client_x509_cert_url": 
+    "universe_domain": 
+  }
 
   
