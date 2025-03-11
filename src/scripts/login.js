@@ -5,9 +5,23 @@ const db = firebase.firestore();
 const ui = new firebaseui.auth.AuthUI(firebase.auth());
 const uiConfig = {
   callbacks: {
-    signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-      addUserToDB(authResult, redirectUrl);
-      return true;
+    signInSuccessWithAuthResult: async (authResult, redirectUrl) => {
+      try {
+        const response = await fetch("/user-doc", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            authResult,
+          }),
+        });
+        console.log("user-doc success response", response);
+        return true;
+      } catch (error) {
+        console.error("Error creating user document:", error);
+        return false;
+      }
     },
     uiShown: () => {},
   },
@@ -24,12 +38,17 @@ const uiConfig = {
 async function addUserToDB(authResult, redirectUrl) {
   const userAuth = authResult.user;
   const userDoc = db.collection("users").doc(userAuth.uid);
-  await fetch("/serverlog", {
+  fetch("/serverlog", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(authResult),
+    body: JSON.stringify({
+      authResult,
+      userDoc,
+      "userDoc.get": await userDoc.get(),
+      userDocExists: await userDoc.get().exists,
+    }),
   });
 
   try {
@@ -47,7 +66,6 @@ async function addUserToDB(authResult, redirectUrl) {
   } catch (error) {
     console.error("Error creating user document:", error);
   }
-  return true;
 }
 
 ui.start("#firebase-ui-auth-container", uiConfig);
