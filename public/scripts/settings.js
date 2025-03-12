@@ -3,7 +3,7 @@ import { firebaseConfig } from "/config/auth.js";
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let currentUser; //points to the document of the user who is logged in
+let currentUser; 
 
 //should not be directly getting user data through client side, should be making fetch request to server side endpoint which retrieves user data/sets user data
 function populateUserInfo() {
@@ -14,6 +14,8 @@ function populateUserInfo() {
       currentUser = db.collection("users").doc(user.uid);
       //get the document for current user.
       currentUser.get().then((userDoc) => {
+        //Private Info
+
         //Personal Details
         let email = userDoc.data().email;
         let displayName = userDoc.data().displayName;
@@ -48,19 +50,13 @@ function populateUserInfo() {
           document.getElementById("postalCode").value = postalCode;
         }
 
-        //Public Details
+        //Public Info
         let bio = userDoc.data().bio;
         if (bio != null) {
           document.getElementById("bio").textContent = bio;
         }
         if (displayName != null) {
-          document.getElementById("publicName").textContent = displayName;
-        }
-        if (email != null) {
-          document.getElementById("publicEmail").textContent = email;
-        }
-        if (about != null) {
-          document.getElementById("postalCode").value = postalCode;
+          document.getElementById("displayName").textContent = displayName;
         }
       });
     } else {
@@ -71,7 +67,7 @@ function populateUserInfo() {
 }
 populateUserInfo();
 
-function savePrivateInfo() {
+async function savePrivateInfo() {
   let _email = document.getElementById("email").value; //get the value of the field with id="schoolInput"
   let _phoneNumber = document.getElementById("phoneNumber").value; //get the value of the field with id="cityInput"
   let _street = document.getElementById("street").value;
@@ -79,22 +75,18 @@ function savePrivateInfo() {
   let _province = document.getElementById("province").value;
   let _postalCode = document.getElementById("postalCode").value;
 
-  currentUser
-    .update({
-      email: _email,
-      phoneNumber: _phoneNumber,
-      street: _street,
-      city: _city,
-      province: _province,
-      postalCode: _postalCode,
-    })
-    .then(() => {
-      console.log("Private info successfully updated!");
-    });
+  const response = await fetch("/users/privateInfo", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email: _email, phoneNumber: _phoneNumber, street : _street, city : _city, province : _province, postalCode : _postalCode }),
+  });
+  console.log(response);
 }
 
 async function savePublicInfo() {
-  let _displayName = document.getElementById("displayName").value; //get the value of the field with id="nameInput"
+  let _displayName = document.getElementById("displayName").value; 
   let _bio = document.getElementById("bio").value;
 
   const response = await fetch("/users/publicInfo", {

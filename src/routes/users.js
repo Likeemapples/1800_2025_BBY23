@@ -21,12 +21,13 @@ async function authenticateToken(request, response, next) {
   }
 }
 
+
 router.post("/", async (request, response) => {
   console.log("init /users");
   const { user: userAuth } = request.body.authResult;
   console.log("userAuth.uid", userAuth.uid);
-  const userDoc = db.collection("users").doc(userAuth.uid);
-
+  let userDoc = db.collection("users").doc(userAuth.uid);
+  const userID = userAuth.uid;
   try {
     //if the userDoc doesn't exist, create it
     if (!(await userDoc.get()).exists) {
@@ -49,28 +50,43 @@ router.post("/", async (request, response) => {
 
 router.put("/publicInfo", async (request, response) => {
   try {
-    const { displayName, bio } = request.body;
-    // await userDoc.set({
-    //   displayName: displayName,
-    //   bio: bio,
-    // });
+    let userDoc = db.collection("users").doc(userID);
+
+    const { displayName, bio } = request.body; 
+
+    await userDoc.update({
+      displayName: displayName,
+      bio: bio,
+    },
+    { merge: true } 
+  );
 
     response.json({ success: true, message: "User info updated" });
   } catch (error) {
-    response.status(500).json({ success: false, error: error.message });
+    response.json({ success: false, message: error.message });
   }
 });
 
 router.put("/privateInfo", async (request, response) => {
-  // update user
-  await userDoc.set({
-    email: _email,
-    phoneNumber: _phoneNumber,
-    street: _street,
-    city: _city,
-    province: _province,
-    postalCode: _postalCode,
-  });
+  try {
+    let userDoc = db.collection("users").doc(userID);
+
+    const { email, phoneNumber, street, city, province, postalCode } = request.body; 
+
+    await userDoc.set({
+      email: email,
+      phoneNumber: phoneNumber,
+      street: street,
+      city: city,
+      province: province,
+      postalCode: postalCode,
+    },
+    { merge: true } 
+  );
+    response.json({ success: true, message: "User info updated" });
+  } catch (error) {
+    response.json({ success: false, message: error.message });
+  }
 });
 
 router.post("/ecoaction", authenticateToken, async (request, response) => {
