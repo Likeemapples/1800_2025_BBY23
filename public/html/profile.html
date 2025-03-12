@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="head"></div>
+    <link rel="stylesheet" href="/css/profile.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script> 
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <div id="nav_bar"></div>
+    </header>
+
+    <main class="container">
+
+        <div class="center">
+            <h1 class="mt-4">Public profile</h1>
+        </div>
+        <div class="row gutters" >
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="account-settings">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
+                                </div>
+                                    <div class="form-group">
+                                        <input type="text" disabled class="form-control publicInfoField" id="displayName" placeholder="Enter full name">
+                                    </div>
+                            </div>
+                            <div class="about">
+                                <h5 id="publicAbout" class="mb-2">About</h5>
+                                <textarea  disabled class="form-control publicInfoField" id="bio" rows="5" placeholder="Enter your bio..."></textarea>
+                            </div>
+                        </div>
+                        <div class="right mt-3">
+                            <a id="editPublicInfo" class="btn gbtn btn-secondary">Edit</a>
+                        </div>
+                    </div>
+                   
+                </div>
+                   
+            </div>
+
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row gutters">
+                            <div class="col-12">
+                                <h6 class="mb-2 mt-4">Personal Details</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p>Groups</p>
+                                    <span id="Groups"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p>Friends</p>
+                                    <span id="friends"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row gutters">
+                            <div class="col-12">
+                                <h6 class="mb-2 mt-4">Statistics</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p>EcoPoints</p>
+                                    <span id="ecopoints"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p>Completed Goals</p>
+                                    <span id="goalnum"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p>Lifetime Points</p>
+                                    <span id="lifepoints"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <p>Weekly Points</p>
+                                    <span id="weekpoints"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="center">
+            <h1 class="m-0">Private information</h1>
+        </div>
+
+  
+            
+        <div class="mb-3">
+            <div class="card-body">
+                <div class="row gutters">
+                    <div class="col-12">
+                        <h6 class="mb-2 mt-4">Personal Details</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="eMail">Email</label>
+                            <input disabled type="email" class="form-control privateInfoField" id="email" placeholder="Enter email ID">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input disabled type="text" class="form-control privateInfoField" id="phoneNumber" placeholder="Enter phone number">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row gutters">
+                    <div class="col-12">
+                        <h6 class="mb-2 mt-4">Address</h6>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="street">Street</label>
+                            <input disabled type="text" class="form-control privateInfoField" id="street" placeholder="Enter Street">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input disabled type="text" class="form-control privateInfoField" id="city" placeholder="Enter City">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="state">Province</label>
+                            <input disabled type="text" class="form-control privateInfoField" id="province" placeholder="Enter State">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="zip">Postal Code</label>
+                            <input disabled type="text" class="form-control privateInfoField" id="postalCode" placeholder="Zip Code">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row gutters">
+                    <div class="col-12 bottom-menu text-right pt-3">
+                        <button type="button" id="editPrivateInfo" class="btn gbtn btn-secondary">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </main>
+
+    <nav id="footer-nav"></nav>
+    <footer id="footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/app_shell.js"></script>
+    <script type="module" src="/scripts/settings.js"></script>
+
+</body>
+
+</html>
