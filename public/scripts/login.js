@@ -1,4 +1,4 @@
-import { firebaseConfig } from "./auth.js";
+import { firebaseConfig } from "/config/auth.js";
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();

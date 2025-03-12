@@ -2,20 +2,13 @@ import express, { json, static as expressStatic } from "express";
 import { readFileSync, writeFileSync } from "fs";
 import { createServer } from "livereload";
 import connectLiveReload from "connect-livereload";
-import { serviceAccount } from "./src/scripts/auth.js";
-import admin from "firebase-admin";
 
-import usersRouter from "./routes/users.js";
-import ecoactionsRouter from "./routes/ecoactions.js";
-import ecogroupsRotuer from "./routes/ecogroups.js";
+import usersRouter from "./src/routes/users.js";
+import ecoactionsRouter from "./src/routes/ecoactions.js";
+import ecogroupsRouter from "./src/routes/ecogroups.js";
 
 const app = express();
 const PORT = 8050;
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-const db = admin.firestore();
 
 const liveReloadServer = createServer();
 liveReloadServer.watch("./src/");
@@ -23,14 +16,15 @@ liveReloadServer.watch("./public/");
 app.use(connectLiveReload());
 
 app.use(json());
-app.use("/scripts", expressStatic("./src/scripts"));
+app.use("/scripts", expressStatic("./public/scripts"));
 app.use("/css", expressStatic("./public/styles"));
 app.use("/assets", expressStatic("./public/assets"));
 app.use("/html", expressStatic("./public/html"));
+app.use("/config", expressStatic("./src/config"));
 
 app.use("/users", usersRouter);
-app.use("/ecoactions", usersRouter);
-app.use("/ecogroups", usersRouter);
+app.use("/ecoactions", ecoactionsRouter);
+app.use("/ecogroups", ecogroupsRouter);
 
 app.get("/login", (request, response) => {
   response.status(200).send(readFileSync("./public/html/login.html", "utf8"));

@@ -1,4 +1,5 @@
-import { Router } from "express";
+import express, { Router } from "express";
+import { db, admin, app } from "../config/firebase.js";
 
 const router = Router();
 
@@ -25,6 +26,10 @@ app.post("/", async (request, response) => {
     console.error("Error creating user document:", error);
     response.status(200).json({ message: "Error creating user document", error });
   }
+});
+
+app.put("/", (request, response) => {
+  // update user
 });
 
 export default router;

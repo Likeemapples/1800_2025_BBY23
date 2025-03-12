@@ -1,0 +1,13 @@
+import admin from "firebase-admin";
+import express from "express";
+import { serviceAccount } from "./auth.js";
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const db = admin.firestore();
+
+const app = express();
+
+export { admin, db, app };
