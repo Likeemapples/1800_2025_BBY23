@@ -71,7 +71,6 @@ function populateUserInfo() {
 }
 populateUserInfo();
 
-
 function savePrivateInfo() {
   let _email = document.getElementById("email").value; //get the value of the field with id="schoolInput"
   let _phoneNumber = document.getElementById("phoneNumber").value; //get the value of the field with id="cityInput"
@@ -98,47 +97,38 @@ async function savePublicInfo() {
   let _displayName = document.getElementById("displayName").value; //get the value of the field with id="nameInput"
   let _bio = document.getElementById("bio").value;
 
-
-  let response = await fetch("/users/publicInfo", {
+  const response = await fetch("/users/publicInfo", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ displayName: _displayName, bio: _bio }),
-});
-console.log(response);
-
+  });
+  console.log(response);
 }
 
 //Edit public info
 function editPublicInfo() {
-  if(document.getElementById("editPublicInfo").textContent == "Edit") {
-
-    document.querySelectorAll('.publicInfoField').forEach(input => input.disabled = false);
+  if (document.getElementById("editPublicInfo").textContent == "Edit") {
+    document.querySelectorAll(".publicInfoField").forEach((input) => (input.disabled = false));
     document.getElementById("editPublicInfo").textContent = "Save";
-  }
-  else {
-    document.querySelectorAll('.publicInfoField').forEach(input => input.disabled = true);
+  } else {
+    document.querySelectorAll(".publicInfoField").forEach((input) => (input.disabled = true));
     document.getElementById("editPublicInfo").textContent = "Edit";
     savePublicInfo();
   }
-
 }
 document.getElementById("editPublicInfo").addEventListener("click", editPublicInfo);
 
-
 //Edit private info
 function editPrivateInfo() {
-  if(document.getElementById("editPrivateInfo").textContent == "Edit") {
-
-    document.querySelectorAll('.privateInfoField').forEach(input => input.disabled = false);
+  if (document.getElementById("editPrivateInfo").textContent == "Edit") {
+    document.querySelectorAll(".privateInfoField").forEach((input) => (input.disabled = false));
     document.getElementById("editPrivateInfo").textContent = "Save";
-  }
-  else {
-    document.querySelectorAll('.privateInfoField').forEach(input => input.disabled = true);
+  } else {
+    document.querySelectorAll(".privateInfoField").forEach((input) => (input.disabled = true));
     document.getElementById("editPrivateInfo").textContent = "Edit";
     savePrivateInfo();
   }
-
 }
 document.getElementById("editPrivateInfo").addEventListener("click", editPrivateInfo);

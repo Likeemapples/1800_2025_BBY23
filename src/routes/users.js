@@ -21,7 +21,8 @@ async function authenticateToken(request, response, next) {
   }
 }
 
-app.post("/", async (request, response) => {
+router.post("/", async (request, response) => {
+  console.log("init /users");
   const { user: userAuth } = request.body.authResult;
   console.log("userAuth.uid", userAuth.uid);
   const userDoc = db.collection("users").doc(userAuth.uid);
@@ -46,21 +47,21 @@ app.post("/", async (request, response) => {
   }
 });
 
-app.put("/publicInfo", async (request, response) => {
+router.put("/publicInfo", async (request, response) => {
   try {
-    const { displayName, bio } = request.body; 
+    const { displayName, bio } = request.body;
     // await userDoc.set({
     //   displayName: displayName,
     //   bio: bio,
     // });
 
     response.json({ success: true, message: "User info updated" });
-} catch (error) {
+  } catch (error) {
     response.status(500).json({ success: false, error: error.message });
-}
+  }
 });
-app.put("/privateInfo", async (request, response) => {
 
+router.put("/privateInfo", async (request, response) => {
   // update user
   await userDoc.set({
     email: _email,
@@ -70,11 +71,9 @@ app.put("/privateInfo", async (request, response) => {
     province: _province,
     postalCode: _postalCode,
   });
-app.put("/", (request, response) => {
-  // update user settings
 });
 
-app.post("/ecoaction", authenticateToken, async (request, response) => {
+router.post("/ecoaction", authenticateToken, async (request, response) => {
   // add ecoaction to ecoactions collection in user
   const { ecoactionID } = request.body;
   const { uid: userID } = request.user;
@@ -96,7 +95,7 @@ app.post("/ecoaction", authenticateToken, async (request, response) => {
   }
 });
 
-app.post("/ecogroup", (request, response) => {
+router.post("/ecogroup", (request, response) => {
   // add ecogroup to ecogroup collection in user
 });
 

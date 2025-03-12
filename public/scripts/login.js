@@ -17,7 +17,7 @@ const uiConfig = {
           }),
         });
         console.log("/users success response", response);
-        return true;
+        return false;
       } catch (error) {
         console.error("Error creating user document:", error);
         return false;
