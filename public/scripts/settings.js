@@ -18,12 +18,8 @@ function populateUserInfo() {
 
         //Personal Details
         let email = userDoc.data().email;
-        let displayName = userDoc.data().displayName;
         let phoneNumber = userDoc.data().phoneNumber;
-
-        if (displayName != null) {
-          document.getElementById("displayName").value = displayName;
-        }
+  
         if (email != null) {
           document.getElementById("email").value = email;
         }
@@ -52,12 +48,15 @@ function populateUserInfo() {
 
         //Public Info
         let bio = userDoc.data().bio;
+        let displayName = userDoc.data().displayName;
+
         if (bio != null) {
           document.getElementById("bio").textContent = bio;
         }
         if (displayName != null) {
           document.getElementById("displayName").textContent = displayName;
         }
+
       });
     } else {
       // No user is signed in.
