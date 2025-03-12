@@ -7,7 +7,7 @@ const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: async (authResult, redirectUrl) => {
       try {
-        const response = await fetch("/user-doc", {
+        const response = await fetch("/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -16,7 +16,7 @@ const uiConfig = {
             authResult,
           }),
         });
-        console.log("user-doc success response", response);
+        console.log("/users success response", response);
         return true;
       } catch (error) {
         console.error("Error creating user document:", error);
