@@ -28,8 +28,30 @@ app.post("/", async (request, response) => {
   }
 });
 
-app.put("/", (request, response) => {
+app.put("/publicInfo", async (request, response) => {
+  try {
+    const { displayName, bio } = request.body; 
+    // await userDoc.set({
+    //   displayName: displayName,
+    //   bio: bio,
+    // });
+
+    response.json({ success: true, message: "User info updated" });
+} catch (error) {
+    response.status(500).json({ success: false, error: error.message });
+}
+});
+app.put("/privateInfo", async (request, response) => {
+
   // update user
+  await userDoc.set({
+    email: _email,
+    phoneNumber: _phoneNumber,
+    street: _street,
+    city: _city,
+    province: _province,
+    postalCode: _postalCode,
+  });
 });
 
 export default router;

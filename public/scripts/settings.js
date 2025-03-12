@@ -94,18 +94,20 @@ function savePrivateInfo() {
     });
 }
 
-function savePublicInfo() {
+async function savePublicInfo() {
   let _displayName = document.getElementById("displayName").value; //get the value of the field with id="nameInput"
   let _bio = document.getElementById("bio").value;
 
-  currentUser
-    .update({
-      displayName: _displayName,
-      bio: _bio,
-    })
-    .then(() => {
-      console.log("Public info successfully updated!");
-    });
+
+  let response = await fetch("/users/publicInfo", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ displayName: _displayName, bio: _bio }),
+});
+console.log(response);
+
 }
 
 //Edit public info
