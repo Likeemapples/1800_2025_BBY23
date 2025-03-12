@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { db, admin, app } from "../config/firebase.js";
+import { db, admin } from "../config/firebase.js";
 
 const router = Router();
 
@@ -90,18 +90,17 @@ router.put("/privateInfo", async (request, response) => {
 });
 
 router.post("/ecoaction", authenticateToken, async (request, response) => {
-  // add ecoaction to ecoactions collection in user
   const { ecoactionID } = request.body;
   const { uid: userID } = request.user;
 
   try {
-    const response = await db
+    const addEcoActionToUserResponse = await db
       .collection("users")
       .doc(userID)
       .collection("ecoactions")
       .doc(ecoactionID)
       .set({});
-    console.log("response", response);
+    console.log("response", addEcoActionToUserResponse);
     response.status(200).send("Ecoaction successfully added to user");
   } catch (error) {
     console.log(`${error.name} adding ecoaction to user ${userID}`, error);
@@ -111,8 +110,25 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
   }
 });
 
-router.post("/ecogroup", (request, response) => {
-  // add ecogroup to ecogroup collection in user
+router.post("/ecogroup", authenticateToken, async (request, response) => {
+  const { ecoactionID: ecogroupID } = request.body;
+  const { uid: userID } = request.user;
+
+  try {
+    const addEcoGroupToUserResponse = await db
+      .collection("users")
+      .doc(userID)
+      .collection("ecogroups")
+      .doc(ecogroupID)
+      .set({});
+    console.log("response", addEcoGroupToUserResponse);
+    response.status(200).send("EcoGroup successfully added to user");
+  } catch (error) {
+    console.log(`${error.name} adding EcoGroup to user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} adding EcoGroup to user ${userID}`, error });
+  }
 });
 
 export default router;
