@@ -1,13 +1,13 @@
 import express, { Router } from "express";
-import { db, admin, app } from "../config/firebase.js";
+import { db, admin } from "../config/firebase.js";
 
 const router = Router();
 
-app.post("/", (request, response) => {
+router.post("/", (request, response) => {
   // create ecoaction
 });
 
-app.put("/", (request, response) => {
+router.put("/", (request, response) => {
   // update ecoaction
 });
 
