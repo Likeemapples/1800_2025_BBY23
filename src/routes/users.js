@@ -22,11 +22,10 @@ async function authenticateToken(request, response, next) {
 }
 
 router.post("/", async (request, response) => {
-  console.log("init /users");
   const { user: userAuth } = request.body.authResult;
   console.log("userAuth.uid", userAuth.uid);
-  let userDoc = db.collection("users").doc(userAuth.uid);
-  const userID = userAuth.uid;
+  const userDoc = db.collection("users").doc(userAuth.uid);
+
   try {
     //if the userDoc doesn't exist, create it
     if (!(await userDoc.get()).exists) {
@@ -128,6 +127,29 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
     response
       .status(500)
       .json({ message: `${error.name} adding ecoaction to user ${userID}`, error });
+  }
+});
+
+router.put("/ecopoints", async (request, response) => {
+  const { ecoactionID } = request.body;
+  const { uid: userID } = request.user;
+
+  try {
+    const addEcoPointsToUserResponse = await db
+      .collection("users")
+      .doc(userID)
+      .update({
+        ecoPoints: admin.firestore.FieldValue.increment(
+          (await db.collection("ecoactions").doc(ecoactionID).get()).data().ecoPoints
+        ),
+      });
+    console.log("response", addEcoPointsToUserResponse);
+    response.status(200).send("Ecopoints successfully added to user");
+  } catch (error) {
+    console.log(`${error.name} adding ecopoints to user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} adding ecopoints to user ${userID}`, error });
   }
 });
 
