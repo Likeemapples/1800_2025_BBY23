@@ -48,13 +48,13 @@ router.post("/", async (request, response) => {
   }
 });
 
-router.put("/publicInfo", async (request, response) => {
+router.put("/publicInfo", authenticateToken, async (request, response) => {
+  const { displayName, bio } = request.body; 
+  const { uid: userID } = request.user;
+  const userDoc = db.collection("users").doc(userID);
+
   try {
-    let userDoc = db.collection("users").doc(userID);
-
-    const { displayName, bio } = request.body; 
-
-    await userDoc.update({
+    await userDoc.set({
       displayName: displayName,
       bio: bio,
     },
@@ -67,11 +67,13 @@ router.put("/publicInfo", async (request, response) => {
   }
 });
 
-router.put("/privateInfo", async (request, response) => {
-  try {
-    let userDoc = db.collection("users").doc(userID);
+router.put("/privateInfo", authenticateToken, async (request, response) => {
+  const { email, phoneNumber, street, city, province, postalCode } = request.body; 
+  const { uid: userID } = request.user;
+  const userDoc = db.collection("users").doc(userID);
 
-    const { email, phoneNumber, street, city, province, postalCode } = request.body; 
+  try {
+   
 
     await userDoc.set({
       email: email,
@@ -88,6 +90,28 @@ router.put("/privateInfo", async (request, response) => {
     response.json({ success: false, message: error.message });
   }
 });
+
+router.get("/info", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user; // Extract user ID from token
+  const userDoc = db.collection("users").doc(userID); // Reference to user document
+
+  try {
+    const docSnapshot = await userDoc.get(); // Retrieve document snapshot
+
+    if (!docSnapshot.exists) {
+      return response.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const data = docSnapshot.data(); // Extract data from snapshot
+
+    response.json({ success: true, data: data });
+  } catch (error) {
+    console.error("Error fetching user document:", error);
+    response.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
 
 router.post("/ecoaction", authenticateToken, async (request, response) => {
   const { ecoactionID } = request.body;

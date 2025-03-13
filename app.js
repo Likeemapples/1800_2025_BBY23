@@ -15,6 +15,9 @@ liveReloadServer.watch("./src/");
 liveReloadServer.watch("./public/");
 app.use(connectLiveReload());
 
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
 app.use(json());
 app.use("/scripts", expressStatic("./public/scripts"));
 app.use("/css", expressStatic("./public/styles"));
