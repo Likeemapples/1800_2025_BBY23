@@ -32,31 +32,6 @@
     border: 0;
     margin-bottom: 1rem;
 }
-.form-control {
-    border: 1px solid var(--green-primary);
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    font-size: .825rem;
-    color: var(--black);
-    background-color: transparent;
-
-}
-
-.form-control:focus {
-    border: 1px solid var(--green-primary);
-    box-shadow: 0pt 0pt 0pt 2pt var(--green-accent-secondary-transparent); /* Optional glow effect */
-    outline: none;
-}
-.form-control:disabled{
-    background-color: var(--white);
-
-}
-
-input:-webkit-autofill {
-    transition: background-color 5000s ease-in-out 0s;
-}
-
 .bottom-menu{
     text-align: right;
 }
