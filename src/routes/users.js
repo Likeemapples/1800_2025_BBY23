@@ -21,7 +21,6 @@ async function authenticateToken(request, response, next) {
   }
 }
 
-
 router.post("/", async (request, response) => {
   console.log("init /users");
   const { user: userAuth } = request.body.authResult;
@@ -49,17 +48,18 @@ router.post("/", async (request, response) => {
 });
 
 router.put("/publicInfo", authenticateToken, async (request, response) => {
-  const { displayName, bio } = request.body; 
+  const { displayName, bio } = request.body;
   const { uid: userID } = request.user;
   const userDoc = db.collection("users").doc(userID);
 
   try {
-    await userDoc.set({
-      displayName: displayName,
-      bio: bio,
-    },
-    { merge: true } 
-  );
+    await userDoc.set(
+      {
+        displayName: displayName,
+        bio: bio,
+      },
+      { merge: true }
+    );
 
     response.json({ success: true, message: "User info updated" });
   } catch (error) {
@@ -68,23 +68,22 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
 });
 
 router.put("/privateInfo", authenticateToken, async (request, response) => {
-  const { email, phoneNumber, street, city, province, postalCode } = request.body; 
+  const { email, phoneNumber, street, city, province, postalCode } = request.body;
   const { uid: userID } = request.user;
   const userDoc = db.collection("users").doc(userID);
 
   try {
-   
-
-    await userDoc.set({
-      email: email,
-      phoneNumber: phoneNumber,
-      street: street,
-      city: city,
-      province: province,
-      postalCode: postalCode,
-    },
-    { merge: true } 
-  );
+    await userDoc.set(
+      {
+        email: email,
+        phoneNumber: phoneNumber,
+        street: street,
+        city: city,
+        province: province,
+        postalCode: postalCode,
+      },
+      { merge: true }
+    );
     response.json({ success: true, message: "User info updated" });
   } catch (error) {
     response.json({ success: false, message: error.message });
@@ -169,7 +168,7 @@ router.put("/ecoaction", authenticateToken, async (request, response) => {
 });
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
-  const { ecoactionID: ecogroupID } = request.body;
+  const { ecogroupID } = request.body;
   const { uid: userID } = request.user;
 
   try {
@@ -186,6 +185,48 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
     response
       .status(500)
       .json({ message: `${error.name} adding EcoGroup to user ${userID}`, error });
+  }
+});
+
+router.delete("/ecoaction", authenticateToken, async (request, response) => {
+  const { ecoactionID } = request.body;
+  const { uid: userID } = request.user;
+
+  try {
+    const deleteEcoActionFromUserResponse = await db
+      .collection("users")
+      .doc(userID)
+      .collection("ecoactions")
+      .doc(ecoactionID)
+      .set({});
+    console.log("response", deleteEcoActionFromUserResponse);
+    response.status(200).send("Ecoaction successfully deleted from user");
+  } catch (error) {
+    console.log(`${error.name} deleting ecoaction from user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} deleting ecoaction from user ${userID}`, error });
+  }
+});
+
+router.delete("/ecogroup", authenticateToken, async (request, response) => {
+  const { ecogroupID } = request.body;
+  const { uid: userID } = request.user;
+
+  try {
+    const deleteEcoGroupFromUserResponse = await db
+      .collection("users")
+      .doc(userID)
+      .collection("ecogroups")
+      .doc(ecogroupID)
+      .delete();
+    console.log("response", deleteEcoGroupFromUserResponse);
+    response.status(200).send("EcoGroup successfully deleted from user");
+  } catch (error) {
+    console.log(`${error.name} deleting EcoGroup from user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} deleting EcoGroup from user ${userID}`, error });
   }
 });
 
