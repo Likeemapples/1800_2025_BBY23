@@ -61,4 +61,5 @@ async function sumbitEcoAction(user) {
     });
   }
 
-  document.getElementById("finishEcoAction").addEventListener("click", finishEcoAction);
+//   document.getElementById("finishEcoAction").addEventListener("click", finishEcoAction);
+document.getElementById("imageInput").addEventListener("change", previewImage);
