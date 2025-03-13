@@ -11,12 +11,24 @@ function toggleCollapse(header) {
     cardBody.style.padding = "0 15px"; // Remove padding when collapsing
   } else {
     // Expand the card
-    // Set the maxHeight to the scrollHeight + buffer
-    let fullHeight = cardBody.scrollHeight + 0; // Add small buffer for smoothness
+    let fullHeight = cardBody.scrollHeight + 30; // Add small buffer for smoothness
     cardBody.style.maxHeight = fullHeight + "px";
     cardBody.style.padding = "15px"; // Restore padding
   }
 }
+
+// Adding event listener for window resize to adjust maxHeight dynamically
+window.addEventListener('resize', function() {
+  let allCardBodies = document.querySelectorAll('.card-body');
+  
+  allCardBodies.forEach(cardBody => {
+    if (cardBody.style.maxHeight && cardBody.style.maxHeight !== "0px") {
+      // Adjust the maxHeight dynamically when the window resizes
+      let fullHeight = cardBody.scrollHeight;
+      cardBody.style.maxHeight = fullHeight + "px"; // Recalculate height on resize
+    }
+  });
+});
 
 
 async function displayChallengesDynamically(user) {

@@ -36,15 +36,12 @@ h1 {
   text-align: center;
 }
 
-.card-body img {
-
-}
 
 .image-clip {
   overflow: hidden;
   border-radius: 8pt;
   height: auto;
-  margin-bottom: 20pt;
+  height: 200pt;
 }
 
 
