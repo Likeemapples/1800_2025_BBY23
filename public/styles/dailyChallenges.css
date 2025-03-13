@@ -1,0 +1,50 @@
+.card {
+  margin: 0pt 20pt 20pt 20pt;
+  margin-bottom: 20pt;
+}
+
+.card-body {
+  max-height: 0px; /* Start collapsed with max-height 0 */
+  overflow: hidden;
+  padding: 0 15px;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+}
+
+.card-header {
+  cursor: pointer;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto;
+}
+
+.card-header .finish_button {
+  grid-row: 1 / span 2;
+  display: flex;
+  align-items: center;
+}
+
+.card-header .title {
+  grid-row: 1;
+}
+
+.card-header .description {
+  grid-row: 2;
+}
+
+h1 {
+  margin: 10pt 10pt 15pt 10pt;
+  text-align: center;
+}
+
+.card-body img {
+
+}
+
+.image-clip {
+  overflow: hidden;
+  border-radius: 8pt;
+  height: auto;
+  margin-bottom: 20pt;
+}
+
+

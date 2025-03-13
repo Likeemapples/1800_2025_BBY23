@@ -111,9 +111,35 @@ router.get("/info", authenticateToken, async (request, response) => {
   }
 });
 
+router.get("/test1", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user; // Extract user ID from token
+  
+  try {
+    // Query the 'ecoactions' collection for the specific user
+    const ecoActionsSnapshot = await db
+      .collection("users")
+      .doc(userID)
+      .collection("ecoactions")
+      .get();  // Use .get() to retrieve the documents
+
+    // Format the data to return it as an array of documents
+    const ecoActions = ecoActionsSnapshot.docs.map(doc => ({
+      id: doc.id,  // Get document ID
+      data: doc.data()  // Get document data
+    }));
+
+    // Return the ecoActions in the response
+    response.json({ success: true, ecoActions });
+
+  } catch (error) {
+    console.error("Error fetching user document:", error);
+    response.status(500).json({ success: false, message: error.message });
+  }
+});
 
 
-router.post("/ecoaction", authenticateToken, async (request, response) => {
+
+router.put("/ecoaction", authenticateToken, async (request, response) => {
   const { ecoactionID } = request.body;
   const { uid: userID } = request.user;
 
@@ -123,7 +149,15 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecoactions")
       .doc(ecoactionID)
-      .set({});
+      .set({
+        title: "EcoAction Title",
+        description: "EcoAction Description",
+        completed: false,
+        completedAt: null,
+        worthPoints: 10,
+      },
+      { merge: true } 
+    );
     console.log("response", addEcoActionToUserResponse);
     response.status(200).send("Ecoaction successfully added to user");
   } catch (error) {
