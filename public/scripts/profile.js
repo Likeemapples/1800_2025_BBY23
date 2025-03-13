@@ -1,6 +1,4 @@
 import { firebaseConfig } from "/config/auth.js";
-document.getElementById("displayName").textContent = "displayName";
-
 firebase.initializeApp(firebaseConfig);
 
 //Get user info
