@@ -60,10 +60,10 @@ async function displayChallengesDynamically(user) {
   
   if (ecoactions && ecoactions.length > 0) {
     ecoactions.forEach(doc => {
-      const completed = doc.data.completed; // Assuming "completed" is a property in the Firestore document.
-      const title = doc.data.title; // Assuming "title" is a property in the Firestore document.
-      const description = doc.data.description; // Assuming "description" is a property in the Firestore document.
-      const shortDescription = doc.data.shortDescription; // Assuming "description" is a property in the Firestore document.
+      const completed = doc.data.completed;
+      const title = doc.data.title; 
+      const description = doc.data.description; 
+      const shortDescription = doc.data.shortDescription; 
 
       // Clone the card template and populate it with data
       let newcard = cardTemplate.content.cloneNode(true);
