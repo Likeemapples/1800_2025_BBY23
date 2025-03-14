@@ -46,7 +46,7 @@ h1 {
 .image-clip {
   overflow: hidden;
   border-radius: 8pt;
-  height: auto;
+  height: 200pt;
   width: 100%; /* Optional: Ensures the clip container spans the full width */
 }
 
