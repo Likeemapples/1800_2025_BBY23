@@ -11,36 +11,31 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 </head>
 <body>
-
-    <!-- Templates for general use, not displayed -->
-    <template id="groupCardTemplate">
-        <div class="card py-2 mx-2" style="width: 18rem">
-            <img class="card-image card-img-top" src="./assets/images/AM01.jpg" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-members">Group members</p>
-                <br>
-                <p class="card-text">
-                    Lorem ipsum or something.
-                </p>
-                <a class="btn btn-primary card-href">Read more ...</a>
-            </div>
-        </div>
-    </template>
-
     <header id="nav_bar"></header>
     
     <!-- BODY -->
 
-    <div class="d-flex align-items-center" style="height: 100%; width: 100%; text-align: center;">
-        <h1 class="container">Groups</h1>
-    </div>
-
-    <div class="container"> 
-        <!-- Here is the container for cards  -->
-        <div class="container">
-            <div id="groups-go-here" class="row row-cols-auto">
+    <div class="row gutters" >
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="group-profile">
+                            <div class="group-avatar">
+                                <img id="profileImage" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Maxwell Admin">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control publicInfoField" id="groupName" placeholder="Enter group name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right mt-3">
+                        <a id="createGroupButton" class="btn gbtn btn-secondary">Edit</a>
+                    </div>
+                </div>
+               
             </div>
+               
         </div>
     </div>
 
@@ -50,6 +45,5 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="/scripts/app_shell.js"></script>
-
-    <script type="module" src="/scripts/groups.js"></script>
+    <script type="module" src="/scripts/group_creation.js"></script>
 </body>
