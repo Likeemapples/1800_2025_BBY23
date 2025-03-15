@@ -20,7 +20,6 @@ function loadScript(src) {
       console.log("All Firebase scripts loaded.");
 
       // Import Firebase config and initialize
-      const { getAuth, signOut } = await import("firebase/auth");
 
       const { firebaseConfig } = await import("/config/auth.js");
       
@@ -97,26 +96,3 @@ fetch("/html/app_shell/footer-nav.html")
         }
     }
     
-    document.addEventListener("firebaseReady", function () {
-
-    firebase.auth().onAuthStateChanged((user) => {
-        populateUserInfo(user);
-      });
-    });
-
-    document.addEventListener("firebaseReady", () => {
-      const logoutBtn = document.getElementById("logoutButton");
-  
-      if (logoutBtn) {
-          logoutBtn.addEventListener("click", () => {
-              const auth = getAuth();
-              signOut(auth)
-                  .then(() => {
-                      console.log("User logged out successfully");
-                      window.location.href = "/html/login.html"; // Redirect to login page
-                  })
-                  .catch((error) => {
-                      console.error("Error logging out:", error);
-                  });
-          });
-      }
