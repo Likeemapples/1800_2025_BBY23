@@ -20,4 +20,4 @@ export const firebaseConfig = {
     "universe_domain": 
   }
 
-  
+  export const liveDatabaseURL = "";
