@@ -1,6 +1,4 @@
-import { firebaseConfig } from "/config/auth.js";
-
-firebase.initializeApp(firebaseConfig);
+document.addEventListener("firebaseReady", function () {
 
 function toggleCollapse(header) {
   let cardBody = header.nextElementSibling; // Get the next sibling, which is the .card-body
@@ -91,4 +89,5 @@ async function displayChallengesDynamically(user) {
 
 firebase.auth().onAuthStateChanged((user) => {
   displayChallengesDynamically(user);
+});
 });

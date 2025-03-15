@@ -49,3 +49,8 @@
 .left{
     text-align: left;
 }
+
+#imageUploadButton{
+    display: none; 
+    width: 100pt;
+}

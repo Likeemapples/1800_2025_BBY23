@@ -1,5 +1,5 @@
-import { firebaseConfig } from "/config/auth.js";
-firebase.initializeApp(firebaseConfig);
+document.addEventListener("firebaseReady", function () {
+
 
 //Get user info
 async function populateUserInfo(user) {
@@ -27,10 +27,17 @@ async function populateUserInfo(user) {
 
 
   const userData = await userInfo.data;
+  const profileImage = userInfo.imageBase64; 
 
   let email = userData.email;
   let phoneNumber = userData.phoneNumber;
 
+
+  if (profileImage !== null && profileImage !== "") {
+    console.log("profileImage", profileImage);
+    document.getElementById("profileImage").src = profileImage;
+  }
+  
   if (email != null) {
     document.getElementById("email").value = email;
   }
@@ -88,7 +95,7 @@ async function savePrivateInfo(user) {
       Authorization: `Bearer ${idToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email: _email, phoneNumber: _phoneNumber, street : _street, city : _city, province : _province, postalCode : _postalCode }),
+    body: JSON.stringify({ email: _email, phoneNumber: _phoneNumber, street : _street, city : _city, province : _province, postalCode : _postalCode}),
   });
   console.log(response);
 }
@@ -96,6 +103,8 @@ async function savePrivateInfo(user) {
 async function savePublicInfo(user) {
   let _displayName = document.getElementById("displayName").value; 
   let _bio = document.getElementById("bio").value;
+  let _profileImage = document.getElementById("profileImage").src;
+
 
   const idToken = await user.getIdToken(true);
 
@@ -105,7 +114,7 @@ async function savePublicInfo(user) {
       Authorization: `Bearer ${idToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ displayName: _displayName, bio: _bio})
+    body: JSON.stringify({ displayName: _displayName, bio: _bio, profileImage: _profileImage})
   });
   console.log(response);
 }
@@ -115,9 +124,11 @@ function editPublicInfo() {
   if (document.getElementById("editPublicInfo").textContent == "Edit") {
     document.querySelectorAll(".publicInfoField").forEach((input) => (input.disabled = false));
     document.getElementById("editPublicInfo").textContent = "Save";
+    document.getElementById("imageUploadButton").style.display = "block";
   } else {
     document.querySelectorAll(".publicInfoField").forEach((input) => (input.disabled = true));
     document.getElementById("editPublicInfo").textContent = "Edit";
+    document.getElementById("imageUploadButton").style.display = "none";
     firebase.auth().onAuthStateChanged((user) => {
       savePublicInfo(user);
     });  }
@@ -137,7 +148,23 @@ function editPrivateInfo() {
     });
   }
 }
+
+document.getElementById("imageUpload").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    document.getElementById("profileImage").src = e.target.result; // Instantly display image
+  };
+
+  reader.readAsDataURL(file); // 🔹 This triggers the onload event
+});
+
 document.getElementById("editPrivateInfo").addEventListener("click", editPrivateInfo);
 
 
 
+});

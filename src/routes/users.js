@@ -1,5 +1,7 @@
 import express, { Router } from "express";
-import { db, admin } from "../config/firebase.js";
+import { db, admin, liveDatabase } from "../config/firebase.js";
+
+import fs from "fs";
 
 const router = Router();
 
@@ -47,7 +49,7 @@ router.post("/", async (request, response) => {
 });
 
 router.put("/publicInfo", authenticateToken, async (request, response) => {
-  const { displayName, bio } = request.body;
+  const { displayName, bio, profileImage } = request.body;
   const { uid: userID } = request.user;
   const userDoc = db.collection("users").doc(userID);
 
@@ -59,6 +61,17 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
       },
       { merge: true }
     );
+
+    const imageRef = liveDatabase.ref(`users/${userID}/images/`);
+
+    const imagePath = "public/assets/images/AM01.jpg";
+
+    const imageBase64 = fs.readFileSync(imagePath, "base64");
+
+
+    imageRef.set({ profileImage: profileImage })
+      .then(() => console.log("Image stored as Base64"))
+      .catch(error => console.error("Error:", error));
 
     response.json({ success: true, message: "User info updated" });
   } catch (error) {
@@ -94,6 +107,13 @@ router.get("/info", authenticateToken, async (request, response) => {
   const userDoc = db.collection("users").doc(userID); // Reference to user document
 
   try {
+    const imageRef = liveDatabase.ref(`users/${userID}/images/profileImage`);
+    
+    // 🔹 Await directly instead of using .then()
+    const snapshot = await imageRef.once("value");
+    
+    let imageBase64 = snapshot.exists() ? snapshot.val() : "";
+      
     const docSnapshot = await userDoc.get(); // Retrieve document snapshot
 
     if (!docSnapshot.exists) {
@@ -102,7 +122,7 @@ router.get("/info", authenticateToken, async (request, response) => {
 
     const data = docSnapshot.data(); // Extract data from snapshot
 
-    response.json({ success: true, data: data });
+    response.json({ success: true, data: data, imageBase64: imageBase64});
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });
