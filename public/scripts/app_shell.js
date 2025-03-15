@@ -40,25 +40,42 @@ function loadScript(src) {
   }
 })();
 
-await fetch("/html/app_shell/footer.html")
-    .then(response => response.text())
-    .then(data => document.getElementById("footer").innerHTML = data)
-    .catch(error => console.error("Error loading footer:", error));
 
-await fetch("/html/app_shell/nav_bar.html")
-    .then(response => response.text())
-    .then(data => document.getElementById("nav_bar").innerHTML = data)
-    .catch(error => console.error("Error loading nav-bar:", error));
+  try {
+      const footerResponse = await fetch("/html/app_shell/footer.html");
+      const footerData = await footerResponse.text();
+      document.getElementById("footer").innerHTML = footerData;
+  } catch (error) {
+      // Ignore the error silently, no logging or throwing
+  }
 
-await fetch("/html/app_shell/head.html")
-    .then(response => response.text())
-    .then(data => document.getElementById("head").innerHTML = data)
-    .catch(error => console.error("Error loading header:", error));
+  try {
+      const navBarResponse = await fetch("/html/app_shell/nav_bar.html");
+      const navBarData = await navBarResponse.text();
+      document.getElementById("nav_bar").innerHTML = navBarData;
+  } catch (error) {
+      // Ignore the error silently
+  }
 
-await fetch("/html/app_shell/footer-nav.html")
-    .then(response => response.text())
-    .then(data => document.getElementById("footer-nav").innerHTML = data)
-    .catch(error => console.error("Error loading footer-nav:", error));
+  try {
+      const headResponse = await fetch("/html/app_shell/head.html");
+      const headData = await headResponse.text();
+      document.getElementById("head").innerHTML = headData;
+  } catch (error) {
+      // Ignore the error silently
+  }
+
+  try {
+      const footerNavResponse = await fetch("/html/app_shell/footer-nav.html");
+      const footerNavData = await footerNavResponse.text();
+      document.getElementById("footer-nav").innerHTML = footerNavData;
+  } catch (error) {
+      // Ignore the error silently
+  }
+
+
+
+
 
 
 
