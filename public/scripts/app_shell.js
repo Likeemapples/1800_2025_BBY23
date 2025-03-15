@@ -8,6 +8,8 @@ function loadScript(src) {
   });
 }
 
+
+
 (async function loadScripts() {
   try {
       await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js");
@@ -38,22 +40,22 @@ function loadScript(src) {
   }
 })();
 
-fetch("/html/app_shell/footer.html")
+await fetch("/html/app_shell/footer.html")
     .then(response => response.text())
     .then(data => document.getElementById("footer").innerHTML = data)
     .catch(error => console.error("Error loading footer:", error));
 
-fetch("/html/app_shell/nav_bar.html")
+await fetch("/html/app_shell/nav_bar.html")
     .then(response => response.text())
     .then(data => document.getElementById("nav_bar").innerHTML = data)
     .catch(error => console.error("Error loading nav-bar:", error));
 
-fetch("/html/app_shell/head.html")
+await fetch("/html/app_shell/head.html")
     .then(response => response.text())
     .then(data => document.getElementById("head").innerHTML = data)
     .catch(error => console.error("Error loading header:", error));
 
-fetch("/html/app_shell/footer-nav.html")
+await fetch("/html/app_shell/footer-nav.html")
     .then(response => response.text())
     .then(data => document.getElementById("footer-nav").innerHTML = data)
     .catch(error => console.error("Error loading footer-nav:", error));
@@ -92,7 +94,29 @@ fetch("/html/app_shell/footer-nav.html")
       
         if (profileImage !== null && profileImage !== "") {
           console.log("navBarProfileImage", profileImage);
-          document.getElementsByClassName("navBarProfileImage")[0].src = profileImage;
+          const elements = document.getElementsByClassName("navBarProfileImage");
+
+          Array.from(elements).forEach(element => {
+            element.src = profileImage; // Pass the function reference, not the result of calling it
+          });
         }
     }
-    
+
+// Your logout function
+function logout() {
+
+  // Call Firebase sign out
+  firebase.auth().signOut().then(() => {
+    console.log("Logging out user");
+    window.location.href = "/html/index.html"; // Redirect AFTER logout completes
+  }).catch((error) => {
+    console.error("Error during logout:", error);
+  });
+}
+
+// Add event listeners to all buttons with the "signOut" class
+const signOutButtons = document.querySelectorAll(".signOut");
+signOutButtons.forEach(button => {
+  button.addEventListener("click", logout);
+});
+

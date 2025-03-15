@@ -62,18 +62,15 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
       { merge: true }
     );
 
+    if(profileImage !== "") {
     const imageRef = liveDatabase.ref(`users/${userID}/images/`);
-
-    const imagePath = "public/assets/images/AM01.jpg";
-
-    const imageBase64 = fs.readFileSync(imagePath, "base64");
-
 
     imageRef.set({ profileImage: profileImage })
       .then(() => console.log("Image stored as Base64"))
       .catch(error => console.error("Error:", error));
 
     response.json({ success: true, message: "User info updated" });
+    }
   } catch (error) {
     response.json({ success: false, message: error.message });
   }

@@ -103,8 +103,10 @@ async function savePrivateInfo(user) {
 async function savePublicInfo(user) {
   let _displayName = document.getElementById("displayName").value; 
   let _bio = document.getElementById("bio").value;
-  let _profileImage = document.getElementById("profileImage").src;
-
+  let _profileImage =  document.getElementById("profileImage").src;
+  if(_profileImage.endsWith("/assets/images/profile-icon.png")) {
+    _profileImage="";
+  }
 
   const idToken = await user.getIdToken(true);
 
