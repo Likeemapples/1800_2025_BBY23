@@ -25,7 +25,6 @@ router.post("/create", authenticateToken, async (request, response) => {
   // create ecogroup
   const { uid: userID } = request.user;
   const { groupName: groupNm } = request.body;
-  console.log("userID", userID);
 
   db.collection("ecogroups").get()
     .then(allGroups => {
@@ -41,6 +40,9 @@ router.post("/create", authenticateToken, async (request, response) => {
             name: groupNm,
             users: [userID],
             createdByUser: userID
+        }).then(docRef => {
+          let docReference = docRef.id;
+          response.status(200).json({documentId: docReference});
         });
       }
     });

@@ -17,7 +17,7 @@ const db = firebase.firestore();
 //   });
 // }
 
-async function exampleRequest(user) {
+async function createRequest(user) {
   const idToken = await user.getIdToken(true);
   let _groupName = document.getElementById("groupName").value;
 
@@ -32,7 +32,9 @@ async function exampleRequest(user) {
         groupName: _groupName,
       }),
     });
-    console.log("response", response);
+
+    const docRef = await response.json();
+    location.replace("group.html?docID=" + docRef.documentId);
   } catch (error) {
     console.error(error.name, error);
   }
@@ -40,7 +42,7 @@ async function exampleRequest(user) {
 
 function createNewGroup() {
   firebase.auth().onAuthStateChanged((user) => {
-    exampleRequest(user);
+    createRequest(user);
   });
 }
 
