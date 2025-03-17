@@ -27,7 +27,16 @@ try {
 try {
   const headResponse = await fetch("/html/app_shell/head.html");
   const headData = await headResponse.text();
-  document.head.innerHTML = headData;
+
+  const container = document.createElement("div");
+  container.innerHTML = headData;
+  const fragment = document.createDocumentFragment();
+  while (container.firstChild) {
+    fragment.appendChild(container.firstChild);
+  }
+
+  const title = document.querySelector("title");
+  document.head.insertBefore(fragment, title);
 } catch (error) {
   console.log(`${error.name} loading head shell`, error);
 }
