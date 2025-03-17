@@ -139,6 +139,7 @@ router.get("/info", authenticateToken, async (request, response) => {
 
 router.get("/test1", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
+  console.log("userID", userID);
 
   try {
     // Query the 'ecoactions' collection for the specific user
@@ -147,12 +148,14 @@ router.get("/test1", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecoactions")
       .get(); // Use .get() to retrieve the documents
+    console.log("ecoActionsSnapshot", ecoActionsSnapshot);
 
     // Format the data to return it as an array of documents
     const ecoActions = ecoActionsSnapshot.docs.map((doc) => ({
       id: doc.id, // Get document ID
       data: doc.data(), // Get document data
     }));
+    console.log("ecoActions", ecoActions);
 
     // Return the ecoActions in the response
     response.json({ success: true, ecoActions });
@@ -168,8 +171,6 @@ router.get("/stats", authenticateToken, async (request, response) => {
 
   try {
     const ecoactions = await db.collection("users").doc(userID).collection("ecoactions").get();
-
-    console.log("ecoactions snapshot", ecoactions);
   } catch (error) {
     console.log(`${error.name} getting user stats for user ${userID}`, error);
     response

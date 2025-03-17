@@ -8,36 +8,6 @@ function loadScript(src) {
   });
 }
 
-(async function loadScripts() {
-  try {
-    await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js");
-    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
-    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js");
-    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js");
-    await loadScript("https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js");
-    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js");
-
-    console.log("All Firebase scripts loaded.");
-
-    // Import Firebase config and initialize
-
-    const { firebaseConfig } = await import("/config/auth.js");
-
-    firebase.initializeApp(firebaseConfig);
-    console.log("Firebase initialized.");
-
-    // Ensure auth state listener is set after Firebase is initialized
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        populateUserInfo(user);
-      }
-    });
-    document.dispatchEvent(new Event("firebaseReady"));
-  } catch (error) {
-    console.error("Failed to load a script:", error);
-  }
-})();
-
 try {
   const footerResponse = await fetch("/html/app_shell/footer.html");
   const footerData = await footerResponse.text();
@@ -69,6 +39,36 @@ try {
 } catch (error) {
   console.log(`${error.name} loading footer nav`, error);
 }
+
+(async function loadScripts() {
+  try {
+    await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js");
+    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
+    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js");
+    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js");
+    await loadScript("https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js");
+    await loadScript("https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js");
+
+    console.log("All Firebase scripts loaded.");
+
+    // Import Firebase config and initialize
+
+    const { firebaseConfig } = await import("/config/auth.js");
+
+    firebase.initializeApp(firebaseConfig);
+    console.log("Firebase initialized.");
+
+    // Ensure auth state listener is set after Firebase is initialized
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        populateUserInfo(user);
+      }
+    });
+    document.dispatchEvent(new Event("firebaseReady"));
+  } catch (error) {
+    console.error("Failed to load a script:", error);
+  }
+})();
 
 async function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
