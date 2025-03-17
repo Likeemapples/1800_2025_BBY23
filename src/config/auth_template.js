@@ -20,4 +20,8 @@ export const firebaseConfig = {
     "universe_domain": 
   }
 
-  export const liveDatabaseURL = "";
+  export const cloudinaryConfig = { 
+    cloud_name:
+    api_key:
+    api_secret: 
+};

@@ -27,11 +27,9 @@ async function populateUserInfo(user) {
 
 
   const userData = await userInfo.data;
-  const profileImage = userInfo.imageBase64; 
-
+  const profileImage = await userInfo.profileImage
   let email = userData.email;
   let phoneNumber = userData.phoneNumber;
-
 
   if (profileImage !== null && profileImage !== "") {
     console.log("profileImage", profileImage);
@@ -118,7 +116,11 @@ async function savePublicInfo(user) {
     },
     body: JSON.stringify({ displayName: _displayName, bio: _bio, profileImage: _profileImage})
   });
-  console.log(response);
+  let data = await response.json();
+  console.log(data.message);
+  console.log(data.imageUploadResult);
+
+
 }
 
 //Edit public info

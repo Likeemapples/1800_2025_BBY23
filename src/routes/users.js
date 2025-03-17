@@ -1,7 +1,7 @@
 import express, { Router } from "express";
-import { db, admin, liveDatabase } from "../config/firebase.js";
+import { db, admin } from "../config/firebase.js";
+import { cloudinary } from "../config/cloudinary.js";
 
-import fs from "fs";
 
 const router = Router();
 
@@ -54,6 +54,17 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
   const userDoc = db.collection("users").doc(userID);
 
   try {
+
+
+    const uploadResult = await cloudinary.uploader.upload(
+      profileImage,
+      { 
+        folder: `users/${userID}`,  // Explicitly set the folder
+        public_id: "profileImage",  // Image name inside the folder
+        overwrite: true
+      }
+    );
+
     await userDoc.set(
       {
         displayName: displayName,
@@ -62,15 +73,7 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
       { merge: true }
     );
 
-    if(profileImage !== "") {
-    const imageRef = liveDatabase.ref(`users/${userID}/images/`);
 
-    imageRef.set({ profileImage: profileImage })
-      .then(() => console.log("Image stored as Base64"))
-      .catch(error => console.error("Error:", error));
-
-    response.json({ success: true, message: "User info updated" });
-    }
   } catch (error) {
     response.json({ success: false, message: error.message });
   }
@@ -104,12 +107,12 @@ router.get("/info", authenticateToken, async (request, response) => {
   const userDoc = db.collection("users").doc(userID); // Reference to user document
 
   try {
-    const imageRef = liveDatabase.ref(`users/${userID}/images/profileImage`);
+    // const imageRef = liveDatabase.ref(`users/${userID}/images/profileImage`);
     
-    // 🔹 Await directly instead of using .then()
-    const snapshot = await imageRef.once("value");
+    // // 🔹 Await directly instead of using .then()
+    // const snapshot = await imageRef.once("value");
     
-    let imageBase64 = snapshot.exists() ? snapshot.val() : "";
+    // let imageBase64 = snapshot.exists() ? snapshot.val() : "";
       
     const docSnapshot = await userDoc.get(); // Retrieve document snapshot
 
@@ -119,7 +122,10 @@ router.get("/info", authenticateToken, async (request, response) => {
 
     const data = docSnapshot.data(); // Extract data from snapshot
 
-    response.json({ success: true, data: data, imageBase64: imageBase64});
+    const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
+    
+
+    response.json({ success: true, data: data, profileImage : imageInfo.secure_url});
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });

@@ -106,7 +106,7 @@ function loadScript(src) {
         }
       
       
-        const profileImage = userInfo.imageBase64; 
+        const profileImage = userInfo.profileImage; 
       
       
         if (profileImage !== null && profileImage !== "") {
