@@ -139,7 +139,6 @@ router.get("/info", authenticateToken, async (request, response) => {
 
 router.get("/test1", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
-  console.log("userID", userID);
 
   try {
     // Query the 'ecoactions' collection for the specific user
@@ -148,7 +147,6 @@ router.get("/test1", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecoactions")
       .get(); // Use .get() to retrieve the documents
-    console.log("ecoActionsSnapshot empty?", ecoActionsSnapshot.empty);
 
     // Format the data to return it as an array of documents
     const ecoActions = ecoActionsSnapshot.docs.map((doc) => ({
