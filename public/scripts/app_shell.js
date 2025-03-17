@@ -94,7 +94,7 @@ async function populateUserInfo(user) {
 
   const profileImage = userInfo.profileImage;
 
-  if (profileImage !== null && profileImage !== "") {
+  if (profileImage) {
     console.log("navBarProfileImage", profileImage);
     const elements = document.getElementsByClassName("navBarProfileImage");
 

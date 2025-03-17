@@ -1,0 +1,9 @@
+body {
+  background: linear-gradient(to bottom, #e0f8e0, #ffffff);
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 3rem;
+}

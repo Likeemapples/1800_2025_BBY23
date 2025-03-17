@@ -2,13 +2,13 @@ import express, { Router } from "express";
 import { db, admin } from "../config/firebase.js";
 import { cloudinary } from "../config/cloudinary.js";
 
-
 import fs from "fs";
 
 const router = Router();
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
+
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return response.status(401).send("Unauthorized: No token provided");
   }
@@ -56,16 +56,11 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
   const userDoc = db.collection("users").doc(userID);
 
   try {
-
-
-    const uploadResult = await cloudinary.uploader.upload(
-      profileImage,
-      { 
-        folder: `users/${userID}`,  // Explicitly set the folder
-        public_id: "profileImage",  // Image name inside the folder
-        overwrite: true
-      }
-    );
+    const uploadResult = await cloudinary.uploader.upload(profileImage, {
+      folder: `users/${userID}`, // Explicitly set the folder
+      public_id: "profileImage", // Image name inside the folder
+      overwrite: true,
+    });
 
     await userDoc.set(
       {
@@ -74,8 +69,6 @@ router.put("/publicInfo", authenticateToken, async (request, response) => {
       },
       { merge: true }
     );
-
-
   } catch (error) {
     response.json({ success: false, message: error.message });
   }
@@ -110,12 +103,12 @@ router.get("/info", authenticateToken, async (request, response) => {
 
   try {
     // const imageRef = liveDatabase.ref(`users/${userID}/images/profileImage`);
-    
+
     // // 🔹 Await directly instead of using .then()
     // const snapshot = await imageRef.once("value");
-    
+
     // let imageBase64 = snapshot.exists() ? snapshot.val() : "";
-      
+
     const docSnapshot = await userDoc.get(); // Retrieve document snapshot
 
     if (!docSnapshot.exists) {
@@ -126,17 +119,18 @@ router.get("/info", authenticateToken, async (request, response) => {
 
     const defaultImage = "/assets/images/profile-icon.png"; // Your fallback image
     let imageUrl = defaultImage; // Default value
-    
-    try {
-        const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
-        
-        // Explicitly check if imageInfo is undefined
-        imageUrl = (imageInfo !== undefined && imageInfo.secure_url) ? imageInfo.secure_url : defaultImage;
-    } catch {
-        // Do nothing, imageUrl remains the default image
-    }    
 
-    response.json({ success: true, data: data, profileImage : imageUrl});
+    try {
+      const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
+
+      // Explicitly check if imageInfo is undefined
+      imageUrl =
+        imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
+    } catch {
+      // Do nothing, imageUrl remains the default image
+    }
+
+    response.json({ success: true, data: data, profileImage: imageUrl });
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });
@@ -168,6 +162,22 @@ router.get("/test1", authenticateToken, async (request, response) => {
   }
 });
 
+router.get("/stats", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user;
+  console.log("userID", userID);
+
+  try {
+    const ecoactions = await db.collection("users").doc(userID).collection("ecoactions").get();
+
+    console.log("ecoactions snapshot", ecoactions);
+  } catch (error) {
+    console.log(`${error.name} getting user stats for user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} getting user stats for user ${userID}`, error });
+  }
+});
+
 router.put("/ecoaction", authenticateToken, async (request, response) => {
   const { ecoactionID } = request.body;
   const { uid: userID } = request.user;
@@ -193,29 +203,6 @@ router.put("/ecoaction", authenticateToken, async (request, response) => {
       .json({ message: `${error.name} adding ecoaction to user ${userID}`, error });
   }
 });
-
-// router.put("/ecopoints", async (request, response) => {
-//   const { ecoactionID } = request.body;
-//   const { uid: userID } = request.user;
-
-//   try {
-//     const addEcoPointsToUserResponse = await db
-//       .collection("users")
-//       .doc(userID)
-//       .update({
-//         ecoPoints: admin.firestore.FieldValue.increment(
-//           (await db.collection("ecoactions").doc(ecoactionID).get()).data().ecoPoints
-//         ),
-//       });
-//     console.log("response", addEcoPointsToUserResponse);
-//     response.status(200).send("Ecopoints successfully added to user");
-//   } catch (error) {
-//     console.log(`${error.name} adding ecopoints to user ${userID}`, error);
-//     response
-//       .status(500)
-//       .json({ message: `${error.name} adding ecopoints to user ${userID}`, error });
-//   }
-// });
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
   const { ecogroupID } = request.body;

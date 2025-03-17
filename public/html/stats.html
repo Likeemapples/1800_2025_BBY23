@@ -1,9 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta viewport="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>My Stats</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/app_shell/navbar.css" />
+    <link rel="stylesheet" href="/css/app_shell/footer_navbar.css" />
+    <link rel="stylesheet" href="/css/app_shell/footer.css" />
+    <link rel="stylesheet" href="/css/app_shell/app_shell.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=bar_chart" />
+    <link rel="icon" type="image/x-icon" href="/assets/images/ecoaction.ico" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <link rel="stylesheet" href="/css/stats.css" />
+    <script src="/scripts/load-component.js"></script>
   </head>
-  <body></body>
+  <body>
+    <header id="nav_bar"></header>
+
+    <h1>My Stats</h1>
+    <div id="container"></div>
+
+    <nav id="footer-nav"></nav>
+    <footer id="footer"></footer>
+    <script>
+      loadComponent("nav_bar", "/html/app_shell/nav_bar.html");
+      loadComponent("footer-nav", "/html/app_shell/footer-nav.html");
+      loadComponent("footer", "/html/app_shell/footer.html");
+    </script>
+    <script type="module" src="/scripts/stats.js"></script>
+  </body>
 </html>
