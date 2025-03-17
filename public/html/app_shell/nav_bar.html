@@ -1,63 +1,89 @@
 <nav id="nav" class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/html/home.html">
-            <img id="logo" src="/assets/images/logo.svg" height="36">
-            EcoAction
-        </a>
-        
-        <!-- Profile for small screens -->
-        <div class="d-lg-none ms-auto" id="profile-small">
-            <div id="profile" class="dropdown ms-3">
-                <button class="btn btn-outline-light p-0 border-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/assets/images/profile-icon.png" alt="Profile" class="rounded-circle navBarProfileImage" width="40" height="40">
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="/html/profile.html">Profile</a></li>
-                    <!-- <li><a class="dropdown-item" href="/html/settings_disabled.html">Settings</a></li> -->
-                    <li><a class="dropdown-item" href="/html/daily_challenges.html">Demo</a></li>
-                    <li><a class="dropdown-item" href="/html/help.html">Help</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><button type="button" class="dropdown-item signOut">Sign Out</button></li>
-                </ul>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/html/home.html">
+      <img id="logo" src="/assets/images/logo.svg" height="36" />
+      EcoAction
+    </a>
 
-        <!-- Navbar items -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav m-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/html/dailyChallenges.html">Daily Challenges</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/html/home.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/html/groups.html">Groups</a>
-                </li>
-            </ul>
-
-            <form class="d-flex" role="search">
-                <input class="form-control me-2 bg-white text-dark border-success" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">Search</button>
-            </form>
-
-            <!-- Profile for larger screens -->
-            <div id="profile" class="d-none d-lg-block ms-3">
-                <div class="dropdown">
-                    <button class="btn btn-outline-light p-0 border-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/assets/images/profile-icon.png" alt="Profile" class="rounded-circle navBarProfileImage" width="40" height="40">
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="/html/profile.html">Profile</a></li>
-                        <!-- <li><a class="dropdown-item" href="/html/settings_disabled.html">Settings</a></li> -->
-                        <li><a class="dropdown-item" href="/html/dailyChallenges.html">Demo</a></li>
-                        <li><a class="dropdown-item" href="/html/help.html">Help</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><button id="lol" type="button" class="dropdown-item signOut">Sign Out</button></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <!-- Profile for small screens -->
+    <div class="d-lg-none ms-auto" id="profile-small">
+      <div id="profile" class="dropdown ms-3">
+        <button
+          class="btn btn-outline-light p-0 border-0"
+          type="button"
+          id="profileDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <img
+            src="/assets/images/profile-icon.png"
+            alt="Profile"
+            class="rounded-circle navBarProfileImage"
+            width="40"
+            height="40" />
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="/html/profile.html">Profile</a></li>
+          <!-- <li><a class="dropdown-item" href="/html/settings_disabled.html">Settings</a></li> -->
+          <li><a class="dropdown-item" href="/html/daily_challenges.html">Demo</a></li>
+          <li><a class="dropdown-item" href="/html/help.html">Help</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><button type="button" class="dropdown-item signOut">Sign Out</button></li>
+        </ul>
+      </div>
     </div>
-</nav>
 
+    <!-- Navbar items -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/html/dailyChallenges.html">Daily Challenges</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/html/home.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/html/groups.html">Groups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/html/stats.html">Stats</a>
+        </li>
+      </ul>
+
+      <form class="d-flex" role="search">
+        <input
+          class="form-control me-2 bg-white text-dark border-success"
+          type="search"
+          placeholder="Search"
+          aria-label="Search" />
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+
+      <!-- Profile for larger screens -->
+      <div id="profile" class="d-none d-lg-block ms-3">
+        <div class="dropdown">
+          <button
+            class="btn btn-outline-light p-0 border-0"
+            type="button"
+            id="profileDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <img
+              src="/assets/images/profile-icon.png"
+              alt="Profile"
+              class="rounded-circle navBarProfileImage"
+              width="40"
+              height="40" />
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="/html/profile.html">Profile</a></li>
+            <!-- <li><a class="dropdown-item" href="/html/settings_disabled.html">Settings</a></li> -->
+            <li><a class="dropdown-item" href="/html/dailyChallenges.html">Demo</a></li>
+            <li><a class="dropdown-item" href="/html/help.html">Help</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><button id="lol" type="button" class="dropdown-item signOut">Sign Out</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
