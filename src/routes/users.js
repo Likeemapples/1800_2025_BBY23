@@ -3,6 +3,8 @@ import { db, admin } from "../config/firebase.js";
 import { cloudinary } from "../config/cloudinary.js";
 
 
+import fs from "fs";
+
 const router = Router();
 
 async function authenticateToken(request, response, next) {
@@ -122,10 +124,19 @@ router.get("/info", authenticateToken, async (request, response) => {
 
     const data = docSnapshot.data(); // Extract data from snapshot
 
-    const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
+    const defaultImage = "/assets/images/profile-icon.png"; // Your fallback image
+    let imageUrl = defaultImage; // Default value
     
+    try {
+        const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
+        
+        // Explicitly check if imageInfo is undefined
+        imageUrl = (imageInfo !== undefined && imageInfo.secure_url) ? imageInfo.secure_url : defaultImage;
+    } catch {
+        // Do nothing, imageUrl remains the default image
+    }    
 
-    response.json({ success: true, data: data, profileImage : imageInfo.secure_url});
+    response.json({ success: true, data: data, profileImage : imageUrl});
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });
