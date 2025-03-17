@@ -1,5 +1,6 @@
   #nav {
       background-image: linear-gradient(to right, var(--green-accent-primary), var(--green-primary));
+
   }
   
   .navbar-brand, .nav-link {
@@ -30,6 +31,7 @@
   /* Dropdown Menu */
   .dropdown-menu {
       background-color: var(--green-accent-primary); /* Use accent green */
+      right: 0;
   }
   
   .dropdown-item {

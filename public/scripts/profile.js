@@ -162,6 +162,11 @@ document.getElementById("imageUpload").addEventListener("change", function(event
 
   reader.onload = function(e) {
     document.getElementById("profileImage").src = e.target.result; // Instantly display image
+    const elements = document.getElementsByClassName("navBarProfileImage");
+
+    Array.from(elements).forEach(element => {
+      element.src = e.target.result;; // Pass the function reference, not the result of calling it
+    });
   };
 
   reader.readAsDataURL(file); // 🔹 This triggers the onload event
