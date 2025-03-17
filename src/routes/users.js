@@ -148,7 +148,7 @@ router.get("/test1", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecoactions")
       .get(); // Use .get() to retrieve the documents
-    console.log("ecoActionsSnapshot", ecoActionsSnapshot);
+    console.log("ecoActionsSnapshot", ecoActionsSnapshot.empty);
 
     // Format the data to return it as an array of documents
     const ecoActions = ecoActionsSnapshot.docs.map((doc) => ({
