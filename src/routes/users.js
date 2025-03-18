@@ -137,7 +137,7 @@ router.get("/info", authenticateToken, async (request, response) => {
   }
 });
 
-router.get("/test1", authenticateToken, async (request, response) => {
+router.get("/ecoactions", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
 
   try {
@@ -178,7 +178,7 @@ router.get("/stats", authenticateToken, async (request, response) => {
 });
 
 router.put("/ecoaction", authenticateToken, async (request, response) => {
-  const { ecoactionID } = request.body;
+  const { ecoactionID, completed, title, description, shortDescription} = request.body;
   const { uid: userID } = request.user;
 
   try {
@@ -189,9 +189,42 @@ router.put("/ecoaction", authenticateToken, async (request, response) => {
       .doc(ecoactionID)
       .set(
         {
-          completionDate: null,
+          completed : completed,
+          title : title,
+          description : description,
+          shortDescription : shortDescription
         },
         { merge: true }
+      );
+    console.log("response", addEcoActionToUserResponse);
+    response.status(200).send("Ecoaction successfully added to user");
+  } catch (error) {
+    console.log(`${error.name} adding ecoaction to user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} adding ecoaction to user ${userID}`, error });
+  }
+});
+
+router.post("/ecoaction", authenticateToken, async (request, response) => {
+  const { title, description, shortDescription} = request.body;
+  const { uid: userID } = request.user;
+
+  try {
+    const ecoActionRef = db.collection("users").doc(userID).collection("ecoactions").doc();
+    const ecoactionID = ecoActionRef.id; 
+
+    const addEcoActionToUserResponse = await db
+      .collection("users")
+      .doc(userID)
+      .collection("ecoactions")
+      .doc(ecoactionID)
+      .set(
+        {
+          title : title,
+          description : description,
+          shortDescription : shortDescription
+        }
       );
     console.log("response", addEcoActionToUserResponse);
     response.status(200).send("Ecoaction successfully added to user");
@@ -213,7 +246,10 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecogroups")
       .doc(ecogroupID)
-      .set({});
+      .set({
+
+
+      });
     console.log("response", addEcoGroupToUserResponse);
     response.status(200).send("EcoGroup successfully added to user");
   } catch (error) {
@@ -234,7 +270,10 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecoactions")
       .doc(ecoactionID)
-      .set({});
+      .set({
+
+
+      });
     console.log("response", deleteEcoActionFromUserResponse);
     response.status(200).send("Ecoaction successfully deleted from user");
   } catch (error) {

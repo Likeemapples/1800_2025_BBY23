@@ -153,6 +153,9 @@ function editPrivateInfo() {
   }
 }
 
+document.getElementById("editPrivateInfo").addEventListener("click", editPrivateInfo);
+
+
 document.getElementById("imageUpload").addEventListener("change", function(event) {
   const file = event.target.files[0];
 
@@ -165,14 +168,13 @@ document.getElementById("imageUpload").addEventListener("change", function(event
     const elements = document.getElementsByClassName("navBarProfileImage");
 
     Array.from(elements).forEach(element => {
-      element.src = e.target.result;; // Pass the function reference, not the result of calling it
+      element.src = e.target.result;; 
     });
   };
 
-  reader.readAsDataURL(file); // 🔹 This triggers the onload event
+  reader.readAsDataURL(file);
 });
 
-document.getElementById("editPrivateInfo").addEventListener("click", editPrivateInfo);
 
 
 

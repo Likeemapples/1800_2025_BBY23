@@ -14,6 +14,8 @@ document.addEventListener("firebaseReady", function () {
     }
   }
 
+
+
   // Adding event listener for window resize to adjust maxHeight dynamically
   window.addEventListener("resize", function () {
     let allCardBodies = document.querySelectorAll(".card-body");
@@ -30,7 +32,7 @@ document.addEventListener("firebaseReady", function () {
   async function displayChallengesDynamically(user) {
     const idToken = await user.getIdToken(true);
 
-    const response = await fetch("/users/test1", {
+    const response = await fetch("/users/ecoactions", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${idToken}`,
