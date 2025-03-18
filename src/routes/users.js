@@ -168,7 +168,13 @@ router.get("/stats", authenticateToken, async (request, response) => {
   console.log("userID", userID);
 
   try {
-    const ecoactions = await db.collection("users").doc(userID).collection("ecoactions").get();
+    const completedEcoActionsCount = (
+      await db.collection("users").doc(userID).collection("completedEcoActions").get()
+    ).size;
+    const ecogroupsCount = (await db.collection("users").doc(userID).collection("ecogroups").get())
+      .size;
+    console.log("ecoactions", completedEcoActionsCount);
+    response.status(200).json({ completedEcoActionsCount, ecogroupsCount });
   } catch (error) {
     console.log(`${error.name} getting user stats for user ${userID}`, error);
     response

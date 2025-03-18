@@ -1,13 +1,21 @@
-const { firebaseConfig } = await import("/config/auth.js");
+async function getFirebaseConfig() {
+  const response = await fetch("/firebase-config");
+  const firebaseConfig = await response.json();
+  return firebaseConfig;
+}
 
-firebase.initializeApp(firebaseConfig);
-console.log("Firebase initialized.");
+async function initizliazeFirebase() {
+  const firebaseConfig = await getFirebaseConfig();
+  firebase.initializeApp(firebaseConfig);
+  console.log("Firebase initialized.", firebaseConfig);
 
-firebase.auth().onAuthStateChanged((user) => {
-  getUserStats(user);
-});
+  firebase.auth().onAuthStateChanged((user) => {
+    getUserStats(user);
+  });
+}
 
 async function getUserStats(user) {
+  console.log("init", "getUserStats");
   const idToken = await user.getIdToken(true);
   fetch("/users/stats", {
     method: "GET",
@@ -17,3 +25,5 @@ async function getUserStats(user) {
     },
   });
 }
+
+initizliazeFirebase();
