@@ -1,6 +1,6 @@
-import { firebaseConfig } from "/config/auth.js";
+// import { firebaseConfig } from "/config/auth.js";
 
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
 
 // Function to preview the image once selected
 function previewImage(event) {
