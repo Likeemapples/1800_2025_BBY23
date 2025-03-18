@@ -141,22 +141,45 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
 
   try {
+   
+
     // Query the 'ecoactions' collection for the specific user
     const ecoActionsSnapshot = await db
       .collection("users")
       .doc(userID)
       .collection("ecoactions")
-      .get(); // Use .get() to retrieve the documents
+      .get(); 
 
-    // Format the data to return it as an array of documents
     const ecoActions = ecoActionsSnapshot.docs.map((doc) => ({
-      id: doc.id, // Get document ID
-      data: doc.data(), // Get document data
+      id: doc.id, 
+      data: doc.data(), 
     }));
+
+
     console.log("ecoActions", ecoActions);
 
     // Return the ecoActions in the response
     response.json({ success: true, ecoActions });
+  } catch (error) {
+    console.error("Error fetching user document:", error);
+    response.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.get("/ecoactionBanner", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user; // Extract user ID from token
+  const { ecoactionID } = request.body;
+
+  try {
+   
+
+    const imageInfo = await cloudinary.api.resource(`users/${userID}/ecoactions/${ecoactionID}/bannerImage`);
+
+    // Explicitly check if imageInfo is undefined
+    let bannerImage = imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
+
+
+    response.json({ success: true, bannerImage });
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });
@@ -213,7 +236,7 @@ router.put("/ecoaction", authenticateToken, async (request, response) => {
 });
 
 router.post("/ecoaction", authenticateToken, async (request, response) => {
-  const { title, description, shortDescription} = request.body;
+  const { title, description, shortDescription, bannerImage} = request.body;
   const { uid: userID } = request.user;
 
   try {
@@ -232,6 +255,11 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
           shortDescription : shortDescription
         }
       );
+      const uploadResult = await cloudinary.uploader.upload(bannerImage, {
+        folder: `users/${userID}/ecoactions/${ecoactionID}`, // Explicitly set the folder
+        public_id: "bannerImage", // Image name inside the folder
+        overwrite: true,
+      });
     console.log("response", addEcoActionToUserResponse);
     response.status(200).send("Ecoaction successfully added to user");
   } catch (error) {

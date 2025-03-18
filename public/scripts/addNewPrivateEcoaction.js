@@ -5,8 +5,10 @@ document.addEventListener("firebaseReady", function () {
     let _title = document.getElementById("title").value;
     let _description = document.getElementById("description").value
     let _shortDescription = document.getElementById("shortDescription").value;
+   
+    let _bannerImage =  document.getElementById("imagePreview").src;
 
-    if (!_title || !_description || !_shortDescription) {
+    if (!_title || !_description || !_shortDescription || !_bannerImage ) {
       alert("You must fill all of the fields before submitting.");
       return; // Stop function execution
     }
@@ -22,7 +24,8 @@ document.addEventListener("firebaseReady", function () {
       body: JSON.stringify({ 
         title: _title, 
         description: _description, 
-        shortDescription: _shortDescription
+        shortDescription: _shortDescription,
+        bannerImage : _bannerImage
       })
     });
     
@@ -55,7 +58,7 @@ function saveEcoAction()
   });
 }
 //   document.getElementById("finishEcoAction").addEventListener("click", finishEcoAction);
-document.getElementById("imageInput").addEventListener("change", previewImage);
+document.getElementById("bannerImage").addEventListener("change", previewImage);
 
 document.getElementById("saveEcoAction").addEventListener("click", saveEcoAction);
 });

@@ -50,23 +50,51 @@ document.addEventListener("firebaseReady", function () {
     if (!userInfo.success) {
       throw new Error(`Error fetching user data: ${userInfo.message}`);
     }
+    
+
 
     let cardTemplate = document.getElementById("challengeTemplate"); // Retrieve the HTML element with the ID "challengeTemplate"
 
     const ecoactions = userInfo.ecoActions; // Assuming `ecoActions` is the key that holds the user's ecoaction data.
 
     if (ecoactions && ecoactions.length) {
-      ecoactions.forEach((doc) => {
+      ecoactions.forEach(async (doc) => {
         const completed = doc.data.completed;
-        const title = doc.data.title;
-        const description = doc.data.description;
-        const shortDescription = doc.data.shortDescription;
+    const title = doc.data.title;
+    const description = doc.data.description;
+    const shortDescription = doc.data.shortDescription;
+    const ecoactionID = doc.id; // Ensure you have an ecoaction ID
 
-        // Clone the card template and populate it with data
-        let newcard = cardTemplate.content.cloneNode(true);
-        newcard.querySelector(".title").innerHTML = title;
-        newcard.querySelector(".description").innerHTML = description;
-        newcard.querySelector(".shortDescription").innerHTML = shortDescription;
+      // Fetch banner image with ecoactionID as a query parameter
+      const bannerImageResponse = await fetch(`/users/ecoactionBanner?ecoactionID=${ecoactionID}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!bannerImageResponse.ok) {
+        throw new Error(`HTTP error! Status: ${bannerImageResponse.status}`);
+      }
+
+      const bannerImageData = await bannerImageResponse.json();
+      console.log("Server Response JSON:", bannerImageData);
+
+      if (!bannerImageData.success) {
+        throw new Error(`Error fetching user data: ${bannerImageData.message}`);
+      }
+
+      // Clone the card template and populate it with data
+      let newcard = cardTemplate.content.cloneNode(true);
+      newcard.querySelector(".title").innerHTML = title;
+      newcard.querySelector(".description").innerHTML = description;
+      newcard.querySelector(".shortDescription").innerHTML = shortDescription;
+      
+      // Assign the correct image URL
+      newcard.querySelector(".bannerImage").src = bannerImageData.bannerImage || "default-image.jpg"; 
+
+
         let cardHead = newcard.querySelector(".card-header");
         cardHead.addEventListener("click", function () {
           toggleCollapse(cardHead);
