@@ -60,10 +60,11 @@ document.addEventListener("firebaseReady", function () {
         console.log(ecoactionsDocs);
 
         ecoactionsDocs.forEach( async(doc) => {
-          const title = doc.name; 
+          const name = doc.name; 
           const ecoactionID = doc.id; 
-          const description = "";
-          const shortDescription = "";
+          const description = doc.description;
+          const shortDescription = doc.shortDescription;
+          const points = doc.points;
 
       
 
@@ -88,10 +89,11 @@ document.addEventListener("firebaseReady", function () {
 
       // Clone the card template and populate it with data
       let newcard = cardTemplate.content.cloneNode(true);
-      newcard.querySelector(".title").innerHTML = title;
+      newcard.querySelector(".title").innerHTML = name;
       newcard.querySelector(".description").innerHTML = description;
       newcard.querySelector(".shortDescription").innerHTML = shortDescription;
-      
+      newcard.querySelector(".points").innerHTML = points;
+
       // Assign the correct image URL
       newcard.querySelector(".bannerImage").src = bannerImageData.bannerImage || "default-image.jpg"; 
 
