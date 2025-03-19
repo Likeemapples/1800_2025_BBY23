@@ -39,33 +39,34 @@ document.addEventListener("firebaseReady", function () {
         "Content-Type": "application/json",
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
     const userInfo = await response.json();
-    console.log("Server Response JSON:", userInfo);
-
-    if (!userInfo.success) {
-      throw new Error(`Error fetching user data: ${userInfo.message}`);
-    }
-    
 
 
-    let cardTemplate = document.getElementById("challengeTemplate"); // Retrieve the HTML element with the ID "challengeTemplate"
+    let cardTemplate = document.getElementById("challengeTemplate"); 
 
-    const ecoactions = userInfo.ecoActions; // Assuming `ecoActions` is the key that holds the user's ecoaction data.
+    const ecoactions = userInfo.ecoActions; 
 
     if (ecoactions && ecoactions.length) {
-      ecoactions.forEach(async (doc) => {
-        const completed = doc.data.completed;
-    const title = doc.data.title;
-    const description = doc.data.description;
-    const shortDescription = doc.data.shortDescription;
-    const ecoactionID = doc.id; // Ensure you have an ecoaction ID
+      const ecoactionsIDs = ecoactions.map(id => encodeURIComponent(id)).join("&");
 
-      // Fetch banner image with ecoactionID as a query parameter
+        const ecoActioReponse = await fetch(`/ecoactions?ecoactionsIDs=${ecoactionsIDs}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const responseData = await ecoActioReponse.json();
+        const ecoactionsDocs = responseData.ecoactionsDocs;
+        console.log(ecoactionsDocs);
+
+        ecoactionsDocs.forEach( async(doc) => {
+          const title = doc.name; 
+          const ecoactionID = doc.id; 
+          const description = "";
+          const shortDescription = "";
+
+      
+
       const bannerImageResponse = await fetch(`/users/ecoactionBanner?ecoactionID=${ecoactionID}`, {
         method: "GET",
         headers: {
@@ -99,11 +100,6 @@ document.addEventListener("firebaseReady", function () {
         cardHead.addEventListener("click", function () {
           toggleCollapse(cardHead);
         });
-
-        // If needed, you can use the 'completed' data to modify the card (e.g., add a class, change text, etc.)
-        if (completed) {
-          newcard.querySelector(".card").classList.add("completed"); // Example: Add 'completed' class to card if completed.
-        }
 
         // Append the new card to the DOM
         document.getElementById("dailyChallenges-go-here").appendChild(newcard);
