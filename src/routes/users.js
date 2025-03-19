@@ -98,36 +98,27 @@ router.put("/privateInfo", authenticateToken, async (request, response) => {
 });
 
 router.get("/info", authenticateToken, async (request, response) => {
-  const { uid: userID } = request.user; // Extract user ID from token
-  const userDoc = db.collection("users").doc(userID); // Reference to user document
+  const { uid: userID } = request.user; 
+  const userDoc = db.collection("users").doc(userID); 
 
   try {
-    // const imageRef = liveDatabase.ref(`users/${userID}/images/profileImage`);
 
-    // // 🔹 Await directly instead of using .then()
-    // const snapshot = await imageRef.once("value");
-
-    // let imageBase64 = snapshot.exists() ? snapshot.val() : "";
-
-    const docSnapshot = await userDoc.get(); // Retrieve document snapshot
+    const docSnapshot = await userDoc.get(); 
 
     if (!docSnapshot.exists) {
       return response.status(404).json({ success: false, message: "User not found" });
     }
 
-    const data = docSnapshot.data(); // Extract data from snapshot
+    const data = docSnapshot.data(); 
 
-    const defaultImage = "/assets/images/profile-icon.png"; // Your fallback image
-    let imageUrl = defaultImage; // Default value
+    const defaultImage = "/assets/images/profile-icon.png"; 
+    let imageUrl = defaultImage; 
 
     try {
       const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
 
-      // Explicitly check if imageInfo is undefined
-      imageUrl =
-        imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
+      imageUrl = imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
     } catch {
-      // Do nothing, imageUrl remains the default image
     }
 
     response.json({ success: true, data: data, profileImage: imageUrl });
@@ -141,21 +132,14 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
 
   try {
-    // Query the 'ecoactions' collection for the specific user
-    const ecoActionsSnapshot = await db
+    const userDocSnapshot= await db
       .collection("users")
-      .doc(userID)
-      .collection("ecoactions")
-      .get();
+      .doc(userID).get();
+    const userDoc = userDocSnapshot.data();
+    const ecoActions = userDoc.ecoactions;
 
-    const ecoActions = ecoActionsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      data: doc.data(),
-    }));
 
-    console.log("ecoActions", ecoActions);
 
-    // Return the ecoActions in the response
     response.json({ success: true, ecoActions });
   } catch (error) {
     console.error("Error fetching user document:", error);
