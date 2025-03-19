@@ -170,20 +170,17 @@ router.get("/ecoactionBanner", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
   const { ecoactionID } = request.query; 
 
-  try {
-   
 
+  let bannerImage;
+    try {
     const imageInfo = await cloudinary.api.resource(`users/${userID}/ecoactions/${ecoactionID}/bannerImage`);
-
-    // Explicitly check if imageInfo is undefined
-    let bannerImage = imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
-
+    bannerImage = mageInfo.secure_url;
+    } catch{
+      bannerImage = "";
+    }
 
     response.json({ success: true, bannerImage });
-  } catch (error) {
-    console.error("Error fetching user document:", error);
-    response.status(500).json({ success: false, message: error.message });
-  }
+
 });
 
 router.get("/stats", authenticateToken, async (request, response) => {
