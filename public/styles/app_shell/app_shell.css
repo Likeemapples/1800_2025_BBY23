@@ -16,24 +16,23 @@ main {
   margin-top: auto;
 }
 
-.gbtn{
+.gbtn {
   background-color: var(--green-primary);
   border: 0pt;
 }
-.gbtn:hover{
+.gbtn:hover {
   background-color: var(--green-accent-primary);
   border: 0pt;
 }
 
 .form-control {
   border: 1px solid var(--green-primary);
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  font-size: .825rem;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 0.825rem;
   color: var(--black);
   background-color: transparent;
-
 }
 
 .form-control:focus {
@@ -41,9 +40,8 @@ main {
   box-shadow: 0pt 0pt 0pt 2pt var(--green-accent-secondary-transparent); /* Optional glow effect */
   outline: none;
 }
-.form-control:disabled{
+.form-control:disabled {
   background-color: var(--white);
-
 }
 
 input:-webkit-autofill {

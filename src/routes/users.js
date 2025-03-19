@@ -26,16 +26,17 @@ async function authenticateToken(request, response, next) {
 }
 
 router.post("/", async (request, response) => {
-  const { user: userAuth } = request.body.authResult;
-  console.log("userAuth.uid", userAuth.uid);
-  const userDoc = db.collection("users").doc(userAuth.uid);
+  const { uid, email, displayName } = request.body.user;
+  console.log("uid", uid);
+  const userDoc = db.collection("users").doc(uid);
 
   try {
     //if the userDoc doesn't exist, create it
     if (!(await userDoc.get()).exists) {
       await userDoc.set({
-        email: userAuth.email,
-        displayName: userAuth.displayName || "",
+        //email is null for google sign in
+        email: email,
+        displayName: displayName || "",
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });
       console.log("User document created");

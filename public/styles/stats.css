@@ -7,3 +7,8 @@ h1 {
   font-weight: 600;
   font-size: 3rem;
 }
+
+#container {
+  width: 100%;
+  height: 100vh;
+}

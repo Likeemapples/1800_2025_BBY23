@@ -3,9 +3,12 @@ import { firebaseConfig } from "/config/auth.js";
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const ui = new firebaseui.auth.AuthUI(firebase.auth());
+
 const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: async (authResult, redirectUrl) => {
+      console.log("authResult", authResult);
+
       try {
         const response = await fetch("/users", {
           method: "POST",
@@ -13,7 +16,7 @@ const uiConfig = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            authResult,
+            user: authResult.user,
           }),
         });
         console.log("/users success response", response);

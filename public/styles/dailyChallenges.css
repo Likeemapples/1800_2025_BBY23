@@ -40,15 +40,12 @@ h1 {
   width: 100%; /* Ensure the image takes the full width of the container */
   height: 100%; /* Ensure the image takes the full height of the container */
   object-fit: cover; /* Cover the container without stretching */
-  border-radius: 8px; /* Optional: adds rounded corners to the image */
+  border-radius: 5px; /* Optional: adds rounded corners to the image */
 }
 
 .image-clip {
   overflow: hidden;
-  border-radius: 8pt;
+  border-radius: 5pt;
   height: 200pt;
   width: 100%; /* Optional: Ensures the clip container spans the full width */
 }
-
-
-
