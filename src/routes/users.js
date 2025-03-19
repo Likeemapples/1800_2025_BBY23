@@ -168,7 +168,7 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
 
 router.get("/ecoactionBanner", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
-  const { ecoactionID } = request.body;
+  const { ecoactionID } = request.query; 
 
   try {
    
