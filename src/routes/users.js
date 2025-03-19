@@ -141,20 +141,17 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
 
   try {
-   
-
     // Query the 'ecoactions' collection for the specific user
     const ecoActionsSnapshot = await db
       .collection("users")
       .doc(userID)
       .collection("ecoactions")
-      .get(); 
+      .get();
 
     const ecoActions = ecoActionsSnapshot.docs.map((doc) => ({
-      id: doc.id, 
-      data: doc.data(), 
+      id: doc.id,
+      data: doc.data(),
     }));
-
 
     console.log("ecoActions", ecoActions);
 
@@ -168,19 +165,19 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
 
 router.get("/ecoactionBanner", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
-  const { ecoactionID } = request.query; 
-
+  const { ecoactionID } = request.query;
 
   let bannerImage;
-    try {
-    const imageInfo = await cloudinary.api.resource(`users/${userID}/ecoactions/${ecoactionID}/bannerImage`);
-    bannerImage = mageInfo.secure_url;
-    } catch{
-      bannerImage = "";
-    }
+  try {
+    const imageInfo = await cloudinary.api.resource(
+      `users/${userID}/ecoactions/${ecoactionID}/bannerImage`
+    );
+    bannerImage = imageInfo.secure_url;
+  } catch {
+    bannerImage = "";
+  }
 
-    response.json({ success: true, bannerImage });
-
+  response.json({ success: true, bannerImage });
 });
 
 router.get("/stats", authenticateToken, async (request, response) => {
@@ -204,7 +201,7 @@ router.get("/stats", authenticateToken, async (request, response) => {
 });
 
 router.put("/ecoaction", authenticateToken, async (request, response) => {
-  const { ecoactionID, completed, title, description, shortDescription} = request.body;
+  const { ecoactionID, completed, title, description, shortDescription } = request.body;
   const { uid: userID } = request.user;
 
   try {
@@ -215,10 +212,10 @@ router.put("/ecoaction", authenticateToken, async (request, response) => {
       .doc(ecoactionID)
       .set(
         {
-          completed : completed,
-          title : title,
-          description : description,
-          shortDescription : shortDescription
+          completed: completed,
+          title: title,
+          description: description,
+          shortDescription: shortDescription,
         },
         { merge: true }
       );
@@ -233,30 +230,28 @@ router.put("/ecoaction", authenticateToken, async (request, response) => {
 });
 
 router.post("/ecoaction", authenticateToken, async (request, response) => {
-  const { title, description, shortDescription, bannerImage} = request.body;
+  const { title, description, shortDescription, bannerImage } = request.body;
   const { uid: userID } = request.user;
 
   try {
     const ecoActionRef = db.collection("users").doc(userID).collection("ecoactions").doc();
-    const ecoactionID = ecoActionRef.id; 
+    const ecoactionID = ecoActionRef.id;
 
     const addEcoActionToUserResponse = await db
       .collection("users")
       .doc(userID)
       .collection("ecoactions")
       .doc(ecoactionID)
-      .set(
-        {
-          title : title,
-          description : description,
-          shortDescription : shortDescription
-        }
-      );
-      const uploadResult = await cloudinary.uploader.upload(bannerImage, {
-        folder: `users/${userID}/ecoactions/${ecoactionID}`, // Explicitly set the folder
-        public_id: "bannerImage", // Image name inside the folder
-        overwrite: true,
+      .set({
+        title: title,
+        description: description,
+        shortDescription: shortDescription,
       });
+    const uploadResult = await cloudinary.uploader.upload(bannerImage, {
+      folder: `users/${userID}/ecoactions/${ecoactionID}`, // Explicitly set the folder
+      public_id: "bannerImage", // Image name inside the folder
+      overwrite: true,
+    });
     console.log("response", addEcoActionToUserResponse);
     response.status(200).send("Ecoaction successfully added to user");
   } catch (error) {
@@ -277,10 +272,7 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecogroups")
       .doc(ecogroupID)
-      .set({
-
-
-      });
+      .set({});
     console.log("response", addEcoGroupToUserResponse);
     response.status(200).send("EcoGroup successfully added to user");
   } catch (error) {
@@ -301,10 +293,7 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
       .doc(userID)
       .collection("ecoactions")
       .doc(ecoactionID)
-      .set({
-
-
-      });
+      .set({});
     console.log("response", deleteEcoActionFromUserResponse);
     response.status(200).send("Ecoaction successfully deleted from user");
   } catch (error) {
