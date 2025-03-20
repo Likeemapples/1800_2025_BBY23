@@ -29,7 +29,7 @@ document.addEventListener("firebaseReady", function () {
     });
   });
 
-  async function displayChallengesDynamically(user) {
+  async function displayEcoactions(user) {
     const idToken = await user.getIdToken(true);
 
     const response = await fetch("/users/ecoactions", {
@@ -48,7 +48,6 @@ document.addEventListener("firebaseReady", function () {
 
     if (ecoactions && ecoactions.length) {
       const ecoactionsIDs = ecoactions.map(id => encodeURIComponent(id)).join("&");
-
         const ecoActioReponse = await fetch(`/ecoactions?ecoactionsIDs=${ecoactionsIDs}`, {
           method: "GET",
           headers: {
@@ -61,41 +60,18 @@ document.addEventListener("firebaseReady", function () {
 
         ecoactionsDocs.forEach( async(doc) => {
           const name = doc.name; 
-          const ecoactionID = doc.id; 
           const description = doc.description;
           const shortDescription = doc.shortDescription;
           const points = doc.points;
+          const bannerImage = doc.bannerImage;
 
-      
-
-      const bannerImageResponse = await fetch(`/users/ecoactionBanner?ecoactionID=${ecoactionID}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!bannerImageResponse.ok) {
-        throw new Error(`HTTP error! Status: ${bannerImageResponse.status}`);
-      }
-
-      const bannerImageData = await bannerImageResponse.json();
-      console.log("Server Response JSON:", bannerImageData);
-
-      if (!bannerImageData.success) {
-        throw new Error(`Error fetching user data: ${bannerImageData.message}`);
-      }
-
-      // Clone the card template and populate it with data
       let newcard = cardTemplate.content.cloneNode(true);
       newcard.querySelector(".title").innerHTML = name;
       newcard.querySelector(".description").innerHTML = description;
       newcard.querySelector(".shortDescription").innerHTML = shortDescription;
       newcard.querySelector(".points").innerHTML = points;
 
-      // Assign the correct image URL
-      newcard.querySelector(".bannerImage").src = bannerImageData.bannerImage || "default-image.jpg"; 
+      newcard.querySelector(".bannerImage").src = bannerImage || "default-image.jpg"; 
 
 
         let cardHead = newcard.querySelector(".card-header");
@@ -103,7 +79,6 @@ document.addEventListener("firebaseReady", function () {
           toggleCollapse(cardHead);
         });
 
-        // Append the new card to the DOM
         document.getElementById("dailyChallenges-go-here").appendChild(newcard);
       });
     } else {
@@ -112,6 +87,7 @@ document.addEventListener("firebaseReady", function () {
   }
 
   firebase.auth().onAuthStateChanged((user) => {
-    displayChallengesDynamically(user);
+    displayEcoactions(user);
   });
+
 });

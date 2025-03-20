@@ -2,8 +2,6 @@ import express, { Router } from "express";
 import { db, admin } from "../config/firebase.js";
 import { cloudinary } from "../config/cloudinary.js";
 
-import fs from "fs";
-
 const router = Router();
 
 async function authenticateToken(request, response, next) {
@@ -138,31 +136,11 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
       .doc(userID).get();
     const userDoc = userDocSnapshot.data();
     const ecoActions = userDoc.ecoactions;
-
-
-
     response.json({ success: true, ecoActions });
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });
   }
-});
-
-router.get("/ecoactionBanner", authenticateToken, async (request, response) => {
-  const { uid: userID } = request.user; // Extract user ID from token
-  const { ecoactionID } = request.query;
-
-  let bannerImage;
-  try {
-    const imageInfo = await cloudinary.api.resource(
-      `users/${userID}/ecoactions/${ecoactionID}/bannerImage`
-    );
-    bannerImage = imageInfo.secure_url;
-  } catch {
-    bannerImage = "";
-  }
-
-  response.json({ success: true, bannerImage });
 });
 
 router.get("/stats", authenticateToken, async (request, response) => {
@@ -185,67 +163,6 @@ router.get("/stats", authenticateToken, async (request, response) => {
   }
 });
 
-router.put("/ecoaction", authenticateToken, async (request, response) => {
-  const { ecoactionID, completed, title, description, shortDescription } = request.body;
-  const { uid: userID } = request.user;
-
-  try {
-    const addEcoActionToUserResponse = await db
-      .collection("users")
-      .doc(userID)
-      .collection("ecoactions")
-      .doc(ecoactionID)
-      .set(
-        {
-          completed: completed,
-          title: title,
-          description: description,
-          shortDescription: shortDescription,
-        },
-        { merge: true }
-      );
-    console.log("response", addEcoActionToUserResponse);
-    response.status(200).send("Ecoaction successfully added to user");
-  } catch (error) {
-    console.log(`${error.name} adding ecoaction to user ${userID}`, error);
-    response
-      .status(500)
-      .json({ message: `${error.name} adding ecoaction to user ${userID}`, error });
-  }
-});
-
-router.post("/ecoaction", authenticateToken, async (request, response) => {
-  const { title, description, shortDescription, bannerImage } = request.body;
-  const { uid: userID } = request.user;
-
-  try {
-    const ecoActionRef = db.collection("users").doc(userID).collection("ecoactions").doc();
-    const ecoactionID = ecoActionRef.id;
-
-    const addEcoActionToUserResponse = await db
-      .collection("users")
-      .doc(userID)
-      .collection("ecoactions")
-      .doc(ecoactionID)
-      .set({
-        title: title,
-        description: description,
-        shortDescription: shortDescription,
-      });
-    const uploadResult = await cloudinary.uploader.upload(bannerImage, {
-      folder: `users/${userID}/ecoactions/${ecoactionID}`, // Explicitly set the folder
-      public_id: "bannerImage", // Image name inside the folder
-      overwrite: true,
-    });
-    console.log("response", addEcoActionToUserResponse);
-    response.status(200).send("Ecoaction successfully added to user");
-  } catch (error) {
-    console.log(`${error.name} adding ecoaction to user ${userID}`, error);
-    response
-      .status(500)
-      .json({ message: `${error.name} adding ecoaction to user ${userID}`, error });
-  }
-});
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
   const { ecogroupID } = request.body;
@@ -265,27 +182,6 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
     response
       .status(500)
       .json({ message: `${error.name} adding EcoGroup to user ${userID}`, error });
-  }
-});
-
-router.delete("/ecoaction", authenticateToken, async (request, response) => {
-  const { ecoactionID } = request.body;
-  const { uid: userID } = request.user;
-
-  try {
-    const deleteEcoActionFromUserResponse = await db
-      .collection("users")
-      .doc(userID)
-      .collection("ecoactions")
-      .doc(ecoactionID)
-      .set({});
-    console.log("response", deleteEcoActionFromUserResponse);
-    response.status(200).send("Ecoaction successfully deleted from user");
-  } catch (error) {
-    console.log(`${error.name} deleting ecoaction from user ${userID}`, error);
-    response
-      .status(500)
-      .json({ message: `${error.name} deleting ecoaction from user ${userID}`, error });
   }
 });
 

@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import { db, admin } from "../config/firebase.js";
+import { cloudinary } from "../config/cloudinary.js";
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.put("/", (request, response) => {
 });
 
 router.get("/", async (request, response) => {
-  let { ecoactionsIDs } = request.query;
+  let { ecoactionsIDs} = request.query;
 
   if (!Array.isArray(ecoactionsIDs)) {
     ecoactionsIDs = [ecoactionsIDs];
@@ -24,9 +25,25 @@ router.get("/", async (request, response) => {
     const ecoactionsDocs = await Promise.all(
       ecoactionsIDs.map(async (id) => {
         const ecoactionDocSnapshot = await db.collection("ecoactions").doc(id).get();
-        return ecoactionDocSnapshot.exists ? ecoactionDocSnapshot.data() : null;
+        return ecoactionDocSnapshot.exists ? { id, ...ecoactionDocSnapshot.data() } : null;
       })
     );
+
+    for (const doc of ecoactionsDocs) {
+      if (!doc) continue;
+    
+      let bannerImage = "";
+      try {
+        const imageInfo = await cloudinary.api.resource(
+          `ecoactions/${doc.id}/bannerImage`
+        );
+        bannerImage = imageInfo.secure_url;
+      } catch (error) {
+        console.error(`Failed to fetch banner image for ${doc.id}:`, error.message);
+      }
+    
+      doc.bannerImage = bannerImage;
+    }
 
     response.json({ success: true, ecoactionsDocs });
   } catch (error) {
