@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Finish Challenge</title>
-    <link rel="stylesheet" href="/css/finish_challenge.css" />
+    <title>Finish Ecoaction</title>
+    <link rel="stylesheet" href="/css/finishEcoaction.css" />
   </head>
 
   <body>
@@ -14,14 +14,24 @@
       <div class="row">
         <div class="col-12 mt-4">
           <div class="text-center">
-            <h1>Challenge Name</h1>
+            <div id="bannerImage">
+              <h1 id="name" class="m-0 p-0">Ecoaction Name</h1>
+
+              <div class="d-flex align-items-center justify-content-center">
+                <p id="points" class="m-0"></p>
+                <img src="/assets/images/coin.png" class="coin m-0">
+            </div>
+              <h6 id="shortDescription"></h6>
+              <p id="description"></p>
+             </div>
           </div>
+
           <form>
             <div class="text-center">
-              <img id="imagePreview" src="" alt="Image Preview" class="m-auto img-fluid" />
+              <img hidden id="imagePreview" src="" alt="Image Preview" class="m-auto img-fluid" />
             </div>
             <div class="mb-3">
-              <label for="imageInput" class="form-label">Select an Image</label>
+              <label for="imageInput" class="form-label">Select an Image to Post</label>
               <input
                 type="file"
                 class="form-control"
@@ -30,7 +40,7 @@
                 accept="image/*" />
             </div>
             <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
+              <label for="title" class="form-label">Post Title</label>
               <input type="text" class="form-control" id="title" name="title" />
             </div>
             <div class="mb-3">
@@ -60,6 +70,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="/scripts/app_shell.js"></script>
-    <script type="module" src="/scripts/finish_challenge.js"></script>
+    <script type="module" src="/scripts/finishEcoaction.js"></script>
   </body>
 </html>

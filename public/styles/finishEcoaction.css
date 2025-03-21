@@ -1,0 +1,37 @@
+#bannerImage {
+    position: relative; /* Needed for absolute positioning of ::after */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 8pt;
+    overflow: hidden; /* Prevents overlay from exceeding rounded corners */
+}
+
+#bannerImage::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.308); /* White overlay with transparency */
+    border-radius: 8pt; /* Ensures overlay follows the rounded corners */
+    z-index: 1; /* Places the overlay above other elements */
+}
+
+/* Ensure child elements are under the overlay */
+#bannerImage > * {
+    position: relative;
+    z-index: 2; /* Brings text and images above the overlay */
+}
+
+
+.coin{
+    width: 20pt;
+}
+
+
+
+#points{
+    font-size: 14pt;
+}

@@ -65,21 +65,28 @@ document.addEventListener("firebaseReady", function () {
           const points = doc.points;
           const bannerImage = doc.bannerImage;
 
-      let newcard = cardTemplate.content.cloneNode(true);
-      newcard.querySelector(".title").innerHTML = name;
-      newcard.querySelector(".description").innerHTML = description;
-      newcard.querySelector(".shortDescription").innerHTML = shortDescription;
-      newcard.querySelector(".points").innerHTML = points;
+          let newcard = cardTemplate.content.cloneNode(true);
+          newcard.querySelector(".title").innerHTML = name;
+          newcard.querySelector(".description").innerHTML = description;
+          newcard.querySelector(".shortDescription").innerHTML = shortDescription;
+          newcard.querySelector(".points").innerHTML = points;
 
-      newcard.querySelector(".bannerImage").src = bannerImage || "default-image.jpg"; 
+          newcard.querySelector(".bannerImage").src = bannerImage || "default-image.jpg"; 
 
 
-        let cardHead = newcard.querySelector(".card-header");
-        cardHead.addEventListener("click", function () {
-          toggleCollapse(cardHead);
-        });
+          let cardHead = newcard.querySelector(".card-header");
+          cardHead.addEventListener("click", function () {
+            toggleCollapse(cardHead);
+          });
 
-        document.getElementById("dailyChallenges-go-here").appendChild(newcard);
+          let finishButton = newcard.querySelector(".finishEcoactionButton"); 
+          if (finishButton) {
+            finishButton.addEventListener("click", function () {
+              finishGoalPage(doc.id);
+            });
+          }
+
+           document.getElementById("dailyChallenges-go-here").appendChild(newcard);
       });
     } else {
       console.log("No ecoactions found for this user.");
@@ -91,3 +98,10 @@ document.addEventListener("firebaseReady", function () {
   });
 
 });
+
+function finishGoalPage(acoactionID){
+  localStorage.setItem("ecoactionToFinish", acoactionID);
+  window.location.href = "finishEcoaction.html"; 
+}
+
+
