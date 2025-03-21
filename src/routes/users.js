@@ -162,6 +162,33 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
   }
 });
 
+router.post("/ecoaction", authenticateToken, async (request, response) => {
+  try {
+    const { uid: userID } = request.user; // Extract user ID from token
+    const { image, title, description, ecoactionID } = request.body;
+
+    // Validate request body
+    if (!ecoactionID || !title || !description) {
+      return response.status(400).json({ success: false, message: "Missing required fields" });
+    }
+
+    const userDoc = db.collection("users").doc(userID).collection("postedEcoactions").doc(ecoactionID);
+
+    await userDoc.set({
+      title: title,
+      description: description,
+    });
+
+    // Send success response
+    response.status(200).json({ success: true, message: "Ecoaction posted successfully" });
+
+  } catch (error) {
+    console.error("Error posting ecoaction:", error);
+    response.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+
 router.get("/stats", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user;
   console.log("userID", userID);

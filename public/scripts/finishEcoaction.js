@@ -49,7 +49,7 @@ document.addEventListener("firebaseReady", function () {
   displayEcoaction();
 
 
-  async function finishEcoaction(user){
+  async function deleteEcoaction(user){
     const idToken = await user.getIdToken(true);
 
     fetch("/users/ecoaction", {
@@ -65,13 +65,37 @@ document.addEventListener("firebaseReady", function () {
       .then(response => response.json())
       .then(data => console.log("Success:", data))
       .catch(error => console.error("Error:", error));
-    window.location.href = "/html/finishAnimation.html"; 
+  }
+
+  async function postEcoaction(user){
+    let _title = document.getElementById("title").value;
+    let _description = document.getElementById("postDescription").value;
+    let imageInput = document.getElementById("image");
+    let _image = imageInput.files.length > 0 ? imageInput.files[0] : null;
+
+    const idToken = await user.getIdToken(true);
+  
+    const response = await fetch("/users/ecoaction", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ image: _image, title : _title, description : _description, ecoactionID: ecoactionToFinish}),
+    });
+
+    const result = await response.json().catch(() => null);
+    console.log("Response status:", response.status);
+    console.log("Response body:", result);
   }
 
   document.getElementById("finishBtn").addEventListener("click", (event) => {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            finishEcoaction(user);
+            await deleteEcoaction(user);
+            await postEcoaction(user);
+            localStorage.removeItem("ecoactionToFinish");
+            window.location.href = "/html/finishAnimation.html"; 
         }
     });
   });
@@ -94,7 +118,7 @@ function previewImage(event) {
   }
 }
 
-document.getElementById("imageInput").addEventListener("change", previewImage);
+document.getElementById("image").addEventListener("change", previewImage);
 
 
 function analyzeImageBrightness(imageUrl) {
