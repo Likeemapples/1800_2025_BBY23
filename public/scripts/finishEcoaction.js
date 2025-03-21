@@ -95,15 +95,23 @@ function analyzeImageBrightness(imageUrl) {
           let g = data[i + 1];
           let b = data[i + 2];
 
-          // Luminance formula: (0.299 * R) + (0.587 * G) + (0.114 * B)
           let brightness = (0.299 * r + 0.587 * g + 0.114 * b);
           brightnessSum += brightness;
       }
 
       let averageBrightness = brightnessSum / totalPixels;
 
-      // If brightness is low, make text white; otherwise, make it black
-      let textColor = averageBrightness < 128 ? "white" : "black";
-      document.getElementById("bannerImage").style.color = textColor;
+      let textColor = averageBrightness < 128 ? [255, 255, 255] : [0, 0, 0]; // RGB Array
+      let rgbaTextColor = `rgb(${textColor[0]}, ${textColor[1]}, ${textColor[2]})`;
+
+      console.log(averageBrightness);
+      let opacity = 0.2; 
+      let backgroundColor = averageBrightness > 128 ? [255, 255, 255] : [0, 0, 0]; // RGB Array
+      let rgbabackgroundColor = `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, ${opacity})`;
+      
+      document.getElementById("bannerImage").style.color = rgbaTextColor;
+      
+      document.documentElement.style.setProperty('--custom-color', rgbabackgroundColor);
+      
   };
 }
