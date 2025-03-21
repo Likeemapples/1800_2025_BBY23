@@ -7,7 +7,7 @@ checkmarkElement.addEventListener('animationend', function () {
     
     // Add a slight delay before redirecting to ensure animation has finished
     setTimeout(function() {
-        window.location.href = "/html/dailyChallenges.html";  // Redirect after a slight delay
+        window.location.href = "/html/ecoactions.html";  // Redirect after a slight delay
     }, 1000);  // Delay in milliseconds (500ms or 0.5 seconds)
 });
 

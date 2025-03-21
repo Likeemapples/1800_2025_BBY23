@@ -143,6 +143,25 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   }
 });
 
+router.delete("/ecoaction", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user; // Extract user ID from token
+  const { ecoactionID } = request.body;
+
+  try {
+    const userRef = await db
+      .collection("users")
+      .doc(userID);
+
+
+      await userRef.update({
+        ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID)
+    });
+  
+  } catch (error) {
+    response.status(500).json({ success: false, message: error.message });
+  }
+});
+
 router.get("/stats", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user;
   console.log("userID", userID);

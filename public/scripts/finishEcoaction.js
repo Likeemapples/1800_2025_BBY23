@@ -1,17 +1,13 @@
-// import { firebaseConfig } from "/config/auth.js";
 
-// firebase.initializeApp(firebaseConfig);
-
-// Function to preview the image once selected
 
 
 
 document.addEventListener("firebaseReady", function () {
+  const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
+
   async function displayEcoaction(user) {
 
 
-    const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
-    console.log(ecoactionToFinish); 
 
 
     const ecoActioReponse = await fetch(`/ecoactions?ecoactionsIDs=${ecoactionToFinish}`, {
@@ -51,6 +47,36 @@ document.addEventListener("firebaseReady", function () {
   }
 
   displayEcoaction();
+
+
+  async function finishEcoaction(user){
+    const idToken = await user.getIdToken(true);
+
+    fetch("/users/ecoaction", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        ecoactionID: ecoactionToFinish, // The ID you want to remove
+      }),
+    })
+      .then(response => response.json())
+      .then(data => console.log("Success:", data))
+      .catch(error => console.error("Error:", error));
+    window.location.href = "/html/finishAnimation.html"; 
+  }
+
+  document.getElementById("finishBtn").addEventListener("click", (event) => {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            finishEcoaction(user);
+        }
+    });
+  });
+
+
 });
   
 function previewImage(event) {
