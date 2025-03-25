@@ -30,6 +30,7 @@ async function createRequest(user) {
       },
       body: JSON.stringify({
         groupName: _groupName,
+        ecoActions: "n1tu9kWy6ZMR0fvYiKXN",
       }),
     });
 

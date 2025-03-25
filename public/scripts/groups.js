@@ -28,7 +28,13 @@ function displayCardsDynamically(collection) {
                 //update title and text and image
                 newcard.querySelector('.card-title').innerHTML = title;
                 newcard.querySelector('.card-members').innerHTML = groupMembers + " members";
-                newcard.querySelector('.card-text').innerHTML = details;
+
+                db.collection( "users" ).doc(docu.data().createdByUser)
+                    .get().then( userDoc => {
+                        newcard.querySelector('.card-text').innerHTML = userDoc.displayName;
+                    });
+
+                
                 // newcard.querySelector('.card-image').src = `./images/${hikeCode}.jpg`; //Example: NV01.jpg
                 newcard.querySelector('a').href = "group.html?docID="+docID;
 
