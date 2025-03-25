@@ -155,7 +155,7 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
   }
 });
 
-router.post("/ecoaction", authenticateToken, async (request, response) => {
+router.post("/ecoaction/complete", authenticateToken, async (request, response) => {
   try {
     const { uid: userID } = request.user; // Extract user ID from token
     const { image, title, description, ecoactionID } = request.body;

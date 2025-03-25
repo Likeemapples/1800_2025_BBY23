@@ -62,14 +62,14 @@ document.addEventListener("firebaseReady", function () {
           const name = doc.name; 
           const description = doc.description;
           const shortDescription = doc.shortDescription;
-          const points = doc.points;
+          const ecoPoints = doc.ecoPoints;
           const bannerImage = doc.bannerImage;
 
           let newcard = cardTemplate.content.cloneNode(true);
           newcard.querySelector(".title").innerHTML = name;
           newcard.querySelector(".description").innerHTML = description;
           newcard.querySelector(".shortDescription").innerHTML = shortDescription;
-          newcard.querySelector(".points").innerHTML = points;
+          newcard.querySelector(".ecoPoints").innerHTML = ecoPoints;
 
           newcard.querySelector(".bannerImage").src = bannerImage || "default-image.jpg"; 
 
