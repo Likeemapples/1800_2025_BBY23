@@ -11,9 +11,7 @@ function displayGroupInfo() {
         .doc( ID )
         .get()
         .then( doc => {
-
             let hikeName = doc.data().name;
-
             // Loop through all users
             let userList = doc.data().users;
             userList.forEach( userID => {
@@ -33,9 +31,26 @@ function displayGroupInfo() {
             });            
             // Set groupName span
             document.getElementById("groupName").innerHTML = hikeName;
-
-
             // TODO: display current groupGoal
-        } );
+            let actionList = doc.data().ecoactions;
+            actionList.forEach( actionID => {
+                console.log("Run");
+                db.collection( "ecoactions" )
+                    .doc( actionID )
+                    .get()
+                    .then( action => {
+                        console.log(action);
+                        try {
+                            let act = action.data();
+                            console.log(act);
+                            document.getElementById("groupActions").innerHTML += act.points + " | " + act.name + "\n";
+                        } catch (err) {
+                            // Delete nonexistent actionID from list
+                            console.error(err);
+                        }
+                });
+
+            });
+    } );
 }
 displayGroupInfo();

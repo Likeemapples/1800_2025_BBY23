@@ -97,28 +97,27 @@ router.put("/privateInfo", authenticateToken, async (request, response) => {
 });
 
 router.get("/info", authenticateToken, async (request, response) => {
-  const { uid: userID } = request.user; 
-  const userDoc = db.collection("users").doc(userID); 
+  const { uid: userID } = request.user;
+  const userDoc = db.collection("users").doc(userID);
 
   try {
-
-    const docSnapshot = await userDoc.get(); 
+    const docSnapshot = await userDoc.get();
 
     if (!docSnapshot.exists) {
       return response.status(404).json({ success: false, message: "User not found" });
     }
 
-    const data = docSnapshot.data(); 
+    const data = docSnapshot.data();
 
-    const defaultImage = "/assets/images/profile-icon.png"; 
-    let imageUrl = defaultImage; 
+    const defaultImage = "/assets/images/profile-icon.png";
+    let imageUrl = defaultImage;
 
     try {
       const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
 
-      imageUrl = imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
-    } catch {
-    }
+      imageUrl =
+        imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
+    } catch {}
 
     response.json({ success: true, data: data, profileImage: imageUrl });
   } catch (error) {
@@ -131,9 +130,7 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user; // Extract user ID from token
 
   try {
-    const userDocSnapshot= await db
-      .collection("users")
-      .doc(userID).get();
+    const userDocSnapshot = await db.collection("users").doc(userID).get();
     const userDoc = userDocSnapshot.data();
     const ecoActions = userDoc.ecoactions;
     response.json({ success: true, ecoActions });
@@ -148,15 +145,11 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
   const { ecoactionID } = request.body;
 
   try {
-    const userRef = await db
-      .collection("users")
-      .doc(userID);
+    const userRef = await db.collection("users").doc(userID);
 
-
-      await userRef.update({
-        ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID)
+    await userRef.update({
+      ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
     });
-  
   } catch (error) {
     response.status(500).json({ success: false, message: error.message });
   }
@@ -174,6 +167,7 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
 
     const userDoc = db.collection("users").doc(userID).collection("completedEcoActions");
 
+
     // Add a new document with an auto-generated ID
     const newDocRef = await userDoc.add({
       title: title,
@@ -184,13 +178,11 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
 
     // Send success response
     response.status(200).json({ success: true, message: "Ecoaction posted successfully" });
-
   } catch (error) {
     console.error("Error posting ecoaction:", error);
     response.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 router.get("/stats", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user;
@@ -200,10 +192,23 @@ router.get("/stats", authenticateToken, async (request, response) => {
     const completedEcoActionsCount = (
       await db.collection("users").doc(userID).collection("completedEcoActions").get()
     ).size;
+
     const ecogroupsCount = (await db.collection("users").doc(userID).collection("ecogroups").get())
       .size;
-    console.log("ecoactions", completedEcoActionsCount);
-    response.status(200).json({ completedEcoActionsCount, ecogroupsCount });
+
+    const ecoActionsArray = (await db.collection("users").doc(userID).get()).get("ecoactions");
+    //a collection of uniqe doc ids, each representing a completed ecoaction with an ecoactionID and timestamp
+    const completedEcoActionsCollectionRef = db
+      .collection("users")
+      .doc(userID)
+      .collection("completedEcoActions");
+    const missedEcoActionsCount = await calculateMissedEcoActions(
+      ecoActionsArray,
+      completedEcoActionsCollectionRef
+    );
+
+    console.log("missedEcoActionsCount", missedEcoActionsCount);
+    response.status(200).json({ completedEcoActionsCount, ecogroupsCount, missedEcoActionsCount });
   } catch (error) {
     console.log(`${error.name} getting user stats for user ${userID}`, error);
     response
@@ -212,6 +217,27 @@ router.get("/stats", authenticateToken, async (request, response) => {
   }
 });
 
+async function calculateMissedEcoActions(ecoActionsArray, completedEcoActionsCollectionRef) {
+  let missedEcoActionsCount = 0;
+
+  for (const ecoActionID of ecoActionsArray) {
+    const requiredDays = (await db.collection("ecoactions").doc(ecoActionID).get()).get(
+      "requiredDays"
+    );
+    const completedEcoActionDates = (
+      await completedEcoActionsCollectionRef.where("ecoactionID", "==", ecoActionID).get()
+    ).docs.map((doc) => doc.get("timestamp").toDate());
+
+    //iterate through each day of the week in each ecoaction and see if there is a corresponding completedEcoActioDaten entry
+    //if there is not, increment the missedEcoActionsCount
+    missedEcoActionsCount += requiredDays.reduce((total, day) => {
+      const found = completedEcoActionDates.some((date) => date.getDay() == day);
+      return total + (found ? 0 : 1);
+    }, 0);
+  }
+
+  return missedEcoActionsCount;
+}
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
   const { ecogroupID } = request.body;
