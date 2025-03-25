@@ -75,7 +75,7 @@ document.addEventListener("firebaseReady", function () {
 
     const idToken = await user.getIdToken(true);
   
-    const response = await fetch("/users/ecoaction", {
+    const response = await fetch("/users/ecoaction/complete", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${idToken}`,
