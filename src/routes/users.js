@@ -172,11 +172,14 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
       return response.status(400).json({ success: false, message: "Missing required fields" });
     }
 
-    const userDoc = db.collection("users").doc(userID).collection("postedEcoactions").doc(ecoactionID);
+    const userDoc = db.collection("users").doc(userID).collection("completedEcoActions");
 
-    await userDoc.set({
+    // Add a new document with an auto-generated ID
+    const newDocRef = await userDoc.add({
       title: title,
+      ecoActionID : ecoactionID,
       description: description,
+      timestamp: admin.firestore.FieldValue.serverTimestamp()
     });
 
     // Send success response

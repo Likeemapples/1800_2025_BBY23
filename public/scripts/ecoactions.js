@@ -41,10 +41,10 @@ document.addEventListener("firebaseReady", function () {
     });
     const userInfo = await response.json();
 
-
     let cardTemplate = document.getElementById("challengeTemplate"); 
 
     const ecoactions = userInfo.ecoActions; 
+    console.log(ecoactions)
 
     if (ecoactions && ecoactions.length) {
       const ecoactionsIDs = ecoactions.map(id => encodeURIComponent(id)).join("&");
