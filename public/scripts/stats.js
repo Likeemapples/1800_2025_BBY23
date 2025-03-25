@@ -33,7 +33,11 @@ async function getUserStats(user) {
 }
 
 async function createKPIs(user) {
-  const { completedEcoActionsCount, ecogroupsCount } = await getUserStats(user);
+  const { completedEcoActionsCount, ecogroupsCount, missedEcoActionsCount } = await getUserStats(
+    user
+  );
+
+  console.log("Missed EcoActions", missedEcoActionsCount);
 
   const completedEcoActionsKPI = new Chart(document.getElementById("completed-ecoaction-count"), {
     type: "doughnut",
@@ -41,11 +45,12 @@ async function createKPIs(user) {
       labels: ["Completed EcoActions", "Missed EcoActions"],
       datasets: [
         {
-          data: [completedEcoActionsCount, 0],
+          data: [completedEcoActionsCount, missedEcoActionsCount],
           backgroundColor: [
             `${window.getComputedStyle(document.body).getPropertyValue("--green-primary")}`,
+            `${window.getComputedStyle(document.body).getPropertyValue("--green-accent-primary")}`,
           ],
-          hoverOffset: 4,
+          hoverOffset: 10,
         },
       ],
     },
