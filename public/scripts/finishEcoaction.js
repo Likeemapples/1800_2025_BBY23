@@ -1,15 +1,7 @@
-
-
-
-
 document.addEventListener("firebaseReady", function () {
   const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
 
   async function displayEcoaction(user) {
-
-
-
-
     const ecoActioReponse = await fetch(`/ecoactions?ecoactionsIDs=${ecoactionToFinish}`, {
       method: "GET",
       headers: {
@@ -22,7 +14,7 @@ document.addEventListener("firebaseReady", function () {
 
     let doc = ecoactionsDocs[0];
 
-    const name = doc.name; 
+    const name = doc.name;
     const description = doc.description;
     const shortDescription = doc.shortDescription;
     const points = doc.points;
@@ -48,8 +40,7 @@ document.addEventListener("firebaseReady", function () {
 
   displayEcoaction();
 
-
-  async function deleteEcoaction(user){
+  async function deleteEcoaction(user) {
     const idToken = await user.getIdToken(true);
 
     fetch("/users/ecoaction", {
@@ -62,26 +53,31 @@ document.addEventListener("firebaseReady", function () {
         ecoactionID: ecoactionToFinish, // The ID you want to remove
       }),
     })
-      .then(response => response.json())
-      .then(data => console.log("Success:", data))
-      .catch(error => console.error("Error:", error));
+      .then((response) => response.json())
+      .then((data) => console.log("Success:", data))
+      .catch((error) => console.error("Error:", error));
   }
 
-  async function postEcoaction(user){
+  async function postEcoaction(user) {
     let _title = document.getElementById("title").value;
     let _description = document.getElementById("postDescription").value;
     let imageInput = document.getElementById("image");
     let _image = imageInput.files.length > 0 ? imageInput.files[0] : null;
 
     const idToken = await user.getIdToken(true);
-  
-    const response = await fetch("/users/ecoaction/complete", {
+
+    const response = await fetch("/users/ecoaction", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${idToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ image: _image, title : _title, description : _description, ecoactionID: ecoactionToFinish}),
+      body: JSON.stringify({
+        image: _image,
+        title: _title,
+        description: _description,
+        ecoactionID: ecoactionToFinish,
+      }),
     });
 
     const result = await response.json().catch(() => null);
@@ -91,35 +87,32 @@ document.addEventListener("firebaseReady", function () {
 
   document.getElementById("finishBtn").addEventListener("click", (event) => {
     firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
-            await deleteEcoaction(user);
-            await postEcoaction(user);
-            localStorage.removeItem("ecoactionToFinish");
-            window.location.href = "/html/finishAnimation.html"; 
-        }
+      if (user) {
+        await deleteEcoaction(user);
+        await postEcoaction(user);
+        localStorage.removeItem("ecoactionToFinish");
+        window.location.href = "/html/finishAnimation.html";
+      }
     });
   });
-
-
 });
-  
+
 function previewImage(event) {
-  const imagePreview = document.getElementById('imagePreview');
+  const imagePreview = document.getElementById("imagePreview");
 
   const file = event.target.files[0];
   if (file) {
     imagePreview.hidden = false;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-          imagePreview.src = e.target.result;
-          imagePreview.style.display = 'block'; // Show the image preview
-      };
-      reader.readAsDataURL(file);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = "block"; // Show the image preview
+    };
+    reader.readAsDataURL(file);
   }
 }
 
 document.getElementById("image").addEventListener("change", previewImage);
-
 
 function analyzeImageBrightness(imageUrl) {
   let img = new Image();
@@ -127,41 +120,40 @@ function analyzeImageBrightness(imageUrl) {
   img.src = imageUrl;
 
   img.onload = function () {
-      let canvas = document.createElement("canvas");
-      let ctx = canvas.getContext("2d");
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
 
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0, img.width, img.height);
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0, img.width, img.height);
 
-      let imageData = ctx.getImageData(0, 0, img.width, img.height);
-      let data = imageData.data;
+    let imageData = ctx.getImageData(0, 0, img.width, img.height);
+    let data = imageData.data;
 
-      let brightnessSum = 0;
-      let totalPixels = data.length / 4; // RGBA groups
+    let brightnessSum = 0;
+    let totalPixels = data.length / 4; // RGBA groups
 
-      for (let i = 0; i < data.length; i += 4) {
-          let r = data[i];
-          let g = data[i + 1];
-          let b = data[i + 2];
+    for (let i = 0; i < data.length; i += 4) {
+      let r = data[i];
+      let g = data[i + 1];
+      let b = data[i + 2];
 
-          let brightness = (0.299 * r + 0.587 * g + 0.114 * b);
-          brightnessSum += brightness;
-      }
+      let brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+      brightnessSum += brightness;
+    }
 
-      let averageBrightness = brightnessSum / totalPixels;
+    let averageBrightness = brightnessSum / totalPixels;
 
-      let textColor = averageBrightness < 128 ? [255, 255, 255] : [0, 0, 0]; // RGB Array
-      let rgbaTextColor = `rgb(${textColor[0]}, ${textColor[1]}, ${textColor[2]})`;
+    let textColor = averageBrightness < 128 ? [255, 255, 255] : [0, 0, 0]; // RGB Array
+    let rgbaTextColor = `rgb(${textColor[0]}, ${textColor[1]}, ${textColor[2]})`;
 
-      console.log(averageBrightness);
-      let opacity = 0.2; 
-      let backgroundColor = averageBrightness > 128 ? [255, 255, 255] : [0, 0, 0]; // RGB Array
-      let rgbabackgroundColor = `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, ${opacity})`;
-      
-      document.getElementById("bannerImage").style.color = rgbaTextColor;
-      
-      document.documentElement.style.setProperty('--custom-color', rgbabackgroundColor);
-      
+    console.log(averageBrightness);
+    let opacity = 0.2;
+    let backgroundColor = averageBrightness > 128 ? [255, 255, 255] : [0, 0, 0]; // RGB Array
+    let rgbabackgroundColor = `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, ${opacity})`;
+
+    document.getElementById("bannerImage").style.color = rgbaTextColor;
+
+    document.documentElement.style.setProperty("--custom-color", rgbabackgroundColor);
   };
 }

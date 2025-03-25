@@ -147,15 +147,17 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
   try {
     const userRef = await db.collection("users").doc(userID);
 
-    await userRef.update({
-      ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
-    });
+    // don't need to be removing the ecoaction once done, can have recurring ecoactions
+    // need to change this logic to conditionally display the ecoactin if it is a certain day of the week
+    // await userRef.update({
+    //   ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
+    // });
   } catch (error) {
     response.status(500).json({ success: false, message: error.message });
   }
 });
 
-router.post("/ecoaction/complete", authenticateToken, async (request, response) => {
+router.post("/ecoaction", authenticateToken, async (request, response) => {
   try {
     const { uid: userID } = request.user; // Extract user ID from token
     const { image, title, description, ecoactionID } = request.body;
@@ -167,13 +169,12 @@ router.post("/ecoaction/complete", authenticateToken, async (request, response) 
 
     const userDoc = db.collection("users").doc(userID).collection("completedEcoActions");
 
-
     // Add a new document with an auto-generated ID
     const newDocRef = await userDoc.add({
       title: title,
-      ecoActionID : ecoactionID,
+      ecoActionID: ecoactionID,
       description: description,
-      timestamp: admin.firestore.FieldValue.serverTimestamp()
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
     });
 
     // Send success response
