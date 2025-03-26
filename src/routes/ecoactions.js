@@ -13,11 +13,9 @@ router.put("/", (request, response) => {
 });
 
 router.get("/", async (request, response) => {
-  let { ecoactionsIDs} = request.query;
+  let ecoactionsIDs = request.headers['ecoactionsids'];
+  ecoactionsIDs = ecoactionsIDs ? ecoactionsIDs.split(',') : [];
 
-  if (!Array.isArray(ecoactionsIDs)) {
-    ecoactionsIDs = [ecoactionsIDs];
-  }
 
 
   try {
@@ -45,7 +43,7 @@ router.get("/", async (request, response) => {
       doc.bannerImage = bannerImage;
     }
 
-    response.json({ success: true, ecoactionsDocs });
+    response.json({ success: true, ecoactionsDocs, ecoactionsIDs});
   } catch (error) {
     response.status(500).json({ success: false, message: error.message });
   }

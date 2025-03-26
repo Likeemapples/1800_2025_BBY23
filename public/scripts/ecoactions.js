@@ -43,20 +43,20 @@ document.addEventListener("firebaseReady", function () {
 
     let cardTemplate = document.getElementById("challengeTemplate"); 
 
-    const ecoactions = userInfo.ecoActions; 
-    console.log(ecoactions)
+    const ecoactionsIDs = userInfo.ecoActionsIDs; 
 
-    if (ecoactions && ecoactions.length) {
-      const ecoactionsIDs = ecoactions.map(id => encodeURIComponent(id)).join("&");
-        const ecoActioReponse = await fetch(`/ecoactions?ecoactionsIDs=${ecoactionsIDs}`, {
+    if (ecoactionsIDs && ecoactionsIDs.length) {
+      console.log(ecoactionsIDs);
+        const ecoActioReponse = await fetch("/ecoactions", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "EcoactionsIDs" : ecoactionsIDs,
           },
         });
         const responseData = await ecoActioReponse.json();
         const ecoactionsDocs = responseData.ecoactionsDocs;
-        console.log(ecoactionsDocs);
+        console.log(ecoactionsDocs, responseData.ecoactionsIDs);
 
         ecoactionsDocs.forEach( async(doc) => {
           const name = doc.name; 
@@ -71,7 +71,7 @@ document.addEventListener("firebaseReady", function () {
           newcard.querySelector(".shortDescription").innerHTML = shortDescription;
           newcard.querySelector(".ecoPoints").innerHTML = ecoPoints;
 
-          newcard.querySelector(".bannerImage").src = bannerImage || "default-image.jpg"; 
+          newcard.querySelector(".bannerImage").src = bannerImage || "/assets/images/image-not-found.jpg"; 
 
 
           let cardHead = newcard.querySelector(".card-header");
