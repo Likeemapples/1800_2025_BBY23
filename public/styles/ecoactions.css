@@ -64,6 +64,12 @@ main {
   width: 100%; /* Optional: Ensures the clip container spans the full width */
 }
 
-.coin{
-width: 10pt;
+.coin {
+  width: 10pt;
+}
+
+@media (max-width: 770px) {
+  #h1-container {
+    text-align: center;
+  }
 }
