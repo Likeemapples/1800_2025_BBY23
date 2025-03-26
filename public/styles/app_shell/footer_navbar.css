@@ -3,11 +3,10 @@
   position: fixed;
   bottom: 0;
   width: 100%;
+  content-visibility: hidden;
   z-index: 9999;
 
   #footer-nav-list {
-    content-visibility: hidden;
-
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -40,7 +39,7 @@
   }
 }
 @media (max-width: 810px) {
-  #footer-nav #footer-nav-list {
+  #footer-nav {
     content-visibility: visible;
   }
 }

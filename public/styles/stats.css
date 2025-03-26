@@ -16,19 +16,13 @@ main {
   #stats-container {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-
-    #completed-ecoaction-count-wrapper {
-    }
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 810px) {
   main {
-    padding-left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    h1 {
+      font-size: 2.8rem;
+    }
   }
 }
