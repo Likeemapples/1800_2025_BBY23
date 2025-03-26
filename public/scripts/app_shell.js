@@ -95,8 +95,8 @@ async function populateUserInfo(user) {
   console.log("userInfo", userInfo);
   const profileImage = userInfo.profileImage;
 
-  const profileImageElement = document.querySelector(".profile-image");
-  const profileIconElement = document.querySelector(".profile-icon");
+  const profileImageElements = document.querySelectorAll(".profile-image");
+  const profileIconElements = document.querySelectorAll(".profile-icon");
 
   if (profileImage) {
     const elements = document.getElementsByClassName("navBarProfileImage");
@@ -105,8 +105,12 @@ async function populateUserInfo(user) {
       element.src = profileImage; // Pass the function reference, not the result of calling it
     });
 
-    profileImageElement.style.display = "inline-block";
-    profileIconElement.style.display = "none";
+    profileImageElements.forEach((element) => {
+      element.style.display = "inline-block";
+    });
+    profileIconElements.forEach((element) => {
+      element.style.display = "none";
+    });
   } else {
     console.log("profile image was null");
   }
