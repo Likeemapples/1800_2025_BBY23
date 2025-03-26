@@ -31,13 +31,13 @@
     <link rel="stylesheet" href="/css/stats.css" />
     <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/scripts/load-component.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
     <header id="nav_bar"></header>
 
     <main>
       <h1>My Stats</h1>
-
       <div id="stats-container">
         <div id="completed-ecoaction-count-wrapper">
           <canvas id="completed-ecoaction-count"></canvas>
@@ -49,7 +49,10 @@
     <footer id="footer"></footer>
     <script>
       loadComponent("nav_bar", "/html/app_shell/nav_bar.html");
-      loadComponent("footer-nav", "/html/app_shell/footer-nav.html");
+      (async () => {
+        await loadComponent("footer-nav", "/html/app_shell/footer-nav.html");
+        lucide.createIcons();
+      })();
       loadComponent("footer", "/html/app_shell/footer.html");
     </script>
     <script
