@@ -99,8 +99,8 @@ async function populateUserInfo(user) {
   const profileImage = userInfo.profileImage;
   console.log("profileImage", profileImage);
 
-  const profileImageElement = document.getElementById("profile-image");
-  const profileIconElement = document.getElementById("profile-icon");
+  const profileImageElement = document.querySelector(".profile-image");
+  const profileIconElement = document.querySelector(".profile-icon");
 
   if (profileImage) {
     const elements = document.getElementsByClassName("navBarProfileImage");
@@ -116,7 +116,7 @@ async function populateUserInfo(user) {
   }
 
   const ecoPoints = userInfo.data.ecoPoints;
-  console.log(ecoPoints)
+  console.log(ecoPoints);
   if (ecoPoints != null) {
     const elements = document.getElementsByClassName("navBarEcoPoints");
 
