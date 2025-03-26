@@ -100,16 +100,21 @@ async function populateUserInfo(user) {
     const elements = document.getElementsByClassName("navBarProfileImage");
 
     Array.from(elements).forEach((element) => {
-      element.src = profileImage; // Pass the function reference, not the result of calling it
+      element.src = profileImage; 
     });
 
+    const profileIconElements = document.getElementsByClassName("profile-icon");
 
-    profileImageElements.forEach((element) => {
-      element.style.display = "inline-block";
-    });
-    profileIconElements.forEach((element) => {
+    Array.from(profileIconElements).forEach((element) => {
       element.style.display = "none";
     });
+
+    const profileImageElements = document.getElementsByClassName("profile-image");
+
+    Array.from(profileImageElements).forEach((element) => {
+      element.style.display = "inline-block";
+    });
+
   } else {
     console.log("profile image was null");
   }
