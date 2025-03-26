@@ -170,6 +170,18 @@ document.getElementById("imageUpload").addEventListener("change", function(event
     Array.from(elements).forEach(element => {
       element.src = e.target.result;; 
     });
+
+    const profileIconElements = document.getElementsByClassName("profile-icon");
+
+    Array.from(profileIconElements).forEach((element) => {
+      element.style.display = "none";
+    });
+
+    const profileImageElements = document.getElementsByClassName("profile-image");
+
+    Array.from(profileImageElements).forEach((element) => {
+      element.style.display = "inline-block";
+    });
   };
 
   reader.readAsDataURL(file);
