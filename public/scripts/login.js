@@ -29,7 +29,7 @@ const uiConfig = {
     uiShown: () => {},
   },
   signInFlow: "popup",
-  signInSuccessUrl: "/html/home.html",
+  signInSuccessUrl: "/html/ecoactions.html",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,

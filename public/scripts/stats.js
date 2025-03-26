@@ -55,9 +55,12 @@ async function createKPIs(user) {
                 .getComputedStyle(document.body)
                 .getPropertyValue("--green-accent-primary")}`,
             ],
-            hoverOffset: 10,
+            hoverOffset: 5,
           },
         ],
+      },
+      options: {
+        devicePixelRatio: 2, // for some reason will be blurry without this
       },
     }
   );
