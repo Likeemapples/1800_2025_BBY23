@@ -20,8 +20,6 @@ function displayGroupInfo() {
                     .doc( userID )
                     .get()
                     .then( user => {
-                        // Add it to the groupUsers span
-                        //document.getElementById("groupUsers").innerHTML += user.data().displayName + "\n";
                         try {
                             document.getElementById("groupUsers").innerHTML += user.data().displayName + "\n";
                         } catch (err) {
@@ -32,7 +30,7 @@ function displayGroupInfo() {
             // Set groupName span
             document.getElementById("groupName").innerHTML = hikeName;
             // TODO: display current groupGoal
-            let actionList = doc.data().ecoactions;
+            let actionList = doc.data().ecoaction;
             actionList.forEach( actionID => {
                 console.log("Run");
                 db.collection( "ecoactions" )
@@ -43,7 +41,7 @@ function displayGroupInfo() {
                         try {
                             let act = action.data();
                             console.log(act);
-                            document.getElementById("groupActions").innerHTML += act.points + " | " + act.name + "\n";
+                            document.getElementById("groupActions").innerHTML += act.ecoPoints + " | " + act.name + "\n";
                         } catch (err) {
                             // Delete nonexistent actionID from list
                             console.error(err);
