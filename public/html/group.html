@@ -15,8 +15,36 @@
   <body>
     <header id="nav_bar"></header>
 
+    <template id="challengeTemplate">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex align-items-center justify-content-between">
+            <!-- Left side: Title and Points -->
+            <div class="d-flex align-items-center">
+              <h5 class="mb-0" id="title" style="text-align: right;">Challenge 1</h5>
+              <p class="m-0 mt-1 ms-2" style="color: var(--green-accent-primary);" id="points"></p>
+            </div>
+        
+            <!-- Right side: Finish Button -->
+            <button class="btn gbtn btn-primary btn-sm finishEcoactionButton">Select</button>
+          </div>
+        
+          
+        </div>
+        
+
+        <div class="card-body" style="max-height: 0; padding: 0 15px; content-visibility: hidden;">
+          <div class="row">
+            <!-- Image on the left, text on the right (on larger screens) -->
+            
+            <p id="description">Full description of the challenge</p>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <!-- BODY -->
-    <div class="container">
+    <div class="container mb-3">
       <h1><span id="groupName">this hike</span></h1>
       <br />
       <h2><b>CURRENT ACTION</b></h2>

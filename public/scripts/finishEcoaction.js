@@ -1,4 +1,23 @@
 document.addEventListener("firebaseReady", function () {
+
+  const titleInput = document.getElementById("title");
+  const descriptionInput = document.getElementById("postDescription");
+  const imageInput = document.getElementById("image");
+  const submitBtn = document.getElementById("finishBtn");
+
+  function checkFields() {
+      const title = titleInput.value.trim();
+      const description = descriptionInput.value.trim();
+      const image = imageInput.files.length > 0;
+
+      submitBtn.disabled = !(title && description && image);
+  }
+
+  titleInput.addEventListener("input", checkFields);
+  descriptionInput.addEventListener("input", checkFields);
+  imageInput.addEventListener("change", checkFields);
+
+
   const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
 
   async function displayEcoaction(user) {
@@ -67,9 +86,8 @@ document.addEventListener("firebaseReady", function () {
   }
 
   async function postEcoaction(user) {
-    let _title = document.getElementById("title").value;
-    let _description = document.getElementById("postDescription").value;
-    let imageInput = document.getElementById("image");
+    let _title = titleInput.value;
+    let _description = descriptionInput.value;
     let _image = imageInput.files.length > 0 ? imageInput.files[0] : null;
 
     const idToken = await user.getIdToken(true);

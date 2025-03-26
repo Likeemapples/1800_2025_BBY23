@@ -141,9 +141,9 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
 
     // don't need to be removing the ecoaction once done, can have recurring ecoactions
     // need to change this logic to conditionally display the ecoactin if it is a certain day of the week
-    // await userRef.update({
-    //   ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
-    // });
+    await userRef.update({
+      ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
+    });
   } catch (error) {
     response.status(500).json({ success: false, message: error.message });
   }
