@@ -132,8 +132,8 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   try {
     const userDocSnapshot = await db.collection("users").doc(userID).get();
     const userDoc = userDocSnapshot.data();
-    const ecoActions = userDoc.ecoactions;
-    response.json({ success: true, ecoActions });
+    const ecoActionsIDs = userDoc.ecoactions;
+    response.json({ success: true, ecoActionsIDs });
   } catch (error) {
     console.error("Error fetching user document:", error);
     response.status(500).json({ success: false, message: error.message });
