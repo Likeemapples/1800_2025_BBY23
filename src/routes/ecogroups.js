@@ -24,15 +24,7 @@ async function authenticateToken(request, response, next) {
 router.post("/create", authenticateToken, async (request, response) => {
   // create ecogroup
   const { uid: userID } = request.user;
-  const { groupName: groupNm, ecoActions: actions } = request.body;
-
-  var actionList = [];
-
-  if (actions == Array) {
-    actionList = [actions];
-  } else {
-    actionList = [...actions];
-  }
+  const { groupName: groupNm, ecoAction: action } = request.body;
 
   db.collection("ecogroups").get()
     .then(allGroups => {
@@ -48,7 +40,7 @@ router.post("/create", authenticateToken, async (request, response) => {
             name: groupNm,
             users: [userID],
             createdByUser: userID,
-            ecoactions: actionList
+            ecoaction: [action]
         }).then(docRef => {
           let docReference = docRef.id;
           response.status(200).json({documentId: docReference});
