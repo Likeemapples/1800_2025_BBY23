@@ -45,6 +45,7 @@ try {
   const footerNavResponse = await fetch("/html/app_shell/footer-nav.html");
   const footerNavData = await footerNavResponse.text();
   document.getElementById("footer-nav").innerHTML = footerNavData;
+  lucide.createIcons();
 } catch (error) {
   console.log(`${error.name} loading footer nav`, error);
 }
