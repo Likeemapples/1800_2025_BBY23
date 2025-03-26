@@ -38,7 +38,7 @@ document.addEventListener("firebaseReady", function () {
     const name = doc.name;
     const description = doc.description;
     const shortDescription = doc.shortDescription;
-    const points = doc.points;
+    const ecoPoints = doc.ecoPoints;
     const bannerImage = doc.bannerImage;
 
     if (bannerImage != null && bannerImage != "") {
@@ -51,8 +51,8 @@ document.addEventListener("firebaseReady", function () {
       document.getElementById("bannerImage").style.backgroundImage = `url("/assets/images/image-not-found.jpg")`;
     }
 
-    if (points != null) {
-      document.getElementById("points").innerText = points;
+    if (ecoPoints != null) {
+      document.getElementById("ecoPoints").innerText = ecoPoints;
     }
     if (name != null) {
       document.getElementById("name").innerText = name;
