@@ -68,7 +68,6 @@ async function createKPIs(user) {
 
 async function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
-
   const response = await fetch("/users/info", {
     method: "GET",
     headers: {
@@ -76,26 +75,34 @@ async function populateUserInfo(user) {
       "Content-Type": "application/json",
     },
   });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
   const userInfo = await response.json();
-  console.log("Server Response JSON:", userInfo);
-
-  if (!userInfo.success) {
-    throw new Error(`Error fetching user data: ${userInfo.message}`);
-  }
-
+  console.log("userInfo", userInfo);
   const profileImage = userInfo.profileImage;
 
+  const profileImageElement = document.querySelector(".profile-image");
+  const profileIconElement = document.querySelector(".profile-icon");
+
   if (profileImage) {
-    console.log("navBarProfileImage", profileImage);
     const elements = document.getElementsByClassName("navBarProfileImage");
 
     Array.from(elements).forEach((element) => {
       element.src = profileImage; // Pass the function reference, not the result of calling it
+    });
+
+    profileImageElement.style.display = "inline-block";
+    profileIconElement.style.display = "none";
+  } else {
+    console.log("profile image was null");
+  }
+
+  const ecoPoints = userInfo.data.ecoPoints;
+  console.log(ecoPoints);
+  if (ecoPoints != null) {
+    const elements = document.getElementsByClassName("navBarEcoPoints");
+
+    // Loop through each element and update innerText with ecoPoints
+    Array.from(elements).forEach((element) => {
+      element.innerText = `${ecoPoints}`;
     });
   }
 }

@@ -91,13 +91,9 @@ async function populateUserInfo(user) {
       "Content-Type": "application/json",
     },
   });
-  console.log("response", response);
-
   const userInfo = await response.json();
   console.log("userInfo", userInfo);
-
   const profileImage = userInfo.profileImage;
-  console.log("profileImage", profileImage);
 
   const profileImageElement = document.querySelector(".profile-image");
   const profileIconElement = document.querySelector(".profile-icon");
