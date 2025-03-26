@@ -113,6 +113,17 @@ async function populateUserInfo(user) {
       element.src = profileImage; // Pass the function reference, not the result of calling it
     });
   }
+
+  const ecoPoints = userInfo.data.ecoPoints;
+  console.log(ecoPoints)
+  if (ecoPoints != null) {
+    const elements = document.getElementsByClassName("navBarEcoPoints");
+
+    // Loop through each element and update innerText with ecoPoints
+    Array.from(elements).forEach((element) => {
+      element.innerText = `${ecoPoints}`;
+    });
+  }
 }
 
 // Your logout function

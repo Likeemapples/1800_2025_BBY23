@@ -47,3 +47,11 @@ main {
 input:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
+
+#ecoPointsImage{
+  height: 20pt;
+}
+
+.navBarEcoPoints{
+  color: white;
+}
