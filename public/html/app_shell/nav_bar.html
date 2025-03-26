@@ -14,10 +14,11 @@
           id="profileDropdown"
           data-bs-toggle="dropdown"
           aria-expanded="false">
+          <i class="profile-icon" data-lucide="circle-user-round"></i>
           <img
             src="/assets/images/profile-icon.png"
             alt="Profile"
-            class="rounded-circle navBarProfileImage"
+            class="profile-image rounded-circle navBarProfileImage"
             width="40"
             height="40" />
         </button>
@@ -39,31 +40,20 @@
           <a class="nav-link" href="/html/ecoactions.html">EcoActions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/html/groups.html">Groups</a>
+          <a class="nav-link" href="/html/groups.html">EcoGroups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/html/stats.html">Explore</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/html/stats.html">Stats</a>
         </li>
       </ul>
 
-      <form class="d-flex" role="search">
-        <input
-          class="form-control me-2 bg-white text-dark border-success"
-          type="search"
-          placeholder="Search"
-          aria-label="Search" />
-        <button class="btn btn-outline-light" type="submit">Search</button>
-
-        <div class="d-flex ms-2 align-items-center">
-          <img id="ecoPointsImage" src="/assets/images/coin.png" alt="Eco Points Image">
-          <p class="navBarEcoPoints m-auto">EcoPoints</p>
-        </div>
-      
-      
-      
-     
-
-      </form>
+      <div class="d-flex ms-2 align-items-center">
+        <img id="ecoPointsImage" src="/assets/images/coin.png" alt="Eco Points Image" />
+        <p class="navBarEcoPoints m-auto">EcoPoints</p>
+      </div>
 
       <!-- Profile for larger screens -->
       <div id="profile" class="d-none d-lg-block ms-3">
@@ -74,24 +64,22 @@
             id="profileDropdown"
             data-bs-toggle="dropdown"
             aria-expanded="false">
+            <i class="profile-icon" data-lucide="circle-user-round"></i>
             <img
               src="/assets/images/profile-icon.png"
               alt="Profile"
-              class="rounded-circle navBarProfileImage"
+              class="profile-image rounded-circle navBarProfileImage"
               width="40"
               height="40" />
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
             <li><a class="dropdown-item" href="/html/profile.html">Profile</a></li>
             <!-- <li><a class="dropdown-item" href="/html/settings_disabled.html">Settings</a></li> -->
-            <li><a class="dropdown-item" href="/html/dailyChallenges.html">Demo</a></li>
             <li><a class="dropdown-item" href="/html/help.html">Help</a></li>
             <li><hr class="dropdown-divider" /></li>
             <li><button id="lol" type="button" class="dropdown-item signOut">Sign Out</button></li>
           </ul>
-       
         </div>
-
       </div>
     </div>
   </div>

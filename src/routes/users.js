@@ -99,30 +99,22 @@ router.put("/privateInfo", authenticateToken, async (request, response) => {
 router.get("/info", authenticateToken, async (request, response) => {
   const { uid: userID } = request.user;
   const userDoc = db.collection("users").doc(userID);
+  const docSnapshot = await userDoc.get();
+
+  if (!docSnapshot.exists) {
+    return response.status(404).json({ success: false, message: "User not found" });
+  }
+
+  const data = docSnapshot.data();
 
   try {
-    const docSnapshot = await userDoc.get();
-
-    if (!docSnapshot.exists) {
-      return response.status(404).json({ success: false, message: "User not found" });
-    }
-
-    const data = docSnapshot.data();
-
-    const defaultImage = "/assets/images/profile-icon.png";
-    let imageUrl = defaultImage;
-
-    try {
-      const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
-
-      imageUrl =
-        imageInfo !== undefined && imageInfo.secure_url ? imageInfo.secure_url : defaultImage;
-    } catch {}
+    const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
+    const imageUrl = imageInfo?.secure_url;
 
     response.json({ success: true, data: data, profileImage: imageUrl });
   } catch (error) {
-    console.error("Error fetching user document:", error);
-    response.status(500).json({ success: false, message: error.message });
+    console.error("Profile image not found:", error);
+    response.status(404).json({ success: true, data: data, profileImage: null });
   }
 });
 

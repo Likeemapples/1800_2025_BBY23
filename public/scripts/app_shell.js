@@ -46,10 +46,11 @@ try {
   const footerNavData = await footerNavResponse.text();
   document.getElementById("footer-nav").innerHTML = footerNavData;
   await loadScript("https://unpkg.com/lucide@latest");
-  lucide.createIcons();
 } catch (error) {
   console.log(`${error.name} loading footer nav`, error);
 }
+
+lucide.createIcons();
 
 (async function loadScripts() {
   try {
@@ -83,7 +84,6 @@ try {
 
 async function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
-
   const response = await fetch("/users/info", {
     method: "GET",
     headers: {
@@ -91,27 +91,28 @@ async function populateUserInfo(user) {
       "Content-Type": "application/json",
     },
   });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
+  console.log("response", response);
 
   const userInfo = await response.json();
-  console.log("Server Response JSON:", userInfo);
-
-  if (!userInfo.success) {
-    throw new Error(`Error fetching user data: ${userInfo.message}`);
-  }
+  console.log("userInfo", userInfo);
 
   const profileImage = userInfo.profileImage;
+  console.log("profileImage", profileImage);
+
+  const profileImageElement = document.getElementById("profile-image");
+  const profileIconElement = document.getElementById("profile-icon");
 
   if (profileImage) {
-    console.log("navBarProfileImage", profileImage);
     const elements = document.getElementsByClassName("navBarProfileImage");
 
     Array.from(elements).forEach((element) => {
       element.src = profileImage; // Pass the function reference, not the result of calling it
     });
+
+    profileImageElement.style.display = "inline-block";
+    profileIconElement.style.display = "none";
+  } else {
+    console.log("profile image was null");
   }
 
   const ecoPoints = userInfo.data.ecoPoints;
