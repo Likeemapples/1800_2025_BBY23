@@ -2,10 +2,12 @@ document.addEventListener("firebaseReady", function () {
   const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
 
   async function displayEcoaction(user) {
-    const ecoActioReponse = await fetch(`/ecoactions?ecoactionsIDs=${ecoactionToFinish}`, {
+    const ecoActioReponse = await fetch("/ecoactions", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "EcoactionsIDs" : ecoactionToFinish,
+
       },
     });
     const responseData = await ecoActioReponse.json();
@@ -20,10 +22,16 @@ document.addEventListener("firebaseReady", function () {
     const points = doc.points;
     const bannerImage = doc.bannerImage;
 
-    if (bannerImage != null) {
+    if (bannerImage != null && bannerImage != "") {
       analyzeImageBrightness(bannerImage);
       document.getElementById("bannerImage").style.backgroundImage = `url('${bannerImage}')`;
+
     }
+    else {
+      analyzeImageBrightness("/assets/images/image-not-found.jpg");
+      document.getElementById("bannerImage").style.backgroundImage = `url("/assets/images/image-not-found.jpg")`;
+    }
+
     if (points != null) {
       document.getElementById("points").innerText = points;
     }
