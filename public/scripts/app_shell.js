@@ -103,18 +103,13 @@ async function populateUserInfo(user) {
       element.src = profileImage; // Pass the function reference, not the result of calling it
     });
 
-    const profileIconElements = document.getElementsByClassName("profile-icon");
 
-    Array.from(profileIconElements).forEach((element) => {
-      element.style.display = "none";
-    });
-
-    const profileImageElements = document.getElementsByClassName("profile-image");
-
-    Array.from(profileImageElements).forEach((element) => {
+    profileImageElements.forEach((element) => {
       element.style.display = "inline-block";
     });
-
+    profileIconElements.forEach((element) => {
+      element.style.display = "none";
+    });
   } else {
     console.log("profile image was null");
   }
