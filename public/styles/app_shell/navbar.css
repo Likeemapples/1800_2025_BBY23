@@ -4,15 +4,34 @@
 
 .navbar-brand,
 .nav-link {
-  color: var(--white) !important; /* Custom white text */
+  color: var(--white);
 }
 .nav-link {
   border-radius: 5px;
+  padding: 15px;
+  position: relative;
+  transition: color 0.3s ease;
+  cursor: pointer;
 }
-
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 13px;
+  left: 7%;
+  background-color: var(--green-accent-primary);
+  transform-origin: bottom left;
+  transition: transform 0.3s ease;
+}
 .nav-link:hover {
-  background-color: var(--white) !important;
-  color: black !important;
+  /* background-color: var(--white) !important; */
+  color: var(--green-accent-primary);
+}
+.nav-link:hover::after {
+  transform: scaleX(0.85);
+  transform-origin: bottom left;
 }
 
 .navbar-toggler-icon {

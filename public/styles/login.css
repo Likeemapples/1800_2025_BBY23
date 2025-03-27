@@ -2,6 +2,8 @@ body {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.8)),
     url("/assets/images/login-bg.jpg") no-repeat center center fixed;
   background-size: cover;
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -21,10 +23,10 @@ body {
     display: flex;
     width: 100%;
     justify-content: start;
-    padding: 30px 0 0 10%;
+    padding: 20px 0 0 10%;
 
     #logo {
-      max-width: 100px;
+      max-width: 175px;
     }
   }
   #form-container {
@@ -32,7 +34,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    width: min(40%, 450px);
     padding: 60px 50px 60px 50px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -49,85 +51,6 @@ body {
       font-weight: 400;
       font-family: "Poppins", sans-serif;
     }
-
-    /* #form-switch-wrapper {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 0 0 20px 0;
-      gap: 30px;
-
-      /* ::selection {
-        background: #1a75ff;
-        color: #fff;
-      } */
-    /* #form-switch-slider {
-        position: relative;
-        display: flex;
-        height: 50px;
-        width: 10%;
-        overflow: hidden;
-        margin: 30px 0 10px 0;
-        justify-content: space-between;
-        border: 1px solid lightgrey;
-        border-radius: 15px;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        background-color: var(--white);
-      } */
-    /* .slide-controls .slide {
-        height: 100%;
-        width: 100%;
-        color: #fff;
-        font-size: 18px;
-        font-weight: 500;
-        text-align: center;
-        line-height: 48px;
-        cursor: pointer;
-        z-index: 1;
-        transition: all 0.6s ease;
-      } */
-    /* .slide-controls label.signup {
-        color: #000;
-      }
-      .slide-controls .slider-tab {
-        position: absolute;
-        height: 100%;
-        width: 50%;
-        left: 0;
-        z-index: 0;
-        border-radius: 15px;
-        background: -webkit-linear-gradient(left, #003366, #004080, #0059b3, #0073e6);
-        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      } */
-    /* input[type="radio"] {
-        display: none;
-      } */
-    /* #signup:checked ~ .slider-tab {
-        left: 50%;
-      }
-      #signup:checked ~ label.signup {
-        color: #fff;
-        cursor: default;
-        user-select: none;
-      }
-      #signup:checked ~ label.login {
-        color: #000;
-      }
-      #login:checked ~ label.signup {
-        color: #000;
-      }
-      #login:checked ~ label.login {
-        cursor: default;
-        user-select: none;
-      } 
-    } */
 
     #firebase-ui-auth-container {
       .firebaseui-container {
@@ -362,7 +285,7 @@ body {
     #footer-wrapper {
       color: #acacac;
       font-weight: 500;
-      font-size: 0.75rem;
+      font-size: 1rem;
       font-family: "Open Sans", sans-serif;
     }
   }
@@ -378,7 +301,12 @@ body {
   }
 }
 @media (max-width: 600px) {
-  #container #form-container {
-    width: 90%;
+  #container {
+    #logo-wrapper #logo {
+      max-width: 125px;
+    }
+    #form-container {
+      width: 90%;
+    }
   }
 }

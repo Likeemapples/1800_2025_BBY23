@@ -1,3 +1,16 @@
+header {
+  width: 100%;
+
+  img {
+    width: max(9%, 130px);
+    margin: 0 0 0 15%;
+  }
+}
+
+#container {
+  padding: 50px 0 150px 0;
+}
+
 #nav {
   margin-bottom: 20pt;
 }
@@ -12,10 +25,6 @@
 }
 #nav img {
   margin-right: 10pt;
-}
-
-footer {
-  background-color: #d2d2d2;
 }
 
 #login {
@@ -33,4 +42,8 @@ footer {
 #login:hover {
   background-color: var(--green-primary);
   color: var(--white);
+}
+
+footer {
+  background-color: #d2d2d2;
 }
