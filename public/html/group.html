@@ -11,6 +11,7 @@
       rel="stylesheet"
       href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <link rel="stylesheet" href="/css/groups.css" />
   </head>
   <body>
     <header id="nav_bar"></header>
@@ -26,17 +27,16 @@
             </div>
         
             <!-- Right side: Finish Button -->
-            <button class="btn gbtn btn-primary btn-sm finishEcoactionButton">Select</button>
+            <button class="btn gbtn btn-primary btn-sm finishEcoactionButton">Mark as complete</button>
           </div>
-        
-          
         </div>
+        
+        
         
 
         <div class="card-body" style="max-height: 0; padding: 0 15px; content-visibility: hidden;">
           <div class="row">
             <!-- Image on the left, text on the right (on larger screens) -->
-            
             <p id="description">Full description of the challenge</p>
           </div>
         </div>
@@ -45,9 +45,10 @@
 
     <!-- BODY -->
     <div class="container mb-3">
-      <h1><span id="groupName">this hike</span></h1>
-      <br />
-      <h2><b>CURRENT ACTION</b></h2>
+      <h1><span id="groupName" class="mb-3">this group</span></h1>
+      <br>
+      <a id="join-group" class="green-button mb-3 mt-3" href="#">Join Group</a>
+      <h2 class="mt-3"><b>CURRENT ACTION</b></h2>
       <span id="groupActions" style="white-space: pre-line;"></span>
       <br>
       <hr>

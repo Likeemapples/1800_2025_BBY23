@@ -32,23 +32,60 @@ function displayGroupInfo() {
             // TODO: display current groupGoal
             let actionList = doc.data().ecoaction;
             actionList.forEach( actionID => {
-                console.log("Run");
-                db.collection( "ecoactions" )
-                    .doc( actionID )
-                    .get()
-                    .then( action => {
-                        console.log(action);
-                        try {
-                            let act = action.data();
-                            console.log(act);
-                            document.getElementById("groupActions").innerHTML += act.ecoPoints + " | " + act.name + "\n";
-                        } catch (err) {
-                            // Delete nonexistent actionID from list
-                            console.error(err);
-                        }
+                let cardTemplate = document.getElementById("challengeTemplate"); 
+                db.collection( "ecoactions" ).doc(actionID).get().then( actionDoc => {
+                    const name = actionDoc.data().name; 
+                    const description = actionDoc.data().description;
+                    const points = actionDoc.data().ecoPoints;
+            
+                    let newcard = cardTemplate.content.cloneNode(true);
+                    newcard.querySelector("#title").innerHTML = name;
+                    newcard.querySelector("#description").innerHTML = description;
+                    newcard.querySelector("#points").innerHTML = points;
+            
+            
+                    let cardHead = newcard.querySelector(".card-header");
+                    cardHead.addEventListener("click", function () {
+                        toggleCollapse(cardHead);
+                    });
+            
+                    let finishButton = newcard.querySelector(".finishEcoactionButton"); 
+                    if (finishButton) {
+                        finishButton.addEventListener("click", function () {
+                            selectAction(actionDoc.id);
+                        });
+                    }
+                    //toggleCollapse(cardHead);
+                    document.getElementById("groupActions").appendChild(newcard);
                 });
-
             });
-    } );
+    });
 }
 displayGroupInfo();
+
+
+async function addUser(user) {
+    let params = new URL( window.location.href );
+    let ID = params.searchParams.get( "docID" );
+    const idToken = await user.getIdToken(true);
+
+    try {
+        const response = await fetch("/ecogroups/add-user", { //replace with desired endpoint
+            method: "PUT", // GET, POST, PUT, DELETE
+            headers: {
+                Authorization: `Bearer ${idToken}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                groupID: ID,
+            }),
+        });
+    } catch (error) {
+        console.error(error.name, error);
+    }
+}
+document.getElementById("join-group").addEventListener("click", function() {
+    firebase.auth().onAuthStateChanged((user) => {
+        addUser(user);
+    });
+});
