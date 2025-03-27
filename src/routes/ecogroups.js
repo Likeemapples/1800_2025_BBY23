@@ -49,8 +49,24 @@ router.post("/create", authenticateToken, async (request, response) => {
     });
 });
 
-router.post("/member", (request, response) => {
+router.put("/add-user", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user;
+  const { groupID: targetGroup } = request.body;
   // add member to ecogroup
+
+  try {
+    const addUserToGroupResponse = await db
+      .collection("ecogroups")
+      .doc(targetGroup)
+      .update({
+        users: admin.firestore.FieldValue.arrayUnion(userID),
+      });
+    console.log("response", addUserToGroupResponse);
+    response.status(200).send("User successfully added to ecogroup");
+  } catch (error) {
+    console.log(`${error.name} adding user to ecogroup`, error);
+    response.status(500).json({ message: `${error.name} adding user to ecogroup`, error });
+  }
 });
 
 router.delete("/member", (request, response) => {
