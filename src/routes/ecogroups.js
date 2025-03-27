@@ -49,8 +49,27 @@ router.post("/create", authenticateToken, async (request, response) => {
     });
 });
 
-router.post("/member", (request, response) => {
+router.put("/add-user", authenticateToken, async (request, response) => {
+  const { uid: userID } = request.user;
+  const { groupID: targetGroup } = request.body;
   // add member to ecogroup
+
+  var outputArray = [];
+  await db.collection( "ecogroups" ).doc(targetGroup).get().then( doc => {
+      let pass = true;
+      for (let i = 0; i < doc.data().users.length; i++) {
+          outputArray.push(doc.data().users[i]);
+          if (doc.data().users[i] == userID) { pass = false; }
+      }
+      outputArray = doc.data().users;
+      if (pass) { 
+        outputArray.push(userID);
+      
+        db.collection( "ecogroups" ).doc(targetGroup).update(
+          { users : outputArray }
+        );
+      }
+  });
 });
 
 router.delete("/member", (request, response) => {
