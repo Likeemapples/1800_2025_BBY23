@@ -97,7 +97,8 @@ router.put("/privateInfo", authenticateToken, async (request, response) => {
 });
 
 router.get("/info", authenticateToken, async (request, response) => {
-  const { uid: userID } = request.user;
+  // const { uid: userID } = request.user;
+  let userID = "bAfB6CdF1jRlhot68uw0BZpYhqC2";
   const userDoc = db.collection("users").doc(userID);
   const docSnapshot = await userDoc.get();
 
@@ -107,15 +108,14 @@ router.get("/info", authenticateToken, async (request, response) => {
 
   const data = docSnapshot.data();
 
+  let imageUrl;
   try {
     const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
-    const imageUrl = imageInfo?.secure_url;
-
-    response.json({ success: true, data: data, profileImage: imageUrl });
+    imageUrl = imageInfo?.secure_url;
   } catch (error) {
-    console.error("Profile image not found:", error);
-    response.status(404).json({ success: true, data: data, profileImage: null });
+    imageUrl = ""
   }
+    response.json({ success: true, data: data, profileImage: imageUrl });
 });
 
 router.get("/ecoactions", authenticateToken, async (request, response) => {
