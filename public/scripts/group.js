@@ -32,24 +32,34 @@ function displayGroupInfo() {
             // TODO: display current groupGoal
             let actionList = doc.data().ecoaction;
             actionList.forEach( actionID => {
-                // console.log("Run");
-                db.collection( "ecoactions" )
-                    .doc( actionID )
-                    .get()
-                    .then( action => {
-                        // console.log(action);
-                        try {
-                            let act = action.data();
-                            // console.log(act);
-                            document.getElementById("groupActions").innerHTML += act.ecoPoints + " | " + act.name + "\n";
-                        } catch (err) {
-                            // Delete nonexistent actionID from list
-                            console.error(err);
-                        }
+                let cardTemplate = document.getElementById("challengeTemplate"); 
+                db.collection( "ecoactions" ).doc(actionID).get().then( actionDoc => {
+                    const name = actionDoc.data().name; 
+                    const description = actionDoc.data().description;
+                    const points = actionDoc.data().ecoPoints;
+            
+                    let newcard = cardTemplate.content.cloneNode(true);
+                    newcard.querySelector("#title").innerHTML = name;
+                    newcard.querySelector("#description").innerHTML = description;
+                    newcard.querySelector("#points").innerHTML = points;
+            
+            
+                    let cardHead = newcard.querySelector(".card-header");
+                    cardHead.addEventListener("click", function () {
+                        toggleCollapse(cardHead);
+                    });
+            
+                    let finishButton = newcard.querySelector(".finishEcoactionButton"); 
+                    if (finishButton) {
+                        finishButton.addEventListener("click", function () {
+                            selectAction(actionDoc.id);
+                        });
+                    }
+                    //toggleCollapse(cardHead);
+                    document.getElementById("groupActions").appendChild(newcard);
                 });
-
             });
-    } );
+    });
 }
 displayGroupInfo();
 
