@@ -54,22 +54,19 @@ router.put("/add-user", authenticateToken, async (request, response) => {
   const { groupID: targetGroup } = request.body;
   // add member to ecogroup
 
-  var outputArray = [];
-  await db.collection( "ecogroups" ).doc(targetGroup).get().then( doc => {
-      let pass = true;
-      for (let i = 0; i < doc.data().users.length; i++) {
-          outputArray.push(doc.data().users[i]);
-          if (doc.data().users[i] == userID) { pass = false; }
-      }
-      outputArray = doc.data().users;
-      if (pass) { 
-        outputArray.push(userID);
-      
-        db.collection( "ecogroups" ).doc(targetGroup).update(
-          { users : outputArray }
-        );
-      }
-  });
+  try {
+    const addUserToGroupResponse = await db
+      .collection("ecogroups")
+      .doc(targetGroup)
+      .update({
+        users: admin.firestore.FieldValue.arrayUnion(userID),
+      });
+    console.log("response", addUserToGroupResponse);
+    response.status(200).send("User successfully added to ecogroup");
+  } catch (error) {
+    console.log(`${error.name} adding user to ecogroup`, error);
+    response.status(500).json({ message: `${error.name} adding user to ecogroup`, error });
+  }
 });
 
 router.delete("/member", (request, response) => {

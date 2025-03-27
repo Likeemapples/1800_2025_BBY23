@@ -74,10 +74,8 @@ async function addUser(user) {
         console.error(error.name, error);
     }
 }
-function callAddUserRequest() {
+document.getElementById("join-group").addEventListener("click", function() {
     firebase.auth().onAuthStateChanged((user) => {
-      addUser(user);
+        addUser(user);
     });
-}
-
-callAddUserRequest();
+});
