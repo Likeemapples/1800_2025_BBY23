@@ -30,6 +30,10 @@ document.addEventListener("firebaseReady", function () {
   });
 
   async function displayEcoactions(user) {
+    if (!user) {
+      console.log("User is not logged in.");
+      return;
+  }
     const idToken = await user.getIdToken(true);
 
     const response = await fetch("/users/ecoactions", {

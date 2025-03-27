@@ -133,17 +133,18 @@ async function populateUserInfo(user) {
 
 // Your logout function
 function logout() {
-  // Call Firebase sign out
   firebase
-    .auth()
-    .signOut()
-    .then(() => {
-      console.log("Logging out user");
-      window.location.href = "/html/index.html"; // Redirect AFTER logout completes
-    })
-    .catch((error) => {
-      console.error("Error during logout:", error);
-    });
+  .auth()
+  .signOut()
+  .then(() => {
+    console.log("Logging out user");
+  })
+  .catch((error) => {
+    console.error("Error during logout:", error);
+  });
+  
+  window.location.href = "/html/index.html"; // Redirect after logout
+
 }
 
 // Add event listeners to all buttons with the "signOut" class
