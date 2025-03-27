@@ -21,7 +21,7 @@ try {
   const navBarData = await navBarResponse.text();
   document.getElementById("nav_bar").innerHTML = navBarData;
 } catch (error) {
-  console.log(`${error.name} loading nav bar`, error);
+  // console.log(`${error.name} loading nav bar`, error);
 }
 
 try {
