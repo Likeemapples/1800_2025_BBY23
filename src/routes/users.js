@@ -114,9 +114,9 @@ router.get("/info", authenticateToken, async (request, response) => {
     const imageInfo = await cloudinary.api.resource(`users/${userID}/profileImage`);
     imageUrl = imageInfo?.secure_url;
   } catch (error) {
-    imageUrl = ""
+    imageUrl = "";
   }
-    response.json({ success: true, data: data, profileImage: imageUrl });
+  response.json({ success: true, data: data, profileImage: imageUrl });
 });
 
 router.get("/ecoactions", authenticateToken, async (request, response) => {
@@ -202,8 +202,8 @@ router.get("/stats", authenticateToken, async (request, response) => {
     );
 
     const weeklyEcoPoints = await calcWeeklyEcoPoints(completedEcoActionsCollectionRef);
+    console.log("weeklyEcoPoints", weeklyEcoPoints);
 
-    console.log("missedEcoActionsCount", missedEcoActionsCount);
     response
       .status(200)
       .json({ completedEcoActionsCount, ecogroupsCount, missedEcoActionsCount, weeklyEcoPoints });
@@ -220,25 +220,41 @@ async function calcWeeklyEcoPoints(completedEcoActionsCollectionRef) {
   const recentCompletedEcoActions = await completedEcoActionsCollectionRef
     .where("timestamp", ">", tenWeeksAgo)
     .get();
-  const weeklyEcoPointsSums = calcRecentWeeksStartDates;
+  const weeklyEcoPointsSums = new Map();
+  const currentWeekStart = getWeekStart(new Date());
+  calcRecentWeeksStartDates(weeklyEcoPointsSums, currentWeekStart);
 
-  await recentCompletedEcoActions.forEach(async (doc) => {
+  for (const doc of recentCompletedEcoActions.docs) {
     const { ecoActionID, timestamp } = doc.data();
-    const ecoPoints = await db.collection("ecoactions").doc(ecoActionID).get("ecoPoints");
+    const ecoPoints = await (
+      await db.collection("ecoactions").doc(ecoActionID).get()
+    ).get("ecoPoints");
+    const currentDocWeekStart = getWeekStart(timestamp.toDate()).toISOString();
+    const currentSum = weeklyEcoPointsSums.get(currentDocWeekStart) || 0;
 
-    //compute the start date of the most recent ten weeks and add them as keys in map
-  });
-}
-
-function calcRecentWeeksStartDates() {
-  const weekStartMap = new Map();
-
-  for (let i = 10; i > 0; i--) {
-    const weekStart = new Date(Date.now() - i * WEEK_IN_MILLISECONDS);
-    weekStartMap.set(weekStart, undefined);
+    weeklyEcoPointsSums.set(currentDocWeekStart, currentSum + ecoPoints);
   }
 
-  return weekStartMap;
+  return weeklyEcoPointsSums;
+}
+
+function calcRecentWeeksStartDates(map, currentWeekStart) {
+  for (let i = 9; i >= 0; i--) {
+    const key = new Date(currentWeekStart.getTime() - i * WEEK_IN_MILLISECONDS);
+
+    map.set(key.toISOString(), 0);
+  }
+}
+
+function getWeekStart(date) {
+  // avoid mutating original date
+  const newDate = new Date(date);
+  const day = newDate.getDay();
+  const weekStartDate = new Date(newDate.setDate(newDate.getDate() - day + (day == 0 ? -6 : 1)));
+
+  weekStartDate.setHours(0, 0, 0, 0);
+
+  return weekStartDate;
 }
 
 async function calcMissedEcoActions(ecoActionsArray, completedEcoActionsCollectionRef) {

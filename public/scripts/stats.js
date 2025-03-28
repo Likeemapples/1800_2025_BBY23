@@ -1,3 +1,5 @@
+import { Chart } from "chart.js";
+
 async function getFirebaseConfig() {
   const response = await fetch("/firebase-config");
   const firebaseConfig = await response.json();
@@ -34,11 +36,8 @@ async function getUserStats(user) {
 }
 
 async function createKPIs(user) {
-  const { completedEcoActionsCount, ecoGroupsCount, missedEcoActionsCount } = await getUserStats(
-    user
-  );
-
-  console.log("Missed EcoActions", missedEcoActionsCount);
+  const { completedEcoActionsCount, ecoGroupsCount, missedEcoActionsCount, weeklyEcoPoints } =
+    await getUserStats(user);
 
   const completedMissedEcoActionsKPI = new Chart(
     document.getElementById("completed-ecoaction-count"),
@@ -64,9 +63,12 @@ async function createKPIs(user) {
       },
     }
   );
-}
 
-async function populateUserInfo(user) {
+  const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-eco-points-over-time"), {
+    type: "line",
+  })
+}
+nasync function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
   const response = await fetch("/users/info", {
     method: "GET",
