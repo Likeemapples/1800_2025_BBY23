@@ -3,6 +3,7 @@ import { db, admin } from "../config/firebase.js";
 import { cloudinary } from "../config/cloudinary.js";
 
 const router = Router();
+const WEEK_IN_MILLISECONDS = 6.048e8;
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -195,13 +196,17 @@ router.get("/stats", authenticateToken, async (request, response) => {
       .collection("users")
       .doc(userID)
       .collection("completedEcoActions");
-    const missedEcoActionsCount = await calculateMissedEcoActions(
+    const missedEcoActionsCount = await calcMissedEcoActions(
       ecoActionsArray,
       completedEcoActionsCollectionRef
     );
 
+    const weeklyEcoPoints = await calcWeeklyEcoPoints(completedEcoActionsCollectionRef);
+
     console.log("missedEcoActionsCount", missedEcoActionsCount);
-    response.status(200).json({ completedEcoActionsCount, ecogroupsCount, missedEcoActionsCount });
+    response
+      .status(200)
+      .json({ completedEcoActionsCount, ecogroupsCount, missedEcoActionsCount, weeklyEcoPoints });
   } catch (error) {
     console.log(`${error.name} getting user stats for user ${userID}`, error);
     response
@@ -210,7 +215,33 @@ router.get("/stats", authenticateToken, async (request, response) => {
   }
 });
 
-async function calculateMissedEcoActions(ecoActionsArray, completedEcoActionsCollectionRef) {
+async function calcWeeklyEcoPoints(completedEcoActionsCollectionRef) {
+  const tenWeeksAgo = new Date(Date.now() - 10 * WEEK_IN_MILLISECONDS);
+  const recentCompletedEcoActions = await completedEcoActionsCollectionRef
+    .where("timestamp", ">", tenWeeksAgo)
+    .get();
+  const weeklyEcoPointsSums = calcRecentWeeksStartDates;
+
+  await recentCompletedEcoActions.forEach(async (doc) => {
+    const { ecoActionID, timestamp } = doc.data();
+    const ecoPoints = await db.collection("ecoactions").doc(ecoActionID).get("ecoPoints");
+
+    //compute the start date of the most recent ten weeks and add them as keys in map
+  });
+}
+
+function calcRecentWeeksStartDates() {
+  const weekStartMap = new Map();
+
+  for (let i = 10; i > 0; i--) {
+    const weekStart = new Date(Date.now() - i * WEEK_IN_MILLISECONDS);
+    weekStartMap.set(weekStart, undefined);
+  }
+
+  return weekStartMap;
+}
+
+async function calcMissedEcoActions(ecoActionsArray, completedEcoActionsCollectionRef) {
   let missedEcoActionsCount = 0;
 
   for (const ecoActionID of ecoActionsArray) {
