@@ -66,9 +66,9 @@ async function createKPIs(user) {
 
   const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-eco-points-over-time"), {
     type: "line",
-  })
+  });
 }
-nasync function populateUserInfo(user) {
+async function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
   const response = await fetch("/users/info", {
     method: "GET",
