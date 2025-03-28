@@ -1,6 +1,6 @@
 #h1-container {
   width: 100%;
-  padding: 75px 0 75px 8%;
+  padding: 35px 0 35px 8%;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -13,6 +13,12 @@
   }
   
 }
+
+#search-box {
+  margin-left: 50px; 
+  margin-right: 50px; 
+}
+
 #create-new, #join-group{
   text-decoration: none;
   font-size: 1rem;

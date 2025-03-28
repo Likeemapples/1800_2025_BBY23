@@ -1,4 +1,5 @@
 import { firebaseConfig } from "/config/auth.js";
+const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 
