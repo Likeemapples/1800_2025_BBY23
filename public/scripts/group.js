@@ -1,6 +1,10 @@
 import { firebaseConfig } from "/config/auth.js";
-const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+
+
+
+
 
 function displayGroupInfo() {
     let params = new URL( window.location.href ); //get URL of search bar

@@ -1,6 +1,7 @@
 import { firebaseConfig } from "/config/auth.js";
-const app = firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
+import { searchCollection } from "./search.js";
 
 //------------------------------------------------------------------------------
 // Input parameter is a string representing the collection we are reading from
@@ -15,7 +16,6 @@ function displayCardsDynamically(collection) {
             var action = "";
             db.collection( "ecoactions" ).doc(docu.data().ecoaction[0]).get().then( doc => {
                 action = doc.data().name;
-                console.log(doc.data().name);
                 var groupMembers = docu.data().users.length;
                 var docID = docu.id;
                 let newcard = cardTemplate.content.cloneNode(true);
@@ -30,3 +30,5 @@ function displayCardsDynamically(collection) {
 }
 
 displayCardsDynamically( "ecogroups" );
+
+console.log(searchCollection("ecogroups", "bikers"));
