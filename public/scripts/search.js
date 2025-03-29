@@ -14,7 +14,7 @@ function triGram(txt) {
     return map;
 }
 
-export function searchCollection(collection, term) {
+export async function searchCollection(collection, term) {
     const resultsLarge = [];
     const results = [];
 
@@ -22,7 +22,7 @@ export function searchCollection(collection, term) {
     const searchTrigrams = triGram(term);
 
     // If trigram is found 
-    db.collection( collection ).get().then( allDocuments => {
+    await db.collection( collection ).get().then( allDocuments => {
         allDocuments.forEach( doc => {
             let docField = doc.data().name;
             let fieldTrigrams = triGram(docField);
