@@ -1,4 +1,8 @@
-import { Chart } from "chart.js";
+const CHART_FONT = {
+  size: 13,
+  family: "'Poppins', sans-serif",
+  weight: "bold",
+};
 
 async function getFirebaseConfig() {
   const response = await fetch("/firebase-config");
@@ -36,11 +40,16 @@ async function getUserStats(user) {
 }
 
 async function createKPIs(user) {
-  const { completedEcoActionsCount, ecoGroupsCount, missedEcoActionsCount, weeklyEcoPoints } =
-    await getUserStats(user);
+  const {
+    completedEcoActionsCount,
+    ecoGroupsCount,
+    missedEcoActionsCount,
+    weeklyEcoPoints,
+    minDate,
+  } = await getUserStats(user);
 
   const completedMissedEcoActionsKPI = new Chart(
-    document.getElementById("completed-ecoaction-count"),
+    document.getElementById("missed-completed-ecoaction-count"),
     {
       type: "doughnut",
       data: {
@@ -60,14 +69,78 @@ async function createKPIs(user) {
       },
       options: {
         devicePixelRatio: 2, // for some reason will be blurry without this
+        plugins: {
+          title: {
+            display: true,
+            text: "Missed vs. Completed EcoActions",
+            font: CHART_FONT,
+          },
+          legend: {
+            display: false,
+          },
+        },
       },
     }
   );
 
-  const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-eco-points-over-time"), {
-    type: "line",
+  const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-ecopoints-over-time"), {
+    type: "bar",
+    data: {
+      datasets: [
+        {
+          label: "Weekly EcoPoints Over Time",
+          data: weeklyEcoPoints,
+          borderColor: `${window
+            .getComputedStyle(document.body)
+            .getPropertyValue("--green-primary")}`,
+          backgroundColor: `${window
+            .getComputedStyle(document.body)
+            .getPropertyValue("--green-primary")}`,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        x: {
+          type: "time",
+          time: {
+            unit: "week",
+            round: "week",
+            displayFormats: {
+              week: "MM/dd",
+            },
+          },
+          min: minDate,
+          max: new Date(),
+          grid: {
+            display: false,
+            drawTicks: false,
+          },
+          ticks: {},
+        },
+        y: {
+          title: {
+            display: false,
+          },
+          grid: {
+            drawTicks: false,
+          },
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: "Weekly EcoPoints Over Time",
+          font: CHART_FONT,
+        },
+        legend: {
+          display: false,
+        },
+      },
+    },
   });
 }
+
 async function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
   const response = await fetch("/users/info", {
