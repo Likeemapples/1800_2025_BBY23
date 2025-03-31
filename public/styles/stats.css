@@ -70,7 +70,7 @@ main {
     justify-content: center;
     width: 100%;
     gap: var(--gap-secondary);
-    height: 165px;
+    height: 130px;
   }
   .stats-container {
     display: flex;
@@ -86,21 +86,23 @@ main {
   }
   .kpi-value {
     font-family: "Poppins", sans-serif;
-    font-weight: bolder;
-    font-size: 5.5rem;
+    font-weight: 600;
+    font-size: 4.5rem;
     line-height: 1;
-    color: #177245;
+    /* color: black; */
+    color: var(--green-secondary);
     /* color: #1a4d2e; */
     /* color: #3a5a40; */
     /* color: #2f4f4f; */
   }
   .kpi-label {
     font-family: "Arial", sans-serif;
-    text-wrap: wrap;
-    font-weight: normal;
-    font-size: 1.4rem;
+    text-wrap: nowrap;
+    font-weight: 500;
+    font-size: 1.3rem;
     line-height: 1.2;
-    color: black;
+    color: var(--green-secondary);
+    /* color: black; */
     /* color: #6c757d; */
     /* color: #343a40; */
     /* color: #133b24; */
@@ -111,8 +113,7 @@ main {
     justify-content: center;
     align-items: center;
     text-align: center;
-    /* width: 275px; */
-    width: 260px;
+    width: 250px;
   }
 
   #this-week-container {
