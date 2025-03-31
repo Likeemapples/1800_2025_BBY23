@@ -19,7 +19,7 @@ try {
 try {
   const navBarResponse = await fetch("/html/app-shell/nav-bar.html");
   const navBarData = await navBarResponse.text();
-  document.getElementById("nav_bar").innerHTML = navBarData;
+  document.getElementById("nav-bar").innerHTML = navBarData;
 } catch (error) {
   // console.log(`${error.name} loading nav bar`, error);
 }
