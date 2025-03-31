@@ -1,5 +1,5 @@
 :root {
-  --gap-primary: max(2vw, 15px);
+  --gap-primary: max(1vw, 15px);
   --gap-secondary: max(1vw, 15px);
 }
 
@@ -70,8 +70,7 @@ main {
     justify-content: center;
     width: 100%;
     gap: var(--gap-secondary);
-    /* height: 135px; */
-    height: 175px;
+    height: 165px;
   }
   .stats-container {
     display: flex;
@@ -90,16 +89,19 @@ main {
     font-weight: bolder;
     font-size: 5.5rem;
     line-height: 1;
-    color: #1a4d2e;
+    color: #177245;
+    /* color: #1a4d2e; */
     /* color: #3a5a40; */
     /* color: #2f4f4f; */
   }
   .kpi-label {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Arial", sans-serif;
     text-wrap: wrap;
     font-weight: normal;
-    font-size: 1rem;
-    color: #6c757d;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    color: black;
+    /* color: #6c757d; */
     /* color: #343a40; */
     /* color: #133b24; */
   }
@@ -110,7 +112,7 @@ main {
     align-items: center;
     text-align: center;
     /* width: 275px; */
-    width: 250px;
+    width: 260px;
   }
 
   #this-week-container {

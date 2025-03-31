@@ -24,7 +24,7 @@ async function authenticateToken(request, response, next) {
   }
 }
 
-router.get("/stats", authenticateToken, async (request, response) => {
+router.get("/", authenticateToken, async (request, response) => {
   const currentWeekStart = getWeekStart(new Date());
   const { uid: userID } = request.user;
   console.log("userID", userID);

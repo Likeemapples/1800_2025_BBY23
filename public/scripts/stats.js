@@ -1,7 +1,7 @@
 const CHART_TITLE_FONT = {
   size: 25,
   family: "'Arial', sans-serif",
-  weight: "bolder",
+  weight: "bold",
 };
 
 async function getFirebaseConfig() {
@@ -25,7 +25,7 @@ async function getUserStats(user) {
   console.log("init", "getUserStats");
   try {
     const idToken = await user.getIdToken(true);
-    const response = await fetch("/users/stats", {
+    const response = await fetch("/stats", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${idToken}`,
@@ -56,7 +56,7 @@ async function createStats(user) {
         {
           data: [kpis["lifetime-completed-ecoactions"], kpis["lifetime-missed-ecoactions"]],
           backgroundColor: [
-            `${window.getComputedStyle(document.body).getPropertyValue("--green-secondary")}`,
+            `${window.getComputedStyle(document.body).getPropertyValue("--green-primary")}`,
             `${window.getComputedStyle(document.body).getPropertyValue("--green-accent-primary")}`,
           ],
           hoverOffset: 5,
@@ -88,7 +88,7 @@ async function createStats(user) {
           borderRadius: 5,
           backgroundColor: `${window
             .getComputedStyle(document.body)
-            .getPropertyValue("--green-secondary")}`,
+            .getPropertyValue("--green-primary")}`,
           barThickness: 50,
           barPercentage: 0.1,
         },
