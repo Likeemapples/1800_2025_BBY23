@@ -7,6 +7,7 @@ import { firebaseConfig } from "./src/config/auth.js";
 import usersRouter from "./src/routes/users.js";
 import ecoactionsRouter from "./src/routes/ecoactions.js";
 import ecogroupsRouter from "./src/routes/ecogroups.js";
+import statsRouter from "./src/routes/stats.js";
 
 const app = express();
 const PORT = 8050;
@@ -29,6 +30,7 @@ app.use("/config", expressStatic("./src/config"));
 app.use("/users", usersRouter);
 app.use("/ecoactions", ecoactionsRouter);
 app.use("/ecogroups", ecogroupsRouter);
+app.use("/stats", statsRouter);
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
