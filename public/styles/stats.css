@@ -1,4 +1,15 @@
+:root {
+  --gap-primary: max(2vw, 15px);
+}
+
 body {
+  background: rgb(240, 240, 240);
+}
+
+.widget {
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background: white;
 }
 
@@ -7,19 +18,104 @@ main {
   padding: 75px 0 75px 0;
 
   h1 {
-    font-family: "Poppins", sans-serif;
+    font-family: "Arial", sans-serif;
     font-weight: 600;
     font-size: 3rem;
-    padding: 0 0 50px 8%;
+    padding: 0 0 0 8%;
+    margin: 0;
+    color: black;
   }
+  h2 {
+    font-family: "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 2rem;
+    padding: 50px 0 30px 8%;
+    margin: 0;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-  #stats-container {
+    .arrow-wrapper {
+      margin-right: 5px;
+      padding-bottom: 4px;
+
+      .lucide {
+        width: 25px;
+        height: 25px;
+        stroke-width: 2.3px;
+        color: #6d6d6d;
+        transform: rotate(90deg);
+        transition: all 0.1s ease;
+        cursor: pointer;
+      }
+      .lucide.open {
+        transform: rotate(0deg);
+        color: #2b2b2b;
+      }
+    }
+    #more-content {
+      display: none;
+      color: #6d6d6d;
+      letter-spacing: -2px;
+    }
+    #more-content.shown {
+      display: inline;
+    }
+  }
+  .kpis {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 10vw;
+    /* height: 135px; */
+    height: 175px;
+  }
+  .stats-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 20px;
+    gap: var(--gap-primary);
+    transition: all 0.3s ease;
+    padding: 0 20px 0 20px;
+  }
+  .stats-container.collapsed {
+    display: none;
+  }
+  .kpi-value {
+    font-family: "Poppins", sans-serif;
+    font-weight: bolder;
+    font-size: 5.5rem;
+    line-height: 1;
+    color: #1a4d2e;
+    /* color: #3a5a40; */
+    /* color: #2f4f4f; */
+  }
+  .kpi-label {
+    font-family: "Arial", sans-serif;
+    text-wrap: wrap;
+    font-weight: normal;
+    font-size: 1.1rem;
+    color: #6c757d;
+    color: #343a40;
+    color: #133b24;
+  }
+  .kpis .widget {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* width: 275px; */
+    width: 250px;
+  }
 
+  #this-week-container {
+  }
+
+  #lifetime-container {
     #doughnuts-container {
       display: flex;
       flex-direction: row;
@@ -27,29 +123,62 @@ main {
       width: 100%;
       height: 250px;
 
-      #missed-completed-ecoaction-count-wrapper {
+      #ecoactions-breakdown-wrapper {
         height: 100%;
-        border-radius: 15px;
-        padding: 25px;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        width: 375px;
       }
     }
     #weekly-ecopoints-over-time-wrapper {
-      padding: 25px;
-      width: 50%;
-      border-radius: 15px;
-      /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-      /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
-      /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+      height: 350px;
+      width: 500px;
     }
   }
 }
 
-@media (max-width: 810px) {
+@media (max-width: 900px) {
   main {
     h1 {
       font-size: 2.8rem;
+    }
+
+    .kpis .widget {
+      width: max(25vw, 100px);
+    }
+    .kpis {
+      height: 27vw;
+    }
+    .kpi-value {
+      font-size: 4.5rem;
+    }
+    .kpi-label {
+      text-wrap: wrap;
+      line-height: 1.3;
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .widget {
+    border-radius: 10px;
+  }
+
+  main {
+    .kpis {
+      gap: 15px;
+    }
+
+    .kpi-value {
+      font-size: 3rem;
+    }
+    .kpi-label {
+      font-size: 0.9rem;
+    }
+
+    #lifetime-container {
+      #weekly-ecopoints-over-time-wrapper {
+        width: max(85%, 375px);
+      }
     }
   }
 }

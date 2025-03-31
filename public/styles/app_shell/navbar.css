@@ -1,5 +1,5 @@
 #nav {
-  background-image: linear-gradient(to right, var(--green-accent-primary), var(--green-primary));
+  background-image: linear-gradient(to left, var(--green-accent-primary), var(--green-secondary));
 }
 
 .navbar-brand,

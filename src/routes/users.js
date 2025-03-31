@@ -4,6 +4,7 @@ import { cloudinary } from "../config/cloudinary.js";
 
 const router = Router();
 const WEEK_IN_MILLISECONDS = 6.048e8;
+const NUM_WEEKS_TO_DISPLAY_IN_CHART = 3;
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -179,6 +180,7 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
 });
 
 router.get("/stats", authenticateToken, async (request, response) => {
+  const currentWeekStart = getWeekStart(new Date());
   const { uid: userID } = request.user;
   console.log("userID", userID);
 
@@ -196,13 +198,18 @@ router.get("/stats", authenticateToken, async (request, response) => {
       .collection("users")
       .doc(userID)
       .collection("completedEcoActions");
-    const missedEcoActionsCount = await calcMissedEcoActions(
-      ecoActionsArray,
-      completedEcoActionsCollectionRef
-    );
+    const { missedEcoActionsCount_lifetime, missedEcoActionsCount_thisWeek } =
+      await calcMissedEcoActions(
+        ecoActionsArray,
+        completedEcoActionsCollectionRef,
+        currentWeekStart
+      );
 
-    const currentWeekStart = getWeekStart(new Date());
-    const minDate = new Date(currentWeekStart.getTime() - 9 * WEEK_IN_MILLISECONDS);
+    const minDate = new Date(
+      currentWeekStart.getTime() - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
+    );
+    console.log("minDate", minDate);
+
     const weeklyEcoPoints = await calcWeeklyEcoPoints(
       completedEcoActionsCollectionRef,
       currentWeekStart,
@@ -210,12 +217,20 @@ router.get("/stats", authenticateToken, async (request, response) => {
     );
     console.log("weeklyEcoPoints", weeklyEcoPoints);
 
+    const kpis = {
+      "this-week-ecopoints": 0,
+      "this-week-missed-ecoactions": missedEcoActionsCount_thisWeek,
+      "this-week-completed-ecoactions": 0,
+      "lifetime-ecopoints": 0,
+      "lifetime-missed-ecoactions": missedEcoActionsCount_lifetime,
+      "lifetime-completed-ecoactions": completedEcoActionsCount,
+    };
+
     response.status(200).json({
-      completedEcoActionsCount,
       ecogroupsCount,
-      missedEcoActionsCount,
       weeklyEcoPoints,
       minDate,
+      kpis,
     });
   } catch (error) {
     console.log(`${error.name} getting user stats for user ${userID}`, error);
@@ -278,8 +293,13 @@ function getWeekStart(date) {
   return weekStartDate;
 }
 
-async function calcMissedEcoActions(ecoActionsArray, completedEcoActionsCollectionRef) {
-  let missedEcoActionsCount = 0;
+async function calcMissedEcoActions(
+  ecoActionsArray,
+  completedEcoActionsCollectionRef,
+  currentWeekStart
+) {
+  let missedEcoActionsCount_lifetime = 0;
+  let missedEcoActionsCount_thisWeek = 0;
 
   for (const ecoActionID of ecoActionsArray) {
     const requiredDays = (await db.collection("ecoactions").doc(ecoActionID).get()).get(
@@ -291,13 +311,20 @@ async function calcMissedEcoActions(ecoActionsArray, completedEcoActionsCollecti
 
     //iterate through each day of the week in each ecoaction and see if there is a corresponding completedEcoActioDaten entry
     //if there is not, increment the missedEcoActionsCount
-    missedEcoActionsCount += requiredDays.reduce((total, day) => {
+    missedEcoActionsCount_lifetime += requiredDays.reduce((total, day) => {
       const found = completedEcoActionDates.some((date) => date.getDay() == day);
+      return total + (found ? 0 : 1);
+    }, 0);
+
+    missedEcoActionsCount_thisWeek += requiredDays.reduce((total, day) => {
+      const found = completedEcoActionDates.some(
+        (date) => date.getDay() == day && date >= currentWeekStart
+      );
       return total + (found ? 0 : 1);
     }, 0);
   }
 
-  return missedEcoActionsCount;
+  return { missedEcoActionsCount_lifetime, missedEcoActionsCount_thisWeek };
 }
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {

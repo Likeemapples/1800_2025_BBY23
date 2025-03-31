@@ -41,13 +41,59 @@
 
     <main>
       <h1>My Stats</h1>
-      <div id="stats-container">
-        <div id="doughnuts-container">
-          <div id="missed-completed-ecoaction-count-wrapper">
-            <canvas id="missed-completed-ecoaction-count"></canvas>
+
+      <h2>
+        <span class="arrow-wrapper">
+          <i data-lucide="chevron-right" data-container="this-week"></i>
+        </span>
+        This Week
+        <span id="more-content">&nbsp;․․․</span>
+      </h2>
+      <div id="this-week-container" class="stats-container">
+        <div class="kpis">
+          <div id="this-week-ecopoints" class="widget">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">EcoPoints</span>
+          </div>
+          <div id="this-week-completed-ecoactions" class="widget">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">Completed EcoActions</span>
+          </div>
+          <div id="this-week-missed-ecoactions" class="widget">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">Missed EcoActions</span>
           </div>
         </div>
-        <div id="weekly-ecopoints-over-time-wrapper">
+      </div>
+
+      <h2>
+        <span class="arrow-wrapper">
+          <i data-lucide="chevron-right" data-container="lifetime"></i>
+        </span>
+        Lifetime
+        <span id="more-content">&nbsp;․․․</span>
+      </h2>
+      <div id="lifetime-container" class="stats-container">
+        <div class="kpis">
+          <div id="lifetime-ecopoints" class="widget">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">EcoPoints</span>
+          </div>
+          <div id="lifetime-completed-ecoactions" class="widget">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">Completed EcoActions</span>
+          </div>
+          <div id="lifetime-missed-ecoactions" class="widget">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">Missed EcoActions</span>
+          </div>
+        </div>
+        <div id="doughnuts-container">
+          <div id="ecoactions-breakdown-wrapper" class="widget">
+            <canvas id="ecoactions-breakdown"></canvas>
+          </div>
+        </div>
+        <div id="weekly-ecopoints-over-time-wrapper" class="widget">
           <canvas id="weekly-ecopoints-over-time"></canvas>
         </div>
       </div>
@@ -55,11 +101,19 @@
 
     <nav id="footer-nav"></nav>
     <footer id="footer"></footer>
-    <script>
+    <script type="module">
+      import { toggleStatsContainer } from "/scripts/stats.js";
+
       loadComponent("nav_bar", "/html/app_shell/nav_bar.html");
       (async () => {
         await loadComponent("footer-nav", "/html/app_shell/footer-nav.html");
-        lucide.createIcons();
+        await lucide.createIcons();
+        document.querySelectorAll(".arrow-wrapper .lucide").forEach((arrow) => {
+          arrow.addEventListener("click", (event) => {
+            arrow.classList.toggle("open");
+            toggleStatsContainer(event);
+          });
+        });
       })();
       loadComponent("footer", "/html/app_shell/footer.html");
     </script>

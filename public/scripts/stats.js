@@ -1,7 +1,7 @@
-const CHART_FONT = {
-  size: 13,
-  family: "'Poppins', sans-serif",
-  weight: "bold",
+const CHART_TITLE_FONT = {
+  size: 25,
+  family: "'Arial', sans-serif",
+  weight: "bolder",
 };
 
 async function getFirebaseConfig() {
@@ -17,7 +17,7 @@ async function initizliazeFirebase() {
 
   firebase.auth().onAuthStateChanged((user) => {
     populateUserInfo(user);
-    createKPIs(user);
+    createStats(user);
   });
 }
 
@@ -39,76 +39,69 @@ async function getUserStats(user) {
   }
 }
 
-async function createKPIs(user) {
-  const {
-    completedEcoActionsCount,
-    ecoGroupsCount,
-    missedEcoActionsCount,
-    weeklyEcoPoints,
-    minDate,
-  } = await getUserStats(user);
+async function createStats(user) {
+  const { ecoGroupsCount, weeklyEcoPoints, minDate, kpis } = await getUserStats(user);
+  console.log("minDate", minDate);
 
-  const completedMissedEcoActionsKPI = new Chart(
-    document.getElementById("missed-completed-ecoaction-count"),
-    {
-      type: "doughnut",
-      data: {
-        labels: ["Completed EcoActions", "Missed EcoActions"],
-        datasets: [
-          {
-            data: [completedEcoActionsCount, missedEcoActionsCount],
-            backgroundColor: [
-              `${window.getComputedStyle(document.body).getPropertyValue("--green-primary")}`,
-              `${window
-                .getComputedStyle(document.body)
-                .getPropertyValue("--green-accent-primary")}`,
-            ],
-            hoverOffset: 5,
-          },
-        ],
-      },
-      options: {
-        devicePixelRatio: 2, // for some reason will be blurry without this
-        plugins: {
-          title: {
-            display: true,
-            text: "Missed vs. Completed EcoActions",
-            font: CHART_FONT,
-          },
-          legend: {
-            display: false,
-          },
+  for (const kpi in kpis) {
+    document.querySelector(`#${kpi} .kpi-value`).textContent = kpis[kpi];
+  }
+
+  const ecoactionsBreakdown = new Chart(document.getElementById("ecoactions-breakdown"), {
+    type: "doughnut",
+    data: {
+      labels: ["Completed", "Missed"],
+      datasets: [
+        {
+          data: [kpis["lifetime-completed-ecoactions"], kpis["lifetime-missed-ecoactions"]],
+          backgroundColor: [
+            `${window.getComputedStyle(document.body).getPropertyValue("--green-secondary")}`,
+            `${window.getComputedStyle(document.body).getPropertyValue("--green-accent-primary")}`,
+          ],
+          hoverOffset: 5,
         },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      devicePixelRatio: 2, // for some reason will be blurry without this
+      plugins: {
+        title: {
+          display: true,
+          text: "EcoActions Breakdown",
+          font: CHART_TITLE_FONT,
+          color: "#343a40",
+        },
+        legend: { display: false },
       },
-    }
-  );
+    },
+  });
 
   const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-ecopoints-over-time"), {
     type: "bar",
     data: {
       datasets: [
         {
-          label: "Weekly EcoPoints Over Time",
+          label: "Weekly EcoPoints",
           data: weeklyEcoPoints,
-          borderColor: `${window
-            .getComputedStyle(document.body)
-            .getPropertyValue("--green-primary")}`,
+          borderRadius: 5,
           backgroundColor: `${window
             .getComputedStyle(document.body)
-            .getPropertyValue("--green-primary")}`,
+            .getPropertyValue("--green-secondary")}`,
+          barThickness: 50,
+          barPercentage: 0.1,
         },
       ],
     },
     options: {
+      maintainAspectRatio: false,
       scales: {
         x: {
           type: "time",
           time: {
             unit: "week",
             round: "week",
-            displayFormats: {
-              week: "MM/dd",
-            },
+            displayFormats: { week: "M/d" },
           },
           min: minDate,
           max: new Date(),
@@ -116,29 +109,48 @@ async function createKPIs(user) {
             display: false,
             drawTicks: false,
           },
-          ticks: {},
         },
         y: {
-          title: {
-            display: false,
-          },
-          grid: {
-            drawTicks: false,
-          },
+          title: { display: false },
+          grid: { drawTicks: false },
+          border: { display: false },
         },
       },
+      layout: { padding: 10 },
       plugins: {
+        tooltip: {
+          displayColors: false,
+          callbacks: {
+            // hide the title section of tooltip popup
+            title: (title) => {
+              const titleDate = new Date(title[0].parsed.x);
+              return `Week of ${titleDate.toLocaleDateString("en-US", {
+                month: "numeric",
+                day: "numeric",
+              })}`;
+            },
+            label: (label) => `${label.formattedValue} 🪙`,
+          },
+        },
         title: {
           display: true,
-          text: "Weekly EcoPoints Over Time",
-          font: CHART_FONT,
+          text: "Weekly EcoPoints",
+          align: "start",
+          padding: { bottom: 30 },
+          font: CHART_TITLE_FONT,
+          color: "#343a40",
         },
-        legend: {
-          display: false,
-        },
+        legend: { display: false },
       },
     },
   });
+}
+
+export function toggleStatsContainer(event) {
+  const arrow = event.currentTarget;
+  const arrowContainer = arrow.dataset.container;
+  document.getElementById(`${arrowContainer}-container`).classList.toggle("collapsed");
+  arrow.closest("h2").querySelector("#more-content").classList.toggle("shown");
 }
 
 async function populateUserInfo(user) {
@@ -154,8 +166,8 @@ async function populateUserInfo(user) {
   console.log("userInfo", userInfo);
   const profileImage = userInfo.profileImage;
 
-  const profileImageElement = document.querySelector(".profile-image");
-  const profileIconElement = document.querySelector(".profile-icon");
+  const profileImageElements = document.querySelectorAll(".profile-image");
+  const profileIconElements = document.querySelectorAll(".profile-icon");
 
   if (profileImage) {
     const elements = document.getElementsByClassName("navBarProfileImage");
@@ -164,8 +176,8 @@ async function populateUserInfo(user) {
       element.src = profileImage; // Pass the function reference, not the result of calling it
     });
 
-    profileImageElement.style.display = "inline-block";
-    profileIconElement.style.display = "none";
+    profileImageElements.forEach((element) => (element.style.display = "inline-block"));
+    profileIconElements.forEach((element) => (element.style.display = "none"));
   } else {
     console.log("profile image was null");
   }
@@ -197,8 +209,6 @@ function logout() {
 
 initizliazeFirebase();
 
-// Add event listeners to all buttons with the "signOut" class
-const signOutButtons = document.querySelectorAll(".signOut");
-signOutButtons.forEach((button) => {
+document.querySelectorAll(".signOut").forEach((button) => {
   button.addEventListener("click", logout);
 });
