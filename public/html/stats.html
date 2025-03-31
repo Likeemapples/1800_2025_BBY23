@@ -29,6 +29,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
     <link rel="stylesheet" href="/css/stats.css" />
+    <link rel="stylesheet" href="/css/loader.css" />
     <script src="/scripts/load-component.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -38,6 +39,43 @@
   </head>
   <body>
     <header id="nav_bar"></header>
+
+    <div id="loader">
+      <h1>Loading...</h1>
+      <div class="tree">
+        <div class="branch" style="--x: 0">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 1">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 2">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 3">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="stem">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <span class="shadow"></span>
+      </div>
+    </div>
 
     <main>
       <h1>My Stats</h1>
