@@ -1,5 +1,6 @@
 :root {
   --gap-primary: max(2vw, 15px);
+  --gap-secondary: max(1vw, 15px);
 }
 
 body {
@@ -7,7 +8,7 @@ body {
 }
 
 .widget {
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 25px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background: white;
@@ -68,7 +69,7 @@ main {
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    gap: 10vw;
+    gap: var(--gap-secondary);
     /* height: 135px; */
     height: 175px;
   }
@@ -94,13 +95,13 @@ main {
     /* color: #2f4f4f; */
   }
   .kpi-label {
-    font-family: "Arial", sans-serif;
+    font-family: "Open Sans", sans-serif;
     text-wrap: wrap;
     font-weight: normal;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #6c757d;
-    color: #343a40;
-    color: #133b24;
+    /* color: #343a40; */
+    /* color: #133b24; */
   }
   .kpis .widget {
     display: flex;

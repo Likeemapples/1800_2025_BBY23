@@ -9,7 +9,7 @@ function loadScript(src) {
 }
 
 try {
-  const footerResponse = await fetch("/html/app_shell/footer.html");
+  const footerResponse = await fetch("/html/app-shell/footer.html");
   const footerData = await footerResponse.text();
   document.getElementById("footer").innerHTML = footerData;
 } catch (error) {
@@ -17,7 +17,7 @@ try {
 }
 
 try {
-  const navBarResponse = await fetch("/html/app_shell/nav_bar.html");
+  const navBarResponse = await fetch("/html/app-shell/nav-bar.html");
   const navBarData = await navBarResponse.text();
   document.getElementById("nav_bar").innerHTML = navBarData;
 } catch (error) {
@@ -25,7 +25,7 @@ try {
 }
 
 try {
-  const headResponse = await fetch("/html/app_shell/head.html");
+  const headResponse = await fetch("/html/app-shell/head.html");
   const headData = await headResponse.text();
 
   const container = document.createElement("div");
@@ -42,7 +42,7 @@ try {
 }
 
 try {
-  const footerNavResponse = await fetch("/html/app_shell/footer-nav.html");
+  const footerNavResponse = await fetch("/html/app-shell/footer-nav.html");
   const footerNavData = await footerNavResponse.text();
   document.getElementById("footer-nav").innerHTML = footerNavData;
   await loadScript("https://unpkg.com/lucide@latest");
@@ -95,12 +95,11 @@ async function populateUserInfo(user) {
   console.log("userInfo", userInfo);
   const profileImage = userInfo.profileImage;
 
-
   if (profileImage) {
     const elements = document.getElementsByClassName("navBarProfileImage");
 
     Array.from(elements).forEach((element) => {
-      element.src = profileImage; 
+      element.src = profileImage;
     });
 
     const profileIconElements = document.getElementsByClassName("profile-icon");
@@ -114,7 +113,6 @@ async function populateUserInfo(user) {
     Array.from(profileImageElements).forEach((element) => {
       element.style.display = "inline-block";
     });
-
   } else {
     console.log("profile image was null");
   }
@@ -134,17 +132,16 @@ async function populateUserInfo(user) {
 // Your logout function
 function logout() {
   firebase
-  .auth()
-  .signOut()
-  .then(() => {
-    console.log("Logging out user");
-  })
-  .catch((error) => {
-    console.error("Error during logout:", error);
-  });
-  
-  window.location.href = "/html/index.html"; // Redirect after logout
+    .auth()
+    .signOut()
+    .then(() => {
+      console.log("Logging out user");
+    })
+    .catch((error) => {
+      console.error("Error during logout:", error);
+    });
 
+  window.location.href = "/html/index.html"; // Redirect after logout
 }
 
 // Add event listeners to all buttons with the "signOut" class

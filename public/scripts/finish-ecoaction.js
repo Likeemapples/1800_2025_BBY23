@@ -1,22 +1,20 @@
 document.addEventListener("firebaseReady", function () {
-
   const titleInput = document.getElementById("title");
   const descriptionInput = document.getElementById("postDescription");
   const imageInput = document.getElementById("image");
   const submitBtn = document.getElementById("finishBtn");
 
   function checkFields() {
-      const title = titleInput.value.trim();
-      const description = descriptionInput.value.trim();
-      const image = imageInput.files.length > 0;
+    const title = titleInput.value.trim();
+    const description = descriptionInput.value.trim();
+    const image = imageInput.files.length > 0;
 
-      submitBtn.disabled = !(title && description && image);
+    submitBtn.disabled = !(title && description && image);
   }
 
   titleInput.addEventListener("input", checkFields);
   descriptionInput.addEventListener("input", checkFields);
   imageInput.addEventListener("change", checkFields);
-
 
   const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
 
@@ -25,8 +23,7 @@ document.addEventListener("firebaseReady", function () {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "EcoactionsIDs" : ecoactionToFinish,
-
+        EcoactionsIDs: ecoactionToFinish,
       },
     });
     const responseData = await ecoActioReponse.json();
@@ -44,11 +41,11 @@ document.addEventListener("firebaseReady", function () {
     if (bannerImage != null && bannerImage != "") {
       analyzeImageBrightness(bannerImage);
       document.getElementById("bannerImage").style.backgroundImage = `url('${bannerImage}')`;
-
-    }
-    else {
+    } else {
       analyzeImageBrightness("/assets/images/image-not-found.jpg");
-      document.getElementById("bannerImage").style.backgroundImage = `url("/assets/images/image-not-found.jpg")`;
+      document.getElementById(
+        "bannerImage"
+      ).style.backgroundImage = `url("/assets/images/image-not-found.jpg")`;
     }
 
     if (ecoPoints != null) {
@@ -117,7 +114,7 @@ document.addEventListener("firebaseReady", function () {
         await deleteEcoaction(user);
         await postEcoaction(user);
         localStorage.removeItem("ecoactionToFinish");
-        window.location.href = "/html/finishAnimation.html";
+        window.location.href = "/html/finish-animation.html";
       }
     });
   });

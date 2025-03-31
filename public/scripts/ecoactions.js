@@ -14,8 +14,6 @@ document.addEventListener("firebaseReady", function () {
     }
   }
 
-
-
   // Adding event listener for window resize to adjust maxHeight dynamically
   window.addEventListener("resize", function () {
     let allCardBodies = document.querySelectorAll(".card-body");
@@ -33,7 +31,7 @@ document.addEventListener("firebaseReady", function () {
     if (!user) {
       console.log("User is not logged in.");
       return;
-  }
+    }
     const idToken = await user.getIdToken(true);
 
     const response = await fetch("/users/ecoactions", {
@@ -45,52 +43,52 @@ document.addEventListener("firebaseReady", function () {
     });
     const userInfo = await response.json();
 
-    let cardTemplate = document.getElementById("challengeTemplate"); 
+    let cardTemplate = document.getElementById("challengeTemplate");
 
-    const ecoactionsIDs = userInfo.ecoActionsIDs; 
+    const ecoactionsIDs = userInfo.ecoActionsIDs;
 
     if (ecoactionsIDs && ecoactionsIDs.length) {
       console.log(ecoactionsIDs);
-        const ecoActioReponse = await fetch("/ecoactions", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "EcoactionsIDs" : ecoactionsIDs,
-          },
+      const ecoActioReponse = await fetch("/ecoactions", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          EcoactionsIDs: ecoactionsIDs,
+        },
+      });
+      const responseData = await ecoActioReponse.json();
+      const ecoactionsDocs = responseData.ecoactionsDocs;
+      console.log(ecoactionsDocs, responseData.ecoactionsIDs);
+
+      ecoactionsDocs.forEach(async (doc) => {
+        const name = doc.name;
+        const description = doc.description;
+        const shortDescription = doc.shortDescription;
+        const ecoPoints = doc.ecoPoints;
+        const bannerImage = doc.bannerImage;
+
+        let newcard = cardTemplate.content.cloneNode(true);
+        newcard.querySelector(".title").innerHTML = name;
+        newcard.querySelector(".description").innerHTML = description;
+        newcard.querySelector(".shortDescription").innerHTML = shortDescription;
+        newcard.querySelector(".ecoPoints").innerHTML = ecoPoints;
+
+        newcard.querySelector(".bannerImage").src =
+          bannerImage || "/assets/images/image-not-found.jpg";
+
+        let cardHead = newcard.querySelector(".card-header");
+        cardHead.addEventListener("click", function () {
+          toggleCollapse(cardHead);
         });
-        const responseData = await ecoActioReponse.json();
-        const ecoactionsDocs = responseData.ecoactionsDocs;
-        console.log(ecoactionsDocs, responseData.ecoactionsIDs);
 
-        ecoactionsDocs.forEach( async(doc) => {
-          const name = doc.name; 
-          const description = doc.description;
-          const shortDescription = doc.shortDescription;
-          const ecoPoints = doc.ecoPoints;
-          const bannerImage = doc.bannerImage;
-
-          let newcard = cardTemplate.content.cloneNode(true);
-          newcard.querySelector(".title").innerHTML = name;
-          newcard.querySelector(".description").innerHTML = description;
-          newcard.querySelector(".shortDescription").innerHTML = shortDescription;
-          newcard.querySelector(".ecoPoints").innerHTML = ecoPoints;
-
-          newcard.querySelector(".bannerImage").src = bannerImage || "/assets/images/image-not-found.jpg"; 
-
-
-          let cardHead = newcard.querySelector(".card-header");
-          cardHead.addEventListener("click", function () {
-            toggleCollapse(cardHead);
+        let finishButton = newcard.querySelector(".finishEcoactionButton");
+        if (finishButton) {
+          finishButton.addEventListener("click", function () {
+            finishGoalPage(doc.id);
           });
+        }
 
-          let finishButton = newcard.querySelector(".finishEcoactionButton"); 
-          if (finishButton) {
-            finishButton.addEventListener("click", function () {
-              finishGoalPage(doc.id);
-            });
-          }
-
-           document.getElementById("dailyChallenges-go-here").appendChild(newcard);
+        document.getElementById("dailyChallenges-go-here").appendChild(newcard);
       });
     } else {
       console.log("No ecoactions found for this user.");
@@ -100,12 +98,9 @@ document.addEventListener("firebaseReady", function () {
   firebase.auth().onAuthStateChanged((user) => {
     displayEcoactions(user);
   });
-
 });
 
-function finishGoalPage(acoactionID){
+function finishGoalPage(acoactionID) {
   localStorage.setItem("ecoactionToFinish", acoactionID);
-  window.location.href = "finishEcoaction.html"; 
+  window.location.href = "finish-ecoaction.html";
 }
-
-
