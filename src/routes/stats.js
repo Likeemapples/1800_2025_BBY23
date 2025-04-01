@@ -24,28 +24,37 @@ async function authenticateToken(request, response, next) {
   }
 }
 
+//TODO finish rearchictecting to minimize firebase db queries
 router.get("/", authenticateToken, async (request, response) => {
   const currentWeekStart = getWeekStart(new Date());
   const { uid: userID } = request.user;
   console.log("userID", userID);
 
   try {
-    const completedEcoActionsCount = (
-      await db.collection("users").doc(userID).collection("completedEcoActions").get()
-    ).size;
-
-    const ecogroupsCount = (await db.collection("users").doc(userID).collection("ecogroups").get())
-      .size;
-
-    const ecoActionsArray = (await db.collection("users").doc(userID).get()).get("ecoactions");
-    //a collection of uniqe doc ids, each representing a completed ecoaction with an ecoactionID and timestamp
     const completedEcoActionsCollectionRef = db
       .collection("users")
       .doc(userID)
       .collection("completedEcoActions");
+    const completedEcoActionTimestamps = await getCompletedEcoActionTimestamps(
+      completedEcoActionsCollectionRef
+    );
+    const userEcoActions = (await db.collection("users").doc(userID).get()).get("ecoactions");
+    const allRequiredEcoActions = getRelevantEcoActions([
+      ...userEcoActions,
+      ...completedEcoActionTimestamps
+        .filter((ecoAction) => ecoAction.timestamp.toDate() >= minDate)
+        .map((ecoaction) => ecoaction.ecoActionID),
+    ]);
+
+    const completedEcoActionsCount = (await completedEcoActionsCollectionRef.get()).size;
+    const ecogroupsCount = (await db.collection("users").doc(userID).collection("ecogroups").get())
+      .size;
+
+    //a collection of uniqe doc ids, each representing a completed ecoaction with an ecoactionID and timestamp
+
     const { missedEcoActionsCount_lifetime, missedEcoActionsCount_thisWeek } =
       await calcMissedEcoActions(
-        ecoActionsArray,
+        userEcoActions,
         completedEcoActionsCollectionRef,
         currentWeekStart
       );
@@ -56,7 +65,7 @@ router.get("/", authenticateToken, async (request, response) => {
     console.log("minDate", minDate);
 
     const weeklyEcoPoints = await calcWeeklyEcoPoints(
-      completedEcoActionsCollectionRef,
+      completedEcoActionTimestamps,
       currentWeekStart,
       minDate
     );
@@ -85,22 +94,54 @@ router.get("/", authenticateToken, async (request, response) => {
   }
 });
 
-async function calcWeeklyEcoPoints(completedEcoActionsCollectionRef, currentWeekStart, minDate) {
-  const recentCompletedEcoActions = await completedEcoActionsCollectionRef
-    .where("timestamp", ">", minDate)
+async function getCompletedEcoActionTimestamps(collectionRef) {
+  const completedEcoActionTimestamps = [];
+  const querySnapshot = await collectionRef.get();
+
+  querySnapshot.forEach((doc) => {
+    const { ecoActionID, timestamp } = doc.data();
+    completedEcoActionTimestamps.push({ ecoActionID, timestamp });
+  });
+
+  return completedEcoActionTimestamps;
+}
+
+/**
+ * Given an array of document IDs, fetches the corresponding ecoactions from the "ecoactions" collection
+ * and returns an object mapping each ecoaction ID to its ecoPoints value.
+ * @param {string[]} docIds - Array of ecoaction IDs to fetch
+ * @returns {Object.<string,number>} - ecoaction ID to ecoPoints value mapping
+ */
+async function getRelevantEcoActions(docIds) {
+  const ecoActions = {};
+  const ecoActionsCollectionRef = db.collection("ecoactions");
+  const querySnapshot = await ecoActionsCollectionRef
+    .where(admin.firestore.FieldPath.documentId(), "in", docIds)
     .get();
 
+  querySnapshot.forEach((doc) => {
+    ecoActions[doc.id] = doc.data().ecoPoints;
+  });
+
+  return ecoActions;
+}
+
+//TODO
+async function calcWeeklyEcoPoints(completedEcoActionTimestamps, currentWeekStart, minDate) {
   const weeklyEcoPointsSums = populateRecentWeeksStartDates(currentWeekStart);
+  const recentCompletedEcoActionTimestamps = completedEcoActionTimestamps.filter(
+    (ecoAction) => ecoAction.timestamp.toDate() >= minDate
+  );
+  const relevantEcoActions = await getRelevantEcoActions(
+    recentCompletedEcoActionTimestamps.map((ecoaction) => ecoaction.ecoActionID)
+  );
 
-  for (const doc of recentCompletedEcoActions.docs) {
-    const { ecoActionID, timestamp } = doc.data();
-    const ecoPoints = await (
-      await db.collection("ecoactions").doc(ecoActionID).get()
-    ).get("ecoPoints");
-    const currentDocWeekStart = getWeekStart(timestamp.toDate()).toISOString();
-    const currentSum = weeklyEcoPointsSums[currentDocWeekStart] || 0;
+  for (const completedEcoAction of recentCompletedEcoActionTimestamps) {
+    const weekStart = getWeekStart(timestamp.toDate()).toISOString();
+    const currentSum = weeklyEcoPointsSums[weekStart] || 0;
 
-    weeklyEcoPointsSums[currentDocWeekStart] = currentSum + ecoPoints;
+    weeklyEcoPointsSums[weekStart] =
+      currentSum + relevantEcoActions[completedEcoAction.ecoActionID];
   }
 
   return formatWeeklyEcoPointSums(weeklyEcoPointsSums);
@@ -138,20 +179,19 @@ function getWeekStart(date) {
   return weekStartDate;
 }
 
+//TODO
 async function calcMissedEcoActions(
-  ecoActionsArray,
+  userEcoActions,
   completedEcoActionsCollectionRef,
   currentWeekStart
 ) {
   let missedEcoActionsCount_lifetime = 0;
   let missedEcoActionsCount_thisWeek = 0;
 
-  for (const ecoActionID of ecoActionsArray) {
-    const requiredDays = (await db.collection("ecoactions").doc(ecoActionID).get()).get(
-      "requiredDays"
-    );
+  for (const docID of userEcoActions) {
+    const requiredDays = (await db.collection("ecoactions").doc(docID).get()).get("requiredDays");
     const completedEcoActionDates = (
-      await completedEcoActionsCollectionRef.where("ecoactionID", "==", ecoActionID).get()
+      await completedEcoActionsCollectionRef.where("ecoActionID", "==", docID).get()
     ).docs.map((doc) => doc.get("timestamp").toDate());
 
     //iterate through each day of the week in each ecoaction and see if there is a corresponding completedEcoActioDaten entry
