@@ -34,6 +34,7 @@ router.post("/", async (request, response) => {
       await userDoc.set({
         //email is null for google sign in
         email: email,
+        ecoPoints: 0,
         displayName: displayName || "",
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });
