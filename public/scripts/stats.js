@@ -136,7 +136,6 @@ async function createStats(user) {
             label: "EcoPoints",
             data: Object.values(ecoPointsBreakdown_thisWeek),
             backgroundColor: COLOURS,
-            hoverOffset: 4,
             borderWidth: 0,
           },
         ],
@@ -148,13 +147,9 @@ async function createStats(user) {
         plugins: {
           tooltip: {
             displayColors: true,
-            callbacks: {
-              label: (label) => `: ${label.formattedValue}🪙`,
-            },
+            callbacks: { label: (label) => `: ${label.formattedValue}🪙` },
           },
-          title: {
-            display: false,
-          },
+          title: { display: false },
           legend: { display: false },
         },
       },

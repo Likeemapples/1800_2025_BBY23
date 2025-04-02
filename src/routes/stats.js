@@ -64,14 +64,15 @@ router.get("/", authenticateToken, async (request, response) => {
       minDate
     );
 
-    const { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints } = await getThisWeekEcoPointsBreakdown(
-      completedEcoActionsCollectionRef,
-      currentWeekStart,
-      allEcoActions
-    );
+    const { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints, totalWeekCompletedEcoActions } =
+      await getThisWeekEcoPointsBreakdown(
+        completedEcoActionsCollectionRef,
+        currentWeekStart,
+        allEcoActions
+      );
 
     const kpis = {
-      "this-week-completed-ecoactions": 0,
+      "this-week-completed-ecoactions": totalWeekCompletedEcoActions,
       "lifetime-ecopoints": 0,
       "lifetime-ecogroups": ecoGroupsCount,
       "lifetime-completed-ecoactions": completedEcoActionsCount,
@@ -102,6 +103,7 @@ async function getThisWeekEcoPointsBreakdown(
     .where("timestamp", ">=", currentWeekStart)
     .get();
   let totalWeekEcoPoints = 0;
+  let totalWeekCompletedEcoActions = 0;
 
   querySnapshot.forEach((doc) => {
     const { ecoActionID } = doc.data();
@@ -113,9 +115,10 @@ async function getThisWeekEcoPointsBreakdown(
       ecoPointsBreakdown_thisWeek[ecoActionName] = ecoPoints;
     }
     totalWeekEcoPoints += ecoPoints;
+    totalWeekCompletedEcoActions++;
   });
 
-  return { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints };
+  return { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints, totalWeekCompletedEcoActions };
 }
 
 /**
