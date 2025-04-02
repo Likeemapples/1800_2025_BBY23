@@ -43,8 +43,7 @@ router.get("/", authenticateToken, async (request, response) => {
     const allEcoActions = await getAllEcoActions();
 
     const completedEcoActionsCount = (await completedEcoActionsCollectionRef.get()).size;
-    const ecogroupsCount = (await db.collection("users").doc(userID).collection("ecogroups").get())
-      .size;
+    const ecoGroupsCount = (await db.collection("users").doc(userID).get()).get("ecogroups").length;
 
     // const { missedEcoActionsCount_lifetime, missedEcoActionsCount_thisWeek } =
     //   await calcMissedEcoActions(
@@ -58,19 +57,29 @@ router.get("/", authenticateToken, async (request, response) => {
       currentWeekStart.getTime() - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
     );
 
-    const { weeklyEcoPoints, completedEcoActionsCount_thisWeek, ecoPoints_thisWeek } =
-      await calcWeeklyEcoPoints(allEcoActions, completedEcoActionDates, currentWeekStart, minDate);
+    const weeklyEcoPoints = await calcWeeklyEcoPoints(
+      allEcoActions,
+      completedEcoActionDates,
+      currentWeekStart,
+      minDate
+    );
+
+    const { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints } = await getThisWeekEcoPointsBreakdown(
+      completedEcoActionsCollectionRef,
+      currentWeekStart,
+      allEcoActions
+    );
 
     const kpis = {
-      "this-week-ecopoints": ecoPoints_thisWeek,
-      "this-week-completed-ecoactions": completedEcoActionsCount_thisWeek,
+      "this-week-completed-ecoactions": 0,
       "lifetime-ecopoints": 0,
-      "lifetime-ecogroups": ecogroupsCount,
+      "lifetime-ecogroups": ecoGroupsCount,
       "lifetime-completed-ecoactions": completedEcoActionsCount,
     };
 
     response.status(200).json({
-      ecogroupsCount,
+      ecoPointsBreakdown_thisWeek,
+      totalWeekEcoPoints,
       weeklyEcoPoints,
       minDate,
       kpis,
@@ -82,6 +91,32 @@ router.get("/", authenticateToken, async (request, response) => {
       .json({ message: `${error.name} getting user stats for user ${userID}`, error });
   }
 });
+
+async function getThisWeekEcoPointsBreakdown(
+  completedEcoActionsCollectionRef,
+  currentWeekStart,
+  allEcoActions
+) {
+  const ecoPointsBreakdown_thisWeek = {};
+  const querySnapshot = await completedEcoActionsCollectionRef
+    .where("timestamp", ">=", currentWeekStart)
+    .get();
+  let totalWeekEcoPoints = 0;
+
+  querySnapshot.forEach((doc) => {
+    const { ecoActionID } = doc.data();
+    const { name: ecoActionName, ecoPoints } = allEcoActions[ecoActionID];
+
+    if (ecoPointsBreakdown_thisWeek[ecoActionName]) {
+      ecoPointsBreakdown_thisWeek[ecoActionName] += ecoPoints;
+    } else {
+      ecoPointsBreakdown_thisWeek[ecoActionName] = ecoPoints;
+    }
+    totalWeekEcoPoints += ecoPoints;
+  });
+
+  return { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints };
+}
 
 /**
  * Fetches all completed ecoactions from a user's 'completedEcoActions' collection
@@ -122,7 +157,6 @@ async function getAllEcoActions() {
   return ecoActions;
 }
 
-//TODO done?
 async function calcWeeklyEcoPoints(
   allEcoActions,
   completedEcoActionDates,
@@ -136,8 +170,6 @@ async function calcWeeklyEcoPoints(
       dates.filter((date) => date >= minDate),
     ])
   );
-  let completedEcoActionsCount_thisWeek = 0;
-  let ecoPoints_thisWeek = 0;
 
   for (const completedEcoAction in recentCompletedEcoActionDates) {
     const weekStarts = recentCompletedEcoActionDates[completedEcoAction].map((date) =>
@@ -147,20 +179,10 @@ async function calcWeeklyEcoPoints(
     for (const weekStart of weekStarts) {
       const stringWeekStart = weekStart.toISOString();
       weeklyEcoPointsSums[stringWeekStart] += allEcoActions[completedEcoAction].ecoPoints;
-
-      //calc number of ecoactions completed this week
-      if (recentCompletedEcoActionDates[completedEcoAction] >= currentWeekStart) {
-        completedEcoActionsCount_thisWeek++;
-        ecoPoints_thisWeek += allEcoActions[completedEcoAction].ecoPoints;
-      }
     }
   }
 
-  return {
-    weeklyEcoPoints: formatWeeklyEcoPointSums(weeklyEcoPointsSums),
-    completedEcoActionsCount_thisWeek,
-    ecoPoints_thisWeek,
-  };
+  return formatWeeklyEcoPointSums(weeklyEcoPointsSums);
 }
 
 function formatWeeklyEcoPointSums(obj) {

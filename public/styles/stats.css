@@ -70,7 +70,8 @@ main {
     justify-content: center;
     width: 100%;
     gap: var(--gap-secondary);
-    height: 135px;
+    /* height: 135px; */
+    height: 250px;
   }
   .stats-container {
     display: flex;
@@ -89,21 +90,22 @@ main {
     font-weight: 600;
     font-size: 4.5rem;
     line-height: 1.1;
-    /* color: black; */
-    color: var(--green-secondary);
+    color: black;
+    /* color: var(--green-secondary); */
     /* color: #1a4d2e; */
     /* color: #3a5a40; */
     /* color: #2f4f4f; */
   }
   .kpi-label {
     font-family: "Arial", sans-serif;
-    text-wrap: nowrap;
+    text-wrap: wrap;
+    overflow-wrap: break-word;
     font-weight: 500;
-    font-size: 1.3rem;
-    line-height: 1.2;
-    color: var(--green-secondary);
+    font-size: 1rem;
+    line-height: 1.4;
+    /* color: var(--green-secondary); */
     /* color: black; */
-    /* color: #6c757d; */
+    color: #6c757d;
     /* color: #343a40; */
     /* color: #133b24; */
   }

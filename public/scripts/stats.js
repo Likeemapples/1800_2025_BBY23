@@ -4,6 +4,58 @@ const CHART_TITLE_FONT = {
   weight: "bold",
 };
 
+const COLOURS = [
+  "#1B5E20", // Very Dark Pine Green
+  "#558B2F", // Strong Leaf Green
+  "#A9D18E", // Soft Sage Green
+  "#8FBC8F", // Dark Sea Green
+  "#2E7D32", // Deep Forest Green
+  "#F5F5DC", // Beige
+  "#B2D8B4", // Washed Mint Green
+
+  "#C5E1A5", // Pale Leaf Green
+
+  "#90EE90", // LightGreen
+  "#D4E2D4", // Very Pale Sage/Gray-Green
+
+  // Mid-Tone & Natural Greens
+  "#7CB342", // Healthy Grass Green
+
+  "#779155", // Muted Olive Green
+
+  "#6B8E23", // OliveDrab
+  "#4CAF50", // Standard Medium Green
+
+  // Deep & Forest Greens
+  "#386641", // Mossy Forest Green
+
+  "#556B2F", // Dark Olive Green
+  "#006400", // DarkGreen
+
+  // Light & Sandy Browns
+
+  "#D2B48C", // Tan
+  "#BCB88A", // Light Khaki/Dry Earth
+  "#E0CDB6", // Pale Driftwood
+
+  // Mid-Tone & Woodsy Browns
+  "#CD853F", // Peru
+  "#A0522D", // Sienna
+  // "#B8860B", // DarkGoldenrod (Commented out - maybe less earthy for some)
+  "#8B7355", // Medium Wood Brown
+
+  // Dark & Soil Browns
+  "#8B4513", // Saddle Brown / Rich Soil
+  "#654321", // Dark Brown / Tree Bark
+  "#5D4037", // Deep Earth Brown
+  "#3E2723", // Very Dark Espresso
+];
+
+const GREEN_PRIMARY = window.getComputedStyle(document.body).getPropertyValue("--green-primary");
+const GREEN_SECONDARY = window
+  .getComputedStyle(document.body)
+  .getPropertyValue("--green-secondary");
+
 async function getFirebaseConfig() {
   const response = await fetch("/firebase-config");
   const firebaseConfig = await response.json();
@@ -40,43 +92,75 @@ async function getUserStats(user) {
 }
 
 async function createStats(user) {
-  const { ecoGroupsCount, weeklyEcoPoints, minDate, kpis } = await getUserStats(user);
+  const { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints, weeklyEcoPoints, minDate, kpis } =
+    await getUserStats(user);
   document.getElementById("loader").classList.toggle("hidden");
   document.querySelector("main").classList.toggle("hidden");
+
+  console.log("ecoPointsBreakdown_thisWeek", ecoPointsBreakdown_thisWeek);
 
   for (const kpi in kpis) {
     document.querySelector(`#${kpi} .kpi-value`).textContent = kpis[kpi];
   }
 
-  // const ecoactionsBreakdown = new Chart(document.getElementById("ecoactions-breakdown"), {
-  //   type: "doughnut",
-  //   data: {
-  //     labels: ["Completed", "Missed"],
-  //     datasets: [
-  //       {
-  //         data: [kpis["lifetime-completed-ecoactions"], kpis["lifetime-missed-ecoactions"]],
-  //         backgroundColor: [
-  //           `${window.getComputedStyle(document.body).getPropertyValue("--green-primary")}`,
-  //           `${window.getComputedStyle(document.body).getPropertyValue("--green-accent-primary")}`,
-  //         ],
-  //         hoverOffset: 5,
-  //       },
-  //     ],
-  //   },
-  //   options: {
-  //     maintainAspectRatio: false,
-  //     devicePixelRatio: 2, // for some reason will be blurry without this
-  //     plugins: {
-  //       title: {
-  //         display: true,
-  //         text: "EcoActions Breakdown",
-  //         font: CHART_TITLE_FONT,
-  //         color: `${window.getComputedStyle(document.body).getPropertyValue("--green-secondary")}`,
-  //       },
-  //       legend: { display: false },
-  //     },
-  //   },
-  // });
+  const donutCenterText = {
+    id: "donutCenterText",
+    beforeDatasetsDraw(chart, args, options) {
+      const { ctx, data } = chart;
+      const centerX = chart.getDatasetMeta(0).data[0].x;
+      const centerY = chart.getDatasetMeta(0).data[0].y;
+      ctx.save();
+
+      ctx.font = "bolder 50px 'Arial', sans-serif";
+      ctx.fillStyle = `black`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(`${totalWeekEcoPoints}`, centerX, centerY - 5);
+
+      ctx.font = "normal 14px 'Arial', sans-serif";
+      ctx.fillStyle = `#6c757d`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("EcoPoints", centerX, centerY + 25);
+    },
+  };
+
+  const thisWeekEcoPointsBreakdown = new Chart(
+    document.getElementById("this-week-ecopoints-breakdown"),
+    {
+      type: "doughnut",
+      data: {
+        labels: Object.keys(ecoPointsBreakdown_thisWeek),
+        datasets: [
+          {
+            label: "EcoPoints",
+            data: Object.values(ecoPointsBreakdown_thisWeek),
+            backgroundColor: COLOURS,
+            hoverOffset: 4,
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        cutout: "68%",
+        maintainAspectRatio: false,
+        devicePixelRatio: 2, // for some reason will be blurry without this
+        plugins: {
+          tooltip: {
+            displayColors: true,
+            callbacks: {
+              label: (label) => `: ${label.formattedValue}🪙`,
+            },
+          },
+          title: {
+            display: false,
+          },
+          legend: { display: false },
+        },
+      },
+      plugins: [donutCenterText],
+    }
+  );
 
   const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-ecopoints-over-time"), {
     type: "bar",
@@ -86,9 +170,7 @@ async function createStats(user) {
           label: "Weekly EcoPoints",
           data: weeklyEcoPoints,
           borderRadius: 5,
-          backgroundColor: `${window
-            .getComputedStyle(document.body)
-            .getPropertyValue("--green-primary")}`,
+          backgroundColor: `${GREEN_SECONDARY}`,
           barThickness: 50,
           barPercentage: 0.1,
         },
@@ -139,7 +221,7 @@ async function createStats(user) {
           align: "start",
           padding: { bottom: 30 },
           font: CHART_TITLE_FONT,
-          color: `${window.getComputedStyle(document.body).getPropertyValue("--green-secondary")}`,
+          color: `black`,
         },
         legend: { display: false },
       },
