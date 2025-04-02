@@ -3,7 +3,7 @@ header {
 
   img {
     width: max(9%, 130px);
-    margin: 0 0 0 15%;
+    margin: 20px 0 0 15%;
   }
 }
 
@@ -30,8 +30,8 @@ header {
 #login {
   padding: 20px;
   background-color: transparent;
-  border-radius: 5px;
-  border: 3px solid var(--green-primary);
+  border-radius: 20px;
+  border: 2px solid var(--green-primary);
   color: var(--green-primary);
   text-transform: uppercase;
   font-weight: bold;
