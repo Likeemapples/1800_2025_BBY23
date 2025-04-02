@@ -97,8 +97,7 @@ router.put("/privateInfo", authenticateToken, async (request, response) => {
 });
 
 router.get("/info", authenticateToken, async (request, response) => {
-  // const { uid: userID } = request.user;
-  let userID = "bAfB6CdF1jRlhot68uw0BZpYhqC2";
+  const { uid: userID } = request.user;
   const userDoc = db.collection("users").doc(userID);
   const docSnapshot = await userDoc.get();
 
