@@ -48,35 +48,35 @@ async function createStats(user) {
     document.querySelector(`#${kpi} .kpi-value`).textContent = kpis[kpi];
   }
 
-  const ecoactionsBreakdown = new Chart(document.getElementById("ecoactions-breakdown"), {
-    type: "doughnut",
-    data: {
-      labels: ["Completed", "Missed"],
-      datasets: [
-        {
-          data: [kpis["lifetime-completed-ecoactions"], kpis["lifetime-missed-ecoactions"]],
-          backgroundColor: [
-            `${window.getComputedStyle(document.body).getPropertyValue("--green-primary")}`,
-            `${window.getComputedStyle(document.body).getPropertyValue("--green-accent-primary")}`,
-          ],
-          hoverOffset: 5,
-        },
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      devicePixelRatio: 2, // for some reason will be blurry without this
-      plugins: {
-        title: {
-          display: true,
-          text: "EcoActions Breakdown",
-          font: CHART_TITLE_FONT,
-          color: `${window.getComputedStyle(document.body).getPropertyValue("--green-secondary")}`,
-        },
-        legend: { display: false },
-      },
-    },
-  });
+  // const ecoactionsBreakdown = new Chart(document.getElementById("ecoactions-breakdown"), {
+  //   type: "doughnut",
+  //   data: {
+  //     labels: ["Completed", "Missed"],
+  //     datasets: [
+  //       {
+  //         data: [kpis["lifetime-completed-ecoactions"], kpis["lifetime-missed-ecoactions"]],
+  //         backgroundColor: [
+  //           `${window.getComputedStyle(document.body).getPropertyValue("--green-primary")}`,
+  //           `${window.getComputedStyle(document.body).getPropertyValue("--green-accent-primary")}`,
+  //         ],
+  //         hoverOffset: 5,
+  //       },
+  //     ],
+  //   },
+  //   options: {
+  //     maintainAspectRatio: false,
+  //     devicePixelRatio: 2, // for some reason will be blurry without this
+  //     plugins: {
+  //       title: {
+  //         display: true,
+  //         text: "EcoActions Breakdown",
+  //         font: CHART_TITLE_FONT,
+  //         color: `${window.getComputedStyle(document.body).getPropertyValue("--green-secondary")}`,
+  //       },
+  //       legend: { display: false },
+  //     },
+  //   },
+  // });
 
   const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-ecopoints-over-time"), {
     type: "bar",
