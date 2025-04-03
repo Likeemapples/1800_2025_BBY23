@@ -45,12 +45,9 @@ try {
   const footerNavResponse = await fetch("/html/app-shell/footer-nav.html");
   const footerNavData = await footerNavResponse.text();
   document.getElementById("footer-nav").innerHTML = footerNavData;
-  await loadScript("https://unpkg.com/lucide@latest");
 } catch (error) {
   console.log(`${error.name} loading footer nav`, error);
 }
-
-lucide.createIcons();
 
 (async function loadScripts() {
   try {

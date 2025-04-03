@@ -295,3 +295,10 @@ initizliazeFirebase();
 document.querySelectorAll(".signOut").forEach((button) => {
   button.addEventListener("click", logout);
 });
+
+document.querySelectorAll(".arrow-wrapper .lucide").forEach((arrow) => {
+  arrow.addEventListener("click", (event) => {
+    arrow.classList.toggle("open");
+    toggleStatsContainer(event);
+  });
+});
