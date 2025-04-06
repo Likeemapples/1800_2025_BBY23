@@ -4,6 +4,7 @@
     <title>Welcome</title>
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="/css/app-shell/navbar.css" />
+    <script type="module" src="/scripts/index.js"></script>
   </head>
 
   <body>
@@ -11,13 +12,21 @@
       <img src="/assets/logo2.png" alt="EcoAction" />
     </header>
 
+    <div id="gradientContainer">
+      <canvas id="granimCanvas1"></canvas>
+      <canvas id="granimCanvas2"></canvas>
+    </div>
+
     <main class="container">
       <div
         id="container"
         class="container-fluid d-flex flex-column align-items-center text-center justify-content-center">
-        <h1 class="display-5 fw-bold">Welcome</h1>
-        <p class="col-md-8 fs-4">
-          Join us in making a difference for our planet. Start your eco-friendly journey today!
+        <h1 class="display-5 pt-5 fw-bold">Empowering Everyday Green Heroes</h1>
+        <p class="p-1 col-md-7 fs-6">
+          Feeling isolated in your eco-efforts? EcoAction connects you with a community that
+          transforms personal commitment into collective impact. Track your eco-friendly actions,
+          join group challenges, and see real change through gamified progress and visual insights.
+          Let's build a greener future together.
         </p>
         <button onclick="window.location.href='/login'" id="login" type="button">
           Login / Signup

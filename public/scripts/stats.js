@@ -164,6 +164,7 @@ async function createStats(user) {
         {
           label: "Weekly EcoPoints",
           data: weeklyEcoPoints,
+          borderSkipped: false,
           borderRadius: 5,
           backgroundColor: `${GREEN_SECONDARY}`,
           barThickness: 50,
@@ -187,10 +188,14 @@ async function createStats(user) {
             display: false,
             drawTicks: false,
           },
+          border: { display: false },
         },
         y: {
           title: { display: false },
-          grid: { drawTicks: false },
+          grid: {
+            displayTicks: false,
+            color: (context) => (context.tick.value === 0 ? "transparent" : "rgba(0, 0, 0, 0.1)"),
+          },
           border: { display: false },
         },
       },
