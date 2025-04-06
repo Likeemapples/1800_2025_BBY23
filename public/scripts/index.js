@@ -19,7 +19,7 @@ new Granim({
           { color: "#daf6d5", pos: 0.8 },
         ],
       ],
-      transitionSpeed: 7000, // Transition duration in milliseconds
+      transitionSpeed: 6000,
       loop: true,
     },
   },
