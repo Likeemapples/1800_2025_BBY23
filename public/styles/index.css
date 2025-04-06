@@ -14,7 +14,7 @@ header {
   left: 0;
   width: 100%;
   height: 100%;
-  clip-path: polygon(0 0, 100% 0, 100% 20%, 0 70%);
+  clip-path: polygon(0 0, 100% 0, 100% 25%, 0 70%);
 
   canvas {
     position: absolute;
@@ -27,6 +27,16 @@ header {
 
 #container {
   padding: 50px 0 150px 0;
+
+  h1 {
+    font-family: "Poppins", sans-serif;
+    color: var(--green-secondary);
+  }
+  p {
+    font-family: "Open Sans", sans-serif;
+    color: #0d2617;
+    font-size: 1.05rem;
+  }
 }
 
 #nav {
@@ -46,19 +56,21 @@ header {
 }
 
 #login {
-  padding: 20px;
+  padding: 15px 30px 15px 30px;
   background-color: transparent;
-  border-radius: 20px;
-  border: 2px solid var(--green-primary);
-  color: var(--green-primary);
-  text-transform: uppercase;
-  font-weight: bold;
+  border-radius: 100px;
+  border: 2px solid var(--green-secondary);
+  color: var(--green-secondary);
+  font-weight: 600;
   font-size: 1.2rem;
   margin-top: 20px;
-  transition: all 0.3s ease-in-out;
+  line-height: 1.1;
+  transition: all 0.3s ease-in;
+  font-family: "Poppins", sans-serif;
 }
-#login:hover {
-  background-color: var(--green-primary);
+#login:hover,
+#login:focus {
+  background-color: var(--green-secondary);
   color: var(--white);
 }
 
