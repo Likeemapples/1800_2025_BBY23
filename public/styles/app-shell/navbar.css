@@ -24,7 +24,7 @@
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 2px;
+  height: 1px;
   bottom: 13px;
   left: 7%;
   background-color: var(--green-accent-primary);
