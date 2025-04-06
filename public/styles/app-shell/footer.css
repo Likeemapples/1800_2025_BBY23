@@ -1,5 +1,6 @@
 .footer {
   background-color: var(--green-primary);
+  backdrop-filter: blur(20px);
 }
 
 a {

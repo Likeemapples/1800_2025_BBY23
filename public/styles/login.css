@@ -1,5 +1,7 @@
 body {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.8)),
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 5%, rgba(0, 0, 0, 0)) top / 100% 0%
+      no-repeat,
+    linear-gradient(to top, rgba(0, 0, 0, 0.8) 5%, rgba(0, 0, 0, 0)) bottom / 100% 20% no-repeat,
     url("/assets/images/login-bg.jpg") no-repeat center center fixed;
   background-size: cover;
   margin: 0;
@@ -20,13 +22,11 @@ body {
   width: 100%;
 
   #logo-wrapper {
-    display: flex;
     width: 100%;
-    justify-content: start;
-    padding: 20px 0 0 10%;
 
     #logo {
-      max-width: 175px;
+      max-width: max(7%, 130px);
+      margin: 20px 0 0 15%;
     }
   }
   #form-container {
@@ -38,7 +38,7 @@ body {
     padding: 60px 50px 60px 50px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-radius: 10px;
+    border-radius: 15px;
     -webkit-box-shadow: -3px 5px 7px 2px rgba(0, 0, 0, 0.87);
     box-shadow: -3px 5px 7px 2px rgba(0, 0, 0, 0.5);
 
@@ -55,18 +55,25 @@ body {
     #firebase-ui-auth-container {
       .firebaseui-container {
         background-color: transparent;
-        border-radius: 10px;
+        border-radius: 15px;
         box-shadow: none;
 
+        .mdl-button {
+          border-radius: 5px;
+          padding: 15px;
+        }
+        .firebaseui-tos {
+          color: rgb(172, 172, 172);
+        }
         .firebaseui-title {
           /* color: var(--white); */
           display: none;
         }
         .firebaseui-label {
-          color: rgb(193, 193, 193);
+          color: rgb(219, 219, 219);
         }
         .firebaseui-textfield.mdl-textfield .firebaseui-input {
-          border-color: rgb(193, 193, 193);
+          border-color: rgb(224, 224, 224);
         }
         .mdl-button--primary.mdl-button--primary {
           color: var(--green-primary);
@@ -75,7 +82,7 @@ body {
           background-color: var(--green-primary);
         }
         .firebaseui-link {
-          color: var(--green-secondary);
+          color: var(--green-primary-lighter);
         }
         .mdl-textfield--floating-label.is-focused .mdl-textfield__label,
         .mdl-textfield--floating-label.is-dirty .mdl-textfield__label,
@@ -280,12 +287,12 @@ body {
     display: flex;
     justify-content: start;
     width: 100%;
-    padding: 0 0 50px 10%;
+    padding: 0 0 30px 15%;
 
     #footer-wrapper {
-      color: #acacac;
-      font-weight: 500;
-      font-size: 1rem;
+      color: rgb(207, 207, 207);
+      font-weight: 600;
+      font-size: 0.9rem;
       font-family: "Open Sans", sans-serif;
     }
   }

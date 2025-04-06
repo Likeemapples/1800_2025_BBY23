@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <title>Welcome</title>
+    <script src="/scripts/finisher-header.es5.min.js" type="text/javascript"></script>
+
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="/css/app-shell/navbar.css" />
     <script type="module" src="/scripts/index.js"></script>
@@ -9,13 +11,12 @@
 
   <body>
     <header>
-      <img src="/assets/logo2.png" alt="EcoAction" />
+      <a href="/">
+        <img src="/assets/logo2.png" alt="EcoAction" />
+      </a>
     </header>
 
-    <div id="gradientContainer">
-      <canvas id="granimCanvas1"></canvas>
-      <canvas id="granimCanvas2"></canvas>
-    </div>
+    <div id="gradientContainer" class="finisher-header"></div>
 
     <main class="container">
       <div
