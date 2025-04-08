@@ -64,18 +64,23 @@ router.get("/", authenticateToken, async (request, response) => {
       minDate
     );
 
-    const { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints, totalWeekCompletedEcoActions } =
-      await getThisWeekEcoPointsBreakdown(
-        completedEcoActionsCollectionRef,
-        currentWeekStart,
-        allEcoActions
-      );
+    const {
+      ecoPointsBreakdown_thisWeek,
+      totalWeekEcoPoints,
+      totalWeekCompletedEcoActions,
+      activityStreak,
+    } = await getThisWeekEcoPointsBreakdown(
+      completedEcoActionsCollectionRef,
+      currentWeekStart,
+      allEcoActions
+    );
 
     const kpis = {
       "this-week-completed-ecoactions": totalWeekCompletedEcoActions,
       "lifetime-ecopoints": 0,
       "lifetime-ecogroups": ecoGroupsCount,
       "lifetime-completed-ecoactions": completedEcoActionsCount,
+      "activity-streak": activityStreak,
     };
 
     response.status(200).json({
@@ -98,27 +103,40 @@ async function getThisWeekEcoPointsBreakdown(
   currentWeekStart,
   allEcoActions
 ) {
-  const ecoPointsBreakdown_thisWeek = {};
+  const breakdown = {};
   const querySnapshot = await completedEcoActionsCollectionRef
     .where("timestamp", ">=", currentWeekStart)
     .get();
   let totalWeekEcoPoints = 0;
   let totalWeekCompletedEcoActions = 0;
+  let activityStreak = 0;
 
-  querySnapshot.forEach((doc) => {
-    const { ecoActionID } = doc.data();
+  for (let i = 0; i < querySnapshot.size; i++) {
+    // querySnapshot.forEach((doc) => {
+    const { ecoActionID, timestamp } = (await querySnapshot.docs[i]).data();
     const { name: ecoActionName, ecoPoints } = allEcoActions[ecoActionID];
 
-    if (ecoPointsBreakdown_thisWeek[ecoActionName]) {
-      ecoPointsBreakdown_thisWeek[ecoActionName] += ecoPoints;
+    if (breakdown[ecoActionName]) {
+      breakdown[ecoActionName] += ecoPoints;
     } else {
-      ecoPointsBreakdown_thisWeek[ecoActionName] = ecoPoints;
+      breakdown[ecoActionName] = ecoPoints;
     }
+
+    if (timestamp.toDate().getDay() == i + 1) {
+      activityStreak++;
+    }
+
     totalWeekEcoPoints += ecoPoints;
     totalWeekCompletedEcoActions++;
-  });
+    // });
+  }
 
-  return { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints, totalWeekCompletedEcoActions };
+  return {
+    ecoPointsBreakdown_thisWeek: breakdown,
+    totalWeekEcoPoints,
+    totalWeekCompletedEcoActions,
+    activityStreak,
+  };
 }
 
 /**

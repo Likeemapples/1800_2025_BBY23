@@ -101,12 +101,32 @@
       </h2>
       <div id="this-week-container" class="stats-container">
         <div class="kpis">
+          <div id="this-week-completed-ecoactions" class="widget kpi">
+            <span class="kpi-value"></span>
+            <span class="kpi-label">Completed EcoActions</span>
+          </div>
           <div id="this-week-ecopoints-breakdown-wrapper" class="widget">
             <canvas id="this-week-ecopoints-breakdown"></canvas>
           </div>
-          <div id="this-week-completed-ecoactions" class="widget">
-            <span class="kpi-value"></span>
-            <span class="kpi-label">Completed<br />EcoActions</span>
+          <div id="activity-streak" class="widget kpi">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-flame-icon lucide-flame">
+              <path
+                d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+            </svg>
+            <div class="kpi-wrapper">
+              <span class="kpi-value">5</span><span class="description">day</span>
+            </div>
+            <span class="kpi-label">Activity streak</span>
           </div>
           <!-- <div id="this-week-missed-ecoactions" class="widget">
             <span class="kpi-value"></span>
@@ -137,15 +157,31 @@
       </h2>
       <div id="lifetime-container" class="stats-container">
         <div class="kpis">
-          <div id="lifetime-ecopoints" class="widget">
+          <div id="lifetime-ecopoints" class="widget kpi">
             <span class="kpi-value"></span>
             <span class="kpi-label">EcoPoints</span>
           </div>
-          <div id="lifetime-completed-ecoactions" class="widget">
+          <div id="lifetime-completed-ecoactions" class="widget kpi">
             <span class="kpi-value"></span>
-            <span class="kpi-label">Completed<br />EcoActions</span>
+            <span class="kpi-label">Completed EcoActions</span>
           </div>
-          <div id="lifetime-ecogroups" class="widget">
+          <div id="lifetime-ecogroups" class="widget kpi">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-users-icon lucide-users">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
             <span class="kpi-value"></span>
             <span class="kpi-label">EcoGroups</span>
           </div>

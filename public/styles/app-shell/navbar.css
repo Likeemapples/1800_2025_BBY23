@@ -2,46 +2,26 @@
   position: sticky;
   top: 0;
   width: 100%;
+  z-index: 9999;
 }
 
 #nav {
   background-image: linear-gradient(to left, var(--green-accent-primary), var(--green-secondary));
 }
 
-.navbar-brand,
 .nav-link {
-  color: var(--white);
-}
-.nav-link {
-  border-radius: 5px;
-  padding: 15px;
+  border-radius: 100px;
+  padding: 5px 13px 5px 13px !important;
   position: relative;
-  transition: color 0.3s ease;
+  color: var(--white);
+  background-color: transparent !important;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
-.nav-link::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 1px;
-  bottom: 13px;
-  left: 7%;
-  background-color: var(--green-accent-primary);
-  transform-origin: bottom left;
-  transition: transform 0.3s ease;
-}
-.nav-link:hover {
-  /* background-color: var(--white) !important; */
-  color: var(--green-accent-primary);
-}
-.nav-link:hover::after {
-  transform: scaleX(0.85);
-  transform-origin: bottom left;
-}
 
-.navbar-toggler-icon {
-  filter: invert(100%); /* Makes the toggler (☰) white */
+.nav-link:hover {
+  background-color: var(--white) !important;
+  color: black !important;
 }
 
 .form-control {
@@ -60,6 +40,8 @@
 
 .dropdown-item {
   color: var(--white) !important;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .dropdown-item:hover {
@@ -112,7 +94,6 @@
 .dropdown-item:hover,
 .dropdown-item:focus {
   background-color: var(--white) !important;
-  border-radius: 5pt;
   color: black !important;
 }
 

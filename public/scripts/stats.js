@@ -136,7 +136,10 @@ async function createStats(user) {
             label: "EcoPoints",
             data: Object.values(ecoPointsBreakdown_thisWeek),
             backgroundColor: COLOURS,
-            borderWidth: 0,
+            borderWidth: 10,
+            borderColor: "white",
+            borderRadius: 25,
+            hoverBorderColor: "white",
           },
         ],
       },
@@ -146,8 +149,8 @@ async function createStats(user) {
         devicePixelRatio: 2, // for some reason will be blurry without this
         plugins: {
           tooltip: {
-            displayColors: true,
-            callbacks: { label: (label) => `: ${label.formattedValue}🪙` },
+            displayColors: false,
+            callbacks: { label: (label) => `${label.formattedValue} 🪙` },
           },
           title: { display: false },
           legend: { display: false },
