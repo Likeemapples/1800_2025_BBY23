@@ -207,21 +207,34 @@ router.post("/complete-ecoaction", authenticateToken, async (request, response) 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
   const { ecoGroupID } = request.body;
   const { uid: userID } = request.user;
+  const { groupID: targetGroup } = request.body;
+  // add member to ecogroup
+  
+  const userDoc = db.collection("users").doc(userID);
 
   try {
-    const addEcoGroupToUserResponse = await db
+
+    await userDoc.set(
+      {
+        ecogroups: [],
+      },
+      { merge: true }
+    )
+
+    console.log("added ecogroup collection to user");
+
+    console.log(userID, targetGroup);
+    const addUserToGroupResponse = await db
       .collection("users")
       .doc(userID)
       .update({
         ["ecoGroups"]: admin.firestore.FieldValue.arrayUnion(ecoGroupID),
       });
-    console.log("response", addEcoGroupToUserResponse);
+    console.log("response", addUserToGroupResponse);
     response.status(200).send("EcoGroup successfully added to user");
   } catch (error) {
-    console.log(`${error.name} adding EcoGroup to user ${userID}`, error);
-    response
-      .status(500)
-      .json({ message: `${error.name} adding EcoGroup to user ${userID}`, error });
+    console.log(`${error.name} adding user to ecogroup`, error);
+    response.status(500).json({ message: `${error.name} adding user to ecogroup`, error });
   }
 });
 
@@ -245,5 +258,7 @@ router.delete("/ecogroup", authenticateToken, async (request, response) => {
       .json({ message: `${error.name} deleting EcoGroup from user ${userID}`, error });
   }
 });
+
+
 
 export default router;
