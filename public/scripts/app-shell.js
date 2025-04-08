@@ -113,17 +113,6 @@ async function populateUserInfo(user) {
   } else {
     console.log("profile image was null");
   }
-
-  const ecoPoints = userInfo.data.ecoPoints;
-  console.log(ecoPoints);
-  if (ecoPoints != null) {
-    const elements = document.getElementsByClassName("navBarEcoPoints");
-
-    // Loop through each element and update innerText with ecoPoints
-    Array.from(elements).forEach((element) => {
-      element.innerText = `${ecoPoints}`;
-    });
-  }
 }
 
 // Your logout function

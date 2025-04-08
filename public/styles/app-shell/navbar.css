@@ -67,6 +67,9 @@
 .dropdown-menu {
   background-color: var(--green-accent-primary); /* Use accent green */
   right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+  visibility: hidden;
 }
 
 .dropdown-item {
@@ -86,26 +89,18 @@
   transform: scale(1.1); /* Increase size */
 }
 
-.dropdown-menu {
-  opacity: 0;
-  transform: translateY(-5px);
-  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
-  display: block; /* Override Bootstrap's instant hiding */
-  visibility: hidden;
-}
-
 .dropdown-menu.show {
   opacity: 1;
   transform: translateY(10px);
   visibility: visible;
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 /* Hide dropdown after animation */
 .dropdown-menu.hiding {
   opacity: 0;
   transform: translateY(-5px);
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transition: all 0.3s ease-out;
   visibility: hidden;
 }
 
