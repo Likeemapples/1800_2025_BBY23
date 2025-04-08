@@ -6,7 +6,38 @@
 }
 
 #nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   background-image: linear-gradient(to left, var(--green-accent-primary), var(--green-secondary));
+
+  #links {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0 10px 14%;
+    gap: 10px;
+
+    #nav-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-content: center;
+      margin: 0;
+      padding: 10px;
+      list-style: none;
+
+      li {
+        align-self: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 810px) {
+  #nav-bar {
+    display: none;
+  }
 }
 
 .nav-link {
@@ -83,6 +114,9 @@
 }
 #profileDropdown {
   background-color: transparent;
+}
+#profile {
+  padding-right: 14%;
 }
 #profile .dropdown-menu {
   background: linear-gradient(45deg, var(--green-accent-primary), var(--green-primary) 200%);

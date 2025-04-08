@@ -131,7 +131,7 @@ main {
   #this-week-container {
     .kpis #activity-streak {
       .lucide {
-        left: -5px;
+        left: -2px;
         top: 0;
       }
       .kpi-wrapper {

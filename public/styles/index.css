@@ -34,7 +34,7 @@ header {
     font-size: clamp(2rem, 3vw, 3rem);
   }
   p {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Arial", sans-serif;
     color: #0d2617;
     font-size: clamp(0.9rem, 1vw, 1.1rem);
   }
