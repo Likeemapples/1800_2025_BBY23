@@ -41,7 +41,7 @@ router.get("/", authenticateToken, async (request, response) => {
     const userEcoActions = (await db.collection("users").doc(userID).get()).get("ecoActions");
     const allEcoActions = await getAllEcoActions();
 
-    const completedEcoActionsCount = (await completedEcoActionsCollectionRef.get()).size;
+    const lifetimeEcoActions = (await completedEcoActionsCollectionRef.get()).size;
     const ecoGroupsCount = (await db.collection("users").doc(userID).get()).get(
       "ecoGroups"
     )?.length;
@@ -93,6 +93,7 @@ router.get("/", authenticateToken, async (request, response) => {
     response.status(200).json({
       ecoPointsBreakdown_thisWeek,
       completedEcoActionsByCategory,
+      lifetimeEcoActions,
       totalWeekEcoPoints,
       weeklyEcoPoints,
       minDate,

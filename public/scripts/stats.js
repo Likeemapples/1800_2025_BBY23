@@ -94,6 +94,7 @@ async function getUserStats(user) {
 async function createStats(user) {
   const {
     ecoPointsBreakdown_thisWeek,
+    lifetimeEcoActions,
     completedEcoActionsByCategory,
     totalWeekEcoPoints,
     weeklyEcoPoints,
@@ -138,7 +139,7 @@ async function createStats(user) {
           legend: { display: false },
         },
       },
-      plugins: [getDonutCenterText(kpis["lifetime-ecopoints"], "EcoActions")],
+      plugins: [getDonutCenterText(lifetimeEcoActions, "EcoActions")],
     }
   );
 
