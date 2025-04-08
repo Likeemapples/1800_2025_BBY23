@@ -78,13 +78,13 @@ router.get("/", authenticateToken, async (request, response) => {
       allEcoActions
     );
 
-    const { lifetimeEcoPoints, breakdown: completedEcoActionsByCategory } = await calcLifetimeKPIs(
-      allEcoActions,
-      completedEcoActionDates
-    );
+    const {
+      lifetimeEcoPoints,
+      breakdown: completedEcoActionsByCategory,
+      thisWeekBreakdown: completedEcoActionsByCategory_thisWeek,
+    } = await calcLifetimeKPIs(allEcoActions, completedEcoActionDates, currentWeekStart);
 
     const kpis = {
-      "this-week-completed-ecoactions": totalWeekCompletedEcoActions ?? 0,
       "lifetime-ecopoints": lifetimeEcoPoints ?? 0,
       "lifetime-ecogroups": ecoGroupsCount ?? 0,
       "activity-streak": activityStreak ?? 0,
@@ -93,6 +93,8 @@ router.get("/", authenticateToken, async (request, response) => {
     response.status(200).json({
       ecoPointsBreakdown_thisWeek,
       completedEcoActionsByCategory,
+      completedEcoActionsByCategory_thisWeek,
+      totalWeekCompletedEcoActions,
       lifetimeEcoActions,
       totalWeekEcoPoints,
       weeklyEcoPoints,
@@ -107,18 +109,30 @@ router.get("/", authenticateToken, async (request, response) => {
   }
 });
 
-async function calcLifetimeKPIs(ecoActions, completedEcoActions) {
+async function calcLifetimeKPIs(ecoActions, completedEcoActions, currentWeekStart) {
   const breakdown = {};
+  const thisWeekBreakdown = {};
   let lifetimeEcoPoints = 0;
 
   for (const ecoAction in completedEcoActions) {
     const { category, ecoPoints } = ecoActions[ecoAction];
 
     breakdown[category] = (breakdown[category] || 0) + ecoPoints;
+
+    console.log("ecoAction", ecoAction);
+
+    for (const date of completedEcoActions[ecoAction]) {
+      console.log("date", date);
+
+      if (date >= currentWeekStart) {
+        thisWeekBreakdown[category] = (thisWeekBreakdown[category] || 0) + ecoPoints;
+      }
+    }
+
     lifetimeEcoPoints += ecoPoints;
   }
 
-  return { lifetimeEcoPoints, breakdown };
+  return { lifetimeEcoPoints, breakdown, thisWeekBreakdown };
 }
 
 async function getThisWeekEcoPointsBreakdown(

@@ -151,6 +151,11 @@ main {
   }
 
   #lifetime-container {
+    .kpis #lifetime-ecopoints img {
+      max-width: 50px;
+      filter: invert(1);
+    }
+
     #container {
       display: flex;
       flex-direction: row;

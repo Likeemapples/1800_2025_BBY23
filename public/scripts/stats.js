@@ -96,6 +96,8 @@ async function createStats(user) {
     ecoPointsBreakdown_thisWeek,
     lifetimeEcoActions,
     completedEcoActionsByCategory,
+    completedEcoActionsByCategory_thisWeek,
+    totalWeekCompletedEcoActions,
     totalWeekEcoPoints,
     weeklyEcoPoints,
     minDate,
@@ -104,9 +106,46 @@ async function createStats(user) {
   document.getElementById("loader").classList.toggle("hidden");
   document.querySelector("main").classList.toggle("hidden");
 
+  console.log("completedEcoActionsByCategory_thisWeek", completedEcoActionsByCategory_thisWeek);
+
   for (const kpi in kpis) {
     document.querySelector(`#${kpi} .kpi-value`).textContent = kpis[kpi];
   }
+
+  const thisWeekCompletedEcoActionsByCategory = new Chart(
+    document.getElementById("this-week-completed-ecoactions-by-category"),
+    {
+      type: "doughnut",
+      data: {
+        labels: Object.keys(completedEcoActionsByCategory_thisWeek),
+        datasets: [
+          {
+            label: "EcoPoints",
+            data: Object.values(completedEcoActionsByCategory_thisWeek),
+            backgroundColor: COLOURS,
+            borderWidth: 10,
+            borderColor: "white",
+            borderRadius: 25,
+            hoverBorderColor: "white",
+          },
+        ],
+      },
+      options: {
+        cutout: "68%",
+        maintainAspectRatio: false,
+        devicePixelRatio: 2, // for some reason will be blurry without this
+        plugins: {
+          tooltip: {
+            displayColors: false,
+            callbacks: { label: (label) => `${label.formattedValue} 🪙` },
+          },
+          title: { display: false },
+          legend: { display: false },
+        },
+      },
+      plugins: [getDonutCenterText(totalWeekCompletedEcoActions, "EcoActions")],
+    }
+  );
 
   const lifetimeCompletedEcoActionsByCategory = new Chart(
     document.getElementById("lifetime-completed-ecoactions-by-category"),
