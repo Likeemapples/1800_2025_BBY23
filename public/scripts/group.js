@@ -169,6 +169,7 @@ async function addUser(user) {
   } catch (error) {
     console.error("Network or other error during fetch:", error);
   }
+  location.reload();
 }
 
 if (joinGroupButton) {
