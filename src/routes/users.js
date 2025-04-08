@@ -205,7 +205,6 @@ router.post("/complete-ecoaction", authenticateToken, async (request, response) 
 });
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
-  const { ecoGroupID } = request.body;
   const { uid: userID } = request.user;
   const { groupID: targetGroup } = request.body;
   // add member to ecogroup
@@ -228,7 +227,7 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
       .collection("users")
       .doc(userID)
       .update({
-        ["ecoGroups"]: admin.firestore.FieldValue.arrayUnion(ecoGroupID),
+        ["ecoGroups"]: admin.firestore.FieldValue.arrayUnion(targetGroup),
       });
     console.log("response", addUserToGroupResponse);
     response.status(200).send("EcoGroup successfully added to user");

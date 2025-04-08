@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EcoGroups</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <link rel="stylesheet" href="/css/groups.css" />
+  </head>
+  <body>
+    <template id="groupCardTemplate">
+      <div class="card py-2 mx-2" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <p class="card-members"></p>
+          <br />
+          <p class="card-text">Lorem ipsum or something.</p>
+          <a class="btn gbtn btn-secondary card-href">See More</a>
+        </div>
+      </div>
+    </template>
+
+    <header id="nav-bar"></header>
+
+    <div id="h1-container" class="d-flex align-items-left">
+      <h1>EcoGroups</h1>
+      <a id="explore" class="green-button" href="groups.html">Explore</a>
+    </div>
+
+    <div class="container mb-3">
+      <!-- Here is the container for cards  -->
+      <div class="container">
+        <div id="groups-go-here" class="justify-content-center row row-cols-auto"></div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <nav id="footer-nav"></nav>
+    <footer id="footer"></footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      defer></script>
+    <script type="module" src="/scripts/app-shell.js"></script>
+    <script type="module" src="/scripts/my-groups.js"></script>
+    <script type="module" src="/scripts/search.js"></script>
+  </body>
+</html>
