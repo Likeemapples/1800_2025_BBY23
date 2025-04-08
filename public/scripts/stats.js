@@ -92,38 +92,55 @@ async function getUserStats(user) {
 }
 
 async function createStats(user) {
-  const { ecoPointsBreakdown_thisWeek, totalWeekEcoPoints, weeklyEcoPoints, minDate, kpis } =
-    await getUserStats(user);
+  const {
+    ecoPointsBreakdown_thisWeek,
+    completedEcoActionsByCategory,
+    totalWeekEcoPoints,
+    weeklyEcoPoints,
+    minDate,
+    kpis,
+  } = await getUserStats(user);
   document.getElementById("loader").classList.toggle("hidden");
   document.querySelector("main").classList.toggle("hidden");
-
-  console.log("ecoPointsBreakdown_thisWeek", ecoPointsBreakdown_thisWeek);
 
   for (const kpi in kpis) {
     document.querySelector(`#${kpi} .kpi-value`).textContent = kpis[kpi];
   }
 
-  const donutCenterText = {
-    id: "donutCenterText",
-    beforeDatasetsDraw(chart, args, options) {
-      const { ctx, data } = chart;
-      const centerX = chart.getDatasetMeta(0).data[0].x;
-      const centerY = chart.getDatasetMeta(0).data[0].y;
-      ctx.save();
-
-      ctx.font = "bolder 50px 'Arial', sans-serif";
-      ctx.fillStyle = `black`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(`${totalWeekEcoPoints}`, centerX, centerY - 5);
-
-      ctx.font = "normal 14px 'Arial', sans-serif";
-      ctx.fillStyle = `#6c757d`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("EcoPoints", centerX, centerY + 25);
-    },
-  };
+  const lifetimeCompletedEcoActionsByCategory = new Chart(
+    document.getElementById("lifetime-completed-ecoactions-by-category"),
+    {
+      type: "doughnut",
+      data: {
+        labels: Object.keys(completedEcoActionsByCategory),
+        datasets: [
+          {
+            label: "EcoPoints",
+            data: Object.values(completedEcoActionsByCategory),
+            backgroundColor: COLOURS,
+            borderWidth: 10,
+            borderColor: "white",
+            borderRadius: 25,
+            hoverBorderColor: "white",
+          },
+        ],
+      },
+      options: {
+        cutout: "68%",
+        maintainAspectRatio: false,
+        devicePixelRatio: 2, // for some reason will be blurry without this
+        plugins: {
+          tooltip: {
+            displayColors: false,
+            callbacks: { label: (label) => `${label.formattedValue} 🪙` },
+          },
+          title: { display: false },
+          legend: { display: false },
+        },
+      },
+      plugins: [getDonutCenterText(kpis["lifetime-ecopoints"], "EcoActions")],
+    }
+  );
 
   const thisWeekEcoPointsBreakdown = new Chart(
     document.getElementById("this-week-ecopoints-breakdown"),
@@ -156,7 +173,7 @@ async function createStats(user) {
           legend: { display: false },
         },
       },
-      plugins: [donutCenterText],
+      plugins: [getDonutCenterText(totalWeekEcoPoints, "EcoPoints")],
     }
   );
 
@@ -230,6 +247,30 @@ async function createStats(user) {
       },
     },
   });
+}
+
+function getDonutCenterText(number, text) {
+  return {
+    id: "donutCenterText",
+    beforeDatasetsDraw(chart, args, options) {
+      const { ctx, data } = chart;
+      const centerX = chart.getDatasetMeta(0).data[0].x;
+      const centerY = chart.getDatasetMeta(0).data[0].y;
+      ctx.save();
+
+      ctx.font = "bolder 50px 'Arial', sans-serif";
+      ctx.fillStyle = `black`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(`${number}`, centerX, centerY - 5);
+
+      ctx.font = "normal 14px 'Arial', sans-serif";
+      ctx.fillStyle = `#6c757d`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(`${text}`, centerX, centerY + 25);
+    },
+  };
 }
 
 export function toggleStatsContainer(event) {

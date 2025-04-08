@@ -158,14 +158,9 @@ main {
       width: 100%;
       gap: var(--gap-primary);
 
-      #ecoactions-breakdown-wrapper {
-        height: 100%;
-        width: 375px;
-      }
-
       #weekly-ecopoints-over-time-wrapper {
         height: 350px;
-        width: 500px;
+        width: 600px;
       }
     }
   }

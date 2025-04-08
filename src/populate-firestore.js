@@ -1,15 +1,15 @@
 /**
  * Seeds the Firestore database with predefined EcoGroups and EcoActions,
- * using auto-generated IDs for both collections.
+ * using auto-generated IDs for both collections. Includes categories for actions.
  * Assumes Firebase v8 SDK.
  *
  * @param {firebase.firestore.Firestore} db - The initialized Firestore database instance.
  * @param {object} firebase - The Firebase app object (needed for FieldValue).
  */
 export default async function seedDatabase(db, firebase) {
-  console.log("Starting database seeding with auto-generated IDs...");
+  console.log("Starting database seeding with auto-generated IDs and categories...");
 
-  // --- Data Definitions (EcoAction 'id' field is now ignored) ---
+  // --- Data Definitions (Added 'category' to each action) ---
   const groupsData = [
     // 1. Biking Group
     {
@@ -20,6 +20,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Transportation", // Added Category
           name: "Bike To Work",
           description:
             "Swap your car or public transport for your bicycle for your commute to work or school at least once this week.",
@@ -27,6 +28,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Commute via bicycle at least once this week.",
         },
         {
+          category: "Transportation", // Added Category
           name: "Weekend Warrior Ride",
           description:
             "Go for a recreational bike ride of at least 10km (6.2 miles) over the weekend.",
@@ -34,6 +36,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Take a 10km+ bike ride this weekend.",
         },
         {
+          category: "Consumption & Lifestyle", // Added Category (related to maintenance/repair)
           name: "Bike Maintenance Check",
           description:
             "Perform basic bike maintenance: check tire pressure, clean the chain, and ensure brakes are working.",
@@ -51,6 +54,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Waste Reduction", // Added Category
           name: "Waste-Free Lunch",
           description:
             "Pack and eat a lunch that generates zero single-use waste (use reusable containers, cutlery, napkins, and water bottles). Do this 3 times this week.",
@@ -58,6 +62,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Pack a zero-waste lunch 3 times this week.",
         },
         {
+          category: "Waste Reduction", // Added Category
           name: "Compost Starter",
           description:
             "Set up or contribute to a compost system (home bin, worm farm, local drop-off) for your food scraps for one week.",
@@ -75,6 +80,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Energy Conservation", // Added Category
           name: "Lights Out Challenge",
           description:
             "Make a conscious effort to turn off lights in rooms when you leave them for an entire day.",
@@ -82,6 +88,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Turn off lights when leaving rooms for a day.",
         },
         {
+          category: "Energy Conservation", // Added Category
           name: "Unplug Energy Vampires",
           description:
             "Identify and unplug electronics that draw power even when off (like chargers, TVs, game consoles) when not in use for a day.",
@@ -99,6 +106,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Water Conservation", // Added Category
           name: "Shorter Shower Sprint",
           description:
             "Time your shower and aim to reduce it by at least 2 minutes compared to your usual time. Do this twice this week.",
@@ -106,6 +114,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Reduce shower time by 2+ minutes, twice.",
         },
         {
+          category: "Water Conservation", // Added Category
           name: "Leak Detective",
           description:
             "Check all faucets, toilets, and exposed pipes in your home for leaks. Report or fix any leaks found.",
@@ -123,6 +132,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Food & Diet", // Added Category
           name: "Meatless Monday Meal",
           description:
             "Prepare and eat a completely plant-based (vegan or vegetarian) main meal on Monday.",
@@ -130,6 +140,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Eat a plant-based main meal on Monday.",
         },
         {
+          category: "Waste Reduction", // Added Category (overlaps with food)
           name: "Reduce Food Waste Footprint",
           description:
             "Actively plan meals, store food properly, and use leftovers to minimize food waste for 3 consecutive days.",
@@ -148,6 +159,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Transportation", // Added Category
           name: "Transit Tuesday",
           description:
             "Use TransLink buses, SkyTrain, SeaBus, or West Coast Express for a trip you would normally take by car.",
@@ -155,6 +167,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Use TransLink instead of a car for a trip.",
         },
         {
+          category: "Transportation", // Added Category
           name: "Multi-Modal Journey",
           description:
             "Combine walking or biking with a public transit trip for a single journey (e.g., bike to SkyTrain).",
@@ -172,6 +185,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Community & Nature", // Added Category
           name: "Solo Park Cleanup",
           description:
             "Spend at least 30 minutes picking up litter in Stanley Park (or another local Vancouver park). Dispose of waste properly.",
@@ -179,6 +193,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Spend 30+ mins picking up litter in a park.",
         },
         {
+          category: "Community & Nature", // Added Category
           name: "Invasive Plant Pull",
           description:
             "Participate in an organized invasive species removal event in a Vancouver park or designated area.",
@@ -196,6 +211,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Water Conservation", // Added Category
           name: "Rainwater Capture",
           description:
             "Set up a rain barrel or simple container to collect rainwater for watering plants (ensure compliance with local bylaws).",
@@ -203,6 +219,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Collect rainwater for watering plants.",
         },
         {
+          category: "Water Conservation", // Added Category
           name: "Metro Van Watering Smarts",
           description:
             "Check and strictly follow the current Metro Vancouver lawn watering restrictions for one week.",
@@ -221,6 +238,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Food & Diet", // Added Category
           name: "Farmers Market Finds",
           description:
             "Visit a local farmers market and purchase at least two types of produce grown locally.",
@@ -228,6 +246,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Buy 2+ local items at a farmers market.",
         },
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Shop Local Grocer",
           description:
             "Make a conscious effort to buy groceries from a locally owned store instead of a large chain for one shopping trip.",
@@ -245,6 +264,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Fix It Forward",
           description:
             "Successfully repair a broken household item, clothing, or electronic device instead of replacing it.",
@@ -252,6 +272,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Repair a broken item instead of replacing it.",
         },
         {
+          category: "Community & Nature", // Added Category (Community event)
           name: "Repair Cafe Event",
           description:
             "Attend or volunteer at a local Repair Cafe event to learn repair skills or get help fixing an item.",
@@ -269,6 +290,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "DIY Green Cleaner",
           description:
             "Make and use a homemade, non-toxic cleaner (e.g., vinegar and water solution) for a cleaning task.",
@@ -276,6 +298,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Make and use a DIY non-toxic cleaner.",
         },
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Eco-Label Clean Products",
           description:
             "Purchase a cleaning product with a recognized eco-label (e.g., EcoLogo, Green Seal) when you need to restock.",
@@ -293,12 +316,14 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Community & Nature", // Added Category
           name: "Community Tree Plant",
           description: "Participate in an organized tree planting event in your community.",
           ecoPoints: 90,
           shortDescription: "Join an organized tree planting event.",
         },
         {
+          category: "Community & Nature", // Added Category
           name: "Seedling Starter",
           description:
             "Plant and care for a tree seedling in a pot or your yard (ensure it's a suitable species for your area).",
@@ -316,6 +341,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Waste Reduction", // Added Category
           name: "Reusable Bag Habit",
           description:
             "Remember and use reusable shopping bags for all your grocery shopping trips for one week.",
@@ -323,6 +349,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Use reusable bags for all groceries this week.",
         },
         {
+          category: "Waste Reduction", // Added Category
           name: "No Straw Pledge",
           description:
             "Refuse single-use plastic straws when ordering drinks away from home for an entire week.",
@@ -340,6 +367,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Secondhand Style Seeking",
           description:
             "Purchase an item of clothing from a thrift store, consignment shop, or online secondhand marketplace instead of buying new.",
@@ -347,6 +375,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Buy an item of clothing secondhand.",
         },
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Clothing Care & Longevity",
           description:
             "Wash clothes in cold water, line dry when possible, or mend a small tear/sew on a button to extend clothing life.",
@@ -364,6 +393,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Food & Diet", // Added Category
           name: "Windowsill Herb Garden",
           description:
             "Plant and maintain at least two types of culinary herbs on a windowsill or balcony.",
@@ -371,6 +401,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Plant and maintain 2+ herbs indoors.",
         },
         {
+          category: "Food & Diet", // Added Category
           name: "Patio Veggie Patch",
           description:
             "Grow at least one type of vegetable (like lettuce, radishes, or tomatoes) in a container on your patio or balcony.",
@@ -388,6 +419,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Shop Main Street",
           description:
             "Make a purchase (any value) from an independent, locally-owned shop on Main Street (between approx Broadway and 33rd).",
@@ -395,6 +427,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Buy something from a local Main St shop.",
         },
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Local Coffee Fix",
           description:
             "Buy a coffee or tea from an independent coffee shop in Mount Pleasant instead of a large chain.",
@@ -412,6 +445,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Consumption & Lifestyle", // Added Category
           name: "Screen Time Reduction",
           description:
             "Reduce your non-essential screen time (phone, computer, TV) by at least 1 hour compared to your average for one day.",
@@ -419,6 +453,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Reduce non-essential screen time by 1+ hour.",
         },
         {
+          category: "Waste Reduction", // Added Category (digital waste/clutter)
           name: "Inbox Zero Hero",
           description: "Unsubscribe from at least 5 marketing email lists you no longer read.",
           ecoPoints: 15,
@@ -435,6 +470,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Community & Nature", // Added Category
           name: "BioBlitz Event",
           description:
             "Participate in a local BioBlitz event, identifying and recording as many species as possible in a set area and time.",
@@ -442,6 +478,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Participate in a local BioBlitz species count.",
         },
         {
+          category: "Community & Nature", // Added Category
           name: "Bird Count Contribution",
           description:
             "Spend at least 15 minutes observing birds in your area and submit your sightings to a citizen science project (like eBird or iNaturalist).",
@@ -459,6 +496,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Transportation", // Added Category
           name: "Carpool Coordination",
           description:
             "Arrange and complete a carpool trip (sharing a ride with at least one other person) for a journey you both would have otherwise made separately.",
@@ -466,6 +504,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Arrange and complete a carpool trip.",
         },
         {
+          category: "Transportation", // Added Category
           name: "E-Scooter Expedition",
           description:
             "Use a shared e-scooter or e-bike service for a short trip (under 5km) instead of driving.",
@@ -483,6 +522,7 @@ export default async function seedDatabase(db, firebase) {
       },
       actions: [
         {
+          category: "Community & Nature", // Added Category
           name: "Informative Eco Post",
           description:
             "Share a credible article, video, or resource about an environmental issue on your social media or with friends/family.",
@@ -490,6 +530,7 @@ export default async function seedDatabase(db, firebase) {
           shortDescription: "Share a credible environmental resource.",
         },
         {
+          category: "Community & Nature", // Added Category
           name: "Contact Your Rep",
           description:
             "Write an email or make a call to a local or national government representative about an environmental concern or policy.",
@@ -511,6 +552,7 @@ export default async function seedDatabase(db, firebase) {
       const actionIdPromises = groupDef.actions.map(async (action) => {
         const actionData = {
           // Data for the ecoactions collection
+          category: action.category, // **** Include category ****
           name: action.name,
           description: action.description,
           ecoPoints: action.ecoPoints,
@@ -548,7 +590,7 @@ export default async function seedDatabase(db, firebase) {
 
     console.log("------------------------------------------");
     console.log(
-      `Database seeding complete! ${groupsData.length} groups and their actions created.`
+      `Database seeding complete! ${groupsData.length} groups and their actions created with categories.`
     );
     console.log("------------------------------------------");
   } catch (error) {
