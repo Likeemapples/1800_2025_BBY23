@@ -4,7 +4,8 @@ import { createServer } from "livereload";
 import connectLiveReload from "connect-livereload";
 import { firebaseConfig } from "./src/config/auth.js";
 import { db, admin } from "./src/config/firebase.js";
-import seedDatabase from "./src/routes/populate-firestore.js";
+import seedDatabase from "./src/populate-firestore.js";
+import seedUser from "./src/populate-user.js";
 
 import usersRouter from "./src/routes/users.js";
 import ecoactionsRouter from "./src/routes/ecoactions.js";
@@ -37,13 +38,21 @@ app.use("/stats", statsRouter);
 const command = process.argv[2];
 
 (async () => {
-  if (command === "seed") {
-    console.log("Command 'seed' detected. Running database seeder...");
+  if (command === "seed-db") {
+    console.log("Command 'seed-db' detected. Running database seeder...");
     try {
-      await seedDatabase(db, admin); // Call your imported function
+      await seedDatabase(db, admin);
       console.log("Database seeding completed successfully.");
     } catch (error) {
       console.error("Database seeding failed:", error);
+    }
+  } else if (command === "seed-user") {
+    console.log("Command 'seed-user' detected. Running user seeder...");
+    try {
+      await seedUser(db, admin, "VhJaHIJyKkfYmacWw361OR6ED3X2");
+      console.log("User seeding completed successfully.");
+    } catch (error) {
+      console.error("User seeding failed:", error);
     }
   }
 })();

@@ -3,7 +3,7 @@ import { db, admin } from "../config/firebase.js";
 
 const router = Router();
 const WEEK_IN_MILLISECONDS = 6.048e8;
-const NUM_WEEKS_TO_DISPLAY_IN_CHART = 4;
+const NUM_WEEKS_TO_DISPLAY_IN_CHART = 6;
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -41,7 +41,7 @@ router.get("/", authenticateToken, async (request, response) => {
     const userEcoActions = (await db.collection("users").doc(userID).get()).get("ecoActions");
     const allEcoActions = await getAllEcoActions();
 
-    const completedEcoActionsCount = (await completedEcoActionsCollectionRef.get()).size;
+    const lifetimeEcoActions = (await completedEcoActionsCollectionRef.get()).size;
     const ecoGroupsCount = (await db.collection("users").doc(userID).get()).get(
       "ecoGroups"
     )?.length;
@@ -57,6 +57,8 @@ router.get("/", authenticateToken, async (request, response) => {
     const minDate = new Date(
       currentWeekStart.getTime() - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
     );
+
+    //change to promise.all
 
     const weeklyEcoPoints = await calcWeeklyEcoPoints(
       allEcoActions,
@@ -76,16 +78,22 @@ router.get("/", authenticateToken, async (request, response) => {
       allEcoActions
     );
 
+    const { lifetimeEcoPoints, breakdown: completedEcoActionsByCategory } = await calcLifetimeKPIs(
+      allEcoActions,
+      completedEcoActionDates
+    );
+
     const kpis = {
       "this-week-completed-ecoactions": totalWeekCompletedEcoActions ?? 0,
-      "lifetime-ecopoints": 0,
+      "lifetime-ecopoints": lifetimeEcoPoints ?? 0,
       "lifetime-ecogroups": ecoGroupsCount ?? 0,
-      "lifetime-completed-ecoactions": completedEcoActionsCount ?? 0,
       "activity-streak": activityStreak ?? 0,
     };
 
     response.status(200).json({
       ecoPointsBreakdown_thisWeek,
+      completedEcoActionsByCategory,
+      lifetimeEcoActions,
       totalWeekEcoPoints,
       weeklyEcoPoints,
       minDate,
@@ -98,6 +106,20 @@ router.get("/", authenticateToken, async (request, response) => {
       .json({ message: `${error.name} getting user stats for user ${userID}`, error });
   }
 });
+
+async function calcLifetimeKPIs(ecoActions, completedEcoActions) {
+  const breakdown = {};
+  let lifetimeEcoPoints = 0;
+
+  for (const ecoAction in completedEcoActions) {
+    const { category, ecoPoints } = ecoActions[ecoAction];
+
+    breakdown[category] = (breakdown[category] || 0) + ecoPoints;
+    lifetimeEcoPoints += ecoPoints;
+  }
+
+  return { lifetimeEcoPoints, breakdown };
+}
 
 async function getThisWeekEcoPointsBreakdown(
   completedEcoActionsCollectionRef,
@@ -166,7 +188,7 @@ async function getCompletedEcoActionDates(collectionRef) {
 
   querySnapshot.forEach((doc) => {
     const { ecoActionID, timestamp: date } = doc.data();
-    // completedEcoActionTimestamps.push({ ecoActionID, timestamp });
+    console.log("doc data", doc.data());
 
     if (!completedEcoActionDates[ecoActionID]) {
       completedEcoActionDates[ecoActionID] = [];
