@@ -40,7 +40,7 @@ router.post("/create", authenticateToken, async (request, response) => {
             name: groupNm,
             users: [userID],
             createdByUser: userID,
-            ecoactions: [action]
+            ecoaction: [action]
         }).then(docRef => {
           let docReference = docRef.id;
           response.status(200).json({documentId: docReference});
