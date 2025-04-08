@@ -24,7 +24,6 @@ async function authenticateToken(request, response, next) {
   }
 }
 
-//TODO finish rearchictecting to minimize firebase db queries
 router.get("/", authenticateToken, async (request, response) => {
   const currentWeekStart = getWeekStart(new Date());
   const { uid: userID } = request.user;
@@ -128,6 +127,7 @@ async function getThisWeekEcoPointsBreakdown(
     totalWeekCompletedEcoActions++;
   });
 
+  // calc activity streak starting from monday
   days = [...new Set(days)];
   days.sort((a, b) => a - b);
   let prevDay = 0;
@@ -175,6 +175,13 @@ async function getCompletedEcoActionDates(collectionRef) {
   return completedEcoActionDates;
 }
 
+/**
+ * Fetches all ecoactions from the 'ecoactions' collection and returns an object
+ * with the ecoaction IDs as keys and their corresponding data as the value.
+ *
+ * @return {Object.<string, import('firebase-admin').firestore.DocumentData>} The
+ *     ecoactions
+ */
 async function getAllEcoActions() {
   const ecoActions = {};
   const ecoActionsCollectionRef = db.collection("ecoactions");
@@ -215,6 +222,14 @@ async function calcWeeklyEcoPoints(
   return formatWeeklyEcoPointSums(weeklyEcoPointsSums);
 }
 
+/**
+ * Formats an object with weekly EcoPoints sums into an array of objects
+ * suitable for the x-axis of a chart.
+ *
+ * @param {Object.<string, number>} obj
+ *     An object with weekly EcoPoints sums.
+ * @return {Array.<{x: string, y: number}>} The formatted data.
+ */
 function formatWeeklyEcoPointSums(obj) {
   const formatted = [];
 
@@ -225,6 +240,15 @@ function formatWeeklyEcoPointSums(obj) {
   return formatted;
 }
 
+/**
+ * Populates an object with the past 10 weeks' start dates as keys
+ * and initializes their values to 0.
+ *
+ * @param {Date} currentWeekStart
+ *     The current week's start date.
+ * @return {Object.<string, number>}
+ *     An object with weekly start dates as keys and initial values of 0.
+ */
 function populateRecentWeeksStartDates(currentWeekStart) {
   const weekStarts = {};
   for (let i = 9; i >= 0; i--) {
@@ -236,6 +260,14 @@ function populateRecentWeeksStartDates(currentWeekStart) {
   return weekStarts;
 }
 
+/**
+ * Returns the start date of the week for a given date.
+ *
+ * @param {Date} date
+ *     The date to find the week start date for.
+ * @return {Date}
+ *     The week start date.
+ */
 function getWeekStart(date) {
   // avoid mutating original date
   const newDate = new Date(date);
