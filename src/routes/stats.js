@@ -38,11 +38,13 @@ router.get("/", authenticateToken, async (request, response) => {
     const completedEcoActionDates = await getCompletedEcoActionDates(
       completedEcoActionsCollectionRef
     );
-    const userEcoActions = (await db.collection("users").doc(userID).get()).get("ecoactions");
+    const userEcoActions = (await db.collection("users").doc(userID).get()).get("ecoActions");
     const allEcoActions = await getAllEcoActions();
 
     const completedEcoActionsCount = (await completedEcoActionsCollectionRef.get()).size;
-    const ecoGroupsCount = (await db.collection("users").doc(userID).get()).get("ecogroups").length;
+    const ecoGroupsCount = (await db.collection("users").doc(userID).get()).get(
+      "ecoGroups"
+    )?.length;
 
     // const { missedEcoActionsCount_lifetime, missedEcoActionsCount_thisWeek } =
     //   await calcMissedEcoActions(
@@ -77,7 +79,7 @@ router.get("/", authenticateToken, async (request, response) => {
     const kpis = {
       "this-week-completed-ecoactions": totalWeekCompletedEcoActions ?? 0,
       "lifetime-ecopoints": 0,
-      "lifetime-ecogroups": ecoGroupsCount,
+      "lifetime-ecogroups": ecoGroupsCount ?? 0,
       "lifetime-completed-ecoactions": completedEcoActionsCount ?? 0,
       "activity-streak": activityStreak ?? 0,
     };

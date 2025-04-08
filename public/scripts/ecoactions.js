@@ -90,6 +90,8 @@ document.addEventListener("firebaseReady", function () {
 
         document.getElementById("dailyChallenges-go-here").appendChild(newcard);
       });
+      document.getElementById("loader").classList.toggle("hidden");
+      document.querySelector("main").classList.toggle("hidden");
     } else {
       console.log("No ecoactions found for this user.");
     }
@@ -100,7 +102,7 @@ document.addEventListener("firebaseReady", function () {
   });
 });
 
-function finishGoalPage(acoactionID) {
-  localStorage.setItem("ecoactionToFinish", acoactionID);
+function finishGoalPage(ecoActionID) {
+  localStorage.setItem("ecoactionToFinish", ecoActionID);
   window.location.href = "finish-ecoaction.html";
 }

@@ -124,7 +124,7 @@ router.get("/ecoactions", authenticateToken, async (request, response) => {
   try {
     const userDocSnapshot = await db.collection("users").doc(userID).get();
     const userDoc = userDocSnapshot.data();
-    const ecoActionsIDs = userDoc.ecoactions;
+    const ecoActionsIDs = userDoc.ecoActions;
     response.json({ success: true, ecoActionsIDs });
   } catch (error) {
     console.error("Error fetching user document:", error);
@@ -142,7 +142,7 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
     // don't need to be removing the ecoaction once done, can have recurring ecoactions
     // need to change this logic to conditionally display the ecoactin if it is a certain day of the week
     await userRef.update({
-      ecoactions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
+      ecoActions: admin.firestore.FieldValue.arrayRemove(ecoactionID),
     });
   } catch (error) {
     response.status(500).json({ success: false, message: error.message });
@@ -150,6 +150,30 @@ router.delete("/ecoaction", authenticateToken, async (request, response) => {
 });
 
 router.post("/ecoaction", authenticateToken, async (request, response) => {
+  const { ecoGroupID } = request.body;
+  const { uid: userID } = request.user;
+
+  try {
+    const groupEcoActions = (await db.collection("ecogroups").doc(ecoGroupID).get()).get(
+      "ecoactions"
+    );
+    const addEcoActionsToUserResponse = await db
+      .collection("users")
+      .doc(userID)
+      .update({
+        ["ecoActions"]: admin.firestore.FieldValue.arrayUnion(...groupEcoActions),
+      });
+    console.log("response", addEcoActionsToUserResponse);
+    response.status(200).send("EcoActions successfully added to user");
+  } catch (error) {
+    console.log(`${error.name} adding EcoActions to user ${userID}`, error);
+    response
+      .status(500)
+      .json({ message: `${error.name} adding EcoActions to user ${userID}`, error });
+  }
+});
+
+router.post("/complete-ecoaction", authenticateToken, async (request, response) => {
   try {
     const { uid: userID } = request.user; // Extract user ID from token
     const { image, title, description, ecoactionID } = request.body;
@@ -159,10 +183,13 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
       return response.status(400).json({ success: false, message: "Missing required fields" });
     }
 
-    const userDoc = db.collection("users").doc(userID).collection("completedEcoActions");
+    const completedEcoActions = db
+      .collection("users")
+      .doc(userID)
+      .collection("completedEcoActions");
 
     // Add a new document with an auto-generated ID
-    const newDocRef = await userDoc.add({
+    const newDocRef = await completedEcoActions.add({
       title: title,
       ecoActionID: ecoactionID,
       description: description,
@@ -178,16 +205,16 @@ router.post("/ecoaction", authenticateToken, async (request, response) => {
 });
 
 router.post("/ecogroup", authenticateToken, async (request, response) => {
-  const { ecogroupID } = request.body;
+  const { ecoGroupID } = request.body;
   const { uid: userID } = request.user;
 
   try {
     const addEcoGroupToUserResponse = await db
       .collection("users")
       .doc(userID)
-      .collection("ecogroups")
-      .doc(ecogroupID)
-      .set({});
+      .update({
+        ["ecoGroups"]: admin.firestore.FieldValue.arrayUnion(ecoGroupID),
+      });
     console.log("response", addEcoGroupToUserResponse);
     response.status(200).send("EcoGroup successfully added to user");
   } catch (error) {

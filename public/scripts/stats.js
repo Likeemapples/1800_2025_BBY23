@@ -239,10 +239,6 @@ export function toggleStatsContainer(event) {
   arrow.closest("h2").querySelector("#more-content").classList.toggle("shown");
 }
 
-function showLoader() {
-  document.querySelector("main").classList.toggle("hidden");
-}
-
 async function populateUserInfo(user) {
   const idToken = await user.getIdToken(true);
   const response = await fetch("/users/info", {
@@ -297,7 +293,6 @@ function logout() {
     });
 }
 
-showLoader();
 initizliazeFirebase();
 
 document.querySelectorAll(".signOut").forEach((button) => {

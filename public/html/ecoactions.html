@@ -3,6 +3,7 @@
   <head>
     <title>EcoActions</title>
     <link rel="stylesheet" href="/css/ecoactions.css" />
+    <link rel="stylesheet" href="/css/loader.css" />
   </head>
 
   <body>
@@ -10,11 +11,48 @@
       <div id="nav-bar"></div>
     </header>
 
-    <main>
-      <div class="container">
-        <div id="h1-container" class="text-left">
-          <h1 class="m-0">EcoActions</h1>
+    <div id="loader">
+      <div class="tree">
+        <div class="branch" style="--x: 0">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
         </div>
+        <div class="branch" style="--x: 1">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 2">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 3">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="stem">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <span class="shadow"></span>
+      </div>
+      <h1>Loading...</h1>
+    </div>
+
+    <main class="hidden">
+      <div id="h1-container">
+        <h1 class="m-0">EcoActions</h1>
+      </div>
+      <div class="container">
         <div id="dailyChallenges-go-here"></div>
         <div class="text-center">
           <p>Join Groups To See More EcoActions</p>

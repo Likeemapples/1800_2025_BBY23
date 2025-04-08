@@ -3,6 +3,8 @@ import { readFileSync, writeFileSync } from "fs";
 import { createServer } from "livereload";
 import connectLiveReload from "connect-livereload";
 import { firebaseConfig } from "./src/config/auth.js";
+import { db, admin } from "./src/config/firebase.js";
+import seedDatabase from "./src/routes/populate-firestore.js";
 
 import usersRouter from "./src/routes/users.js";
 import ecoactionsRouter from "./src/routes/ecoactions.js";
@@ -32,24 +34,19 @@ app.use("/ecoactions", ecoactionsRouter);
 app.use("/ecogroups", ecogroupsRouter);
 app.use("/stats", statsRouter);
 
-async function authenticateToken(request, response, next) {
-  const authHeader = request.headers.authorization;
+const command = process.argv[2];
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return response.status(401).send("Unauthorized: No token provided");
+(async () => {
+  if (command === "seed") {
+    console.log("Command 'seed' detected. Running database seeder...");
+    try {
+      await seedDatabase(db, admin); // Call your imported function
+      console.log("Database seeding completed successfully.");
+    } catch (error) {
+      console.error("Database seeding failed:", error);
+    }
   }
-
-  const idToken = authHeader.split("Bearer ")[1];
-
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    request.user = decodedToken;
-    next();
-  } catch (error) {
-    console.error("Error verifying token:", error);
-    response.status(401).send("Unauthorized: Invalid token");
-  }
-}
+})();
 
 app.get("/login", (request, response) => {
   response.status(200).send(readFileSync("./public/html/login.html", "utf8"));

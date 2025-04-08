@@ -16,14 +16,14 @@ document.addEventListener("firebaseReady", function () {
   descriptionInput.addEventListener("input", checkFields);
   imageInput.addEventListener("change", checkFields);
 
-  const ecoactionToFinish = localStorage.getItem("ecoactionToFinish");
+  const ecoActionToFinish = localStorage.getItem("ecoactionToFinish");
 
   async function displayEcoaction(user) {
     const ecoActioReponse = await fetch("/ecoactions", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        EcoactionsIDs: ecoactionToFinish,
+        EcoactionsIDs: ecoActionToFinish,
       },
     });
     const responseData = await ecoActioReponse.json();
@@ -74,7 +74,7 @@ document.addEventListener("firebaseReady", function () {
         Authorization: `Bearer ${idToken}`,
       },
       body: JSON.stringify({
-        ecoactionID: ecoactionToFinish, // The ID you want to remove
+        ecoactionID: ecoActionToFinish, // The ID you want to remove
       }),
     })
       .then((response) => response.json())
@@ -89,7 +89,7 @@ document.addEventListener("firebaseReady", function () {
 
     const idToken = await user.getIdToken(true);
 
-    const response = await fetch("/users/ecoaction", {
+    const response = await fetch("/users/complete-ecoaction", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${idToken}`,
@@ -99,7 +99,7 @@ document.addEventListener("firebaseReady", function () {
         image: _image,
         title: _title,
         description: _description,
-        ecoactionID: ecoactionToFinish,
+        ecoactionID: ecoActionToFinish,
       }),
     });
 
@@ -111,7 +111,6 @@ document.addEventListener("firebaseReady", function () {
   document.getElementById("finishBtn").addEventListener("click", (event) => {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
-        await deleteEcoaction(user);
         await postEcoaction(user);
         localStorage.removeItem("ecoactionToFinish");
         window.location.href = "/html/finish-animation.html";

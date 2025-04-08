@@ -13,10 +13,8 @@ router.put("/", (request, response) => {
 });
 
 router.get("/", async (request, response) => {
-  let ecoactionsIDs = request.headers['ecoactionsids'];
-  ecoactionsIDs = ecoactionsIDs ? ecoactionsIDs.split(',') : [];
-
-
+  let ecoactionsIDs = request.headers["ecoactionsids"];
+  ecoactionsIDs = ecoactionsIDs ? ecoactionsIDs.split(",") : [];
 
   try {
     // Wait for all async operations using Promise.all
@@ -29,25 +27,22 @@ router.get("/", async (request, response) => {
 
     for (const doc of ecoactionsDocs) {
       if (!doc) continue;
-    
+
       let bannerImage = "";
       try {
-        const imageInfo = await cloudinary.api.resource(
-          `ecoactions/${doc.id}/bannerImage`
-        );
+        const imageInfo = await cloudinary.api.resource(`ecoactions/${doc.id}/bannerImage`);
         bannerImage = imageInfo.secure_url;
       } catch (error) {
         console.error(`Failed to fetch banner image for ${doc.id}:`, error.message);
       }
-    
+
       doc.bannerImage = bannerImage;
     }
 
-    response.json({ success: true, ecoactionsDocs, ecoactionsIDs});
+    response.json({ success: true, ecoactionsDocs, ecoactionsIDs });
   } catch (error) {
     response.status(500).json({ success: false, message: error.message });
   }
-  
 });
 
 export default router;

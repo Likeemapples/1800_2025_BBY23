@@ -12,6 +12,7 @@
       href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <link rel="stylesheet" href="/css/groups.css" />
+    <link rel="stylesheet" href="/css/loader.css" />
   </head>
   <body>
     <header id="nav-bar"></header>
@@ -42,8 +43,45 @@
       </div>
     </template>
 
+    <div id="loader">
+      <div class="tree">
+        <div class="branch" style="--x: 0">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 1">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 2">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="branch" style="--x: 3">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <div class="stem">
+          <span style="--i: 0"></span>
+          <span style="--i: 1"></span>
+          <span style="--i: 2"></span>
+          <span style="--i: 3"></span>
+        </div>
+        <span class="shadow"></span>
+      </div>
+      <h1>Loading...</h1>
+    </div>
+
     <!-- BODY -->
-    <div class="container mb-3">
+    <main class="container mb-3 hidden">
       <h1><span id="groupName" class="mb-3">this group</span></h1>
       <br />
       <a id="join-group" class="green-button mb-3 mt-3" href="#">Join Group</a>
@@ -54,7 +92,7 @@
       <br />
       <h2><b>USERS</b></h2>
       <span id="groupUsers" style="white-space: pre-line"></span>
-    </div>
+    </main>
 
     <!-- JAVASCRIPT -->
     <nav id="footer-nav"></nav>
