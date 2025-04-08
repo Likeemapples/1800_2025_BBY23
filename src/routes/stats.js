@@ -76,11 +76,11 @@ router.get("/", authenticateToken, async (request, response) => {
     );
 
     const kpis = {
-      "this-week-completed-ecoactions": totalWeekCompletedEcoActions,
+      "this-week-completed-ecoactions": totalWeekCompletedEcoActions ?? 0,
       "lifetime-ecopoints": 0,
       "lifetime-ecogroups": ecoGroupsCount,
-      "lifetime-completed-ecoactions": completedEcoActionsCount,
-      "activity-streak": activityStreak,
+      "lifetime-completed-ecoactions": completedEcoActionsCount ?? 0,
+      "activity-streak": activityStreak ?? 0,
     };
 
     response.status(200).json({
@@ -109,12 +109,14 @@ async function getThisWeekEcoPointsBreakdown(
     .get();
   let totalWeekEcoPoints = 0;
   let totalWeekCompletedEcoActions = 0;
+  let days = [];
   let activityStreak = 0;
 
-  for (let i = 0; i < querySnapshot.size; i++) {
-    // querySnapshot.forEach((doc) => {
-    const { ecoActionID, timestamp } = (await querySnapshot.docs[i]).data();
+  querySnapshot.forEach((doc) => {
+    const { ecoActionID, timestamp } = doc.data();
     const { name: ecoActionName, ecoPoints } = allEcoActions[ecoActionID];
+
+    days.push(timestamp.toDate().getDay());
 
     if (breakdown[ecoActionName]) {
       breakdown[ecoActionName] += ecoPoints;
@@ -122,13 +124,20 @@ async function getThisWeekEcoPointsBreakdown(
       breakdown[ecoActionName] = ecoPoints;
     }
 
-    if (timestamp.toDate().getDay() == i + 1) {
-      activityStreak++;
-    }
-
     totalWeekEcoPoints += ecoPoints;
     totalWeekCompletedEcoActions++;
-    // });
+  });
+
+  days = [...new Set(days)];
+  days.sort((a, b) => a - b);
+  let prevDay = 0;
+  for (const day of days) {
+    console.log("day", day);
+
+    if (prevDay + 1 == day) {
+      activityStreak++;
+    }
+    prevDay++;
   }
 
   return {
