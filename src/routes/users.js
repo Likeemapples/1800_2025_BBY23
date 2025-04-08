@@ -224,6 +224,24 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
 
     console.log(userID, targetGroup);
     const addUserToGroupResponse = await db
+  const { groupID: targetGroup } = request.body;
+  // add member to ecogroup
+  
+  const userDoc = db.collection("users").doc(userID);
+
+  try {
+
+    await userDoc.set(
+      {
+        ecogroups: [],
+      },
+      { merge: true }
+    )
+
+    console.log("added ecogroup collection to user");
+
+    console.log(userID, targetGroup);
+    const addUserToGroupResponse = await db
       .collection("users")
       .doc(userID)
       .update({
@@ -232,6 +250,8 @@ router.post("/ecogroup", authenticateToken, async (request, response) => {
     console.log("response", addUserToGroupResponse);
     response.status(200).send("EcoGroup successfully added to user");
   } catch (error) {
+    console.log(`${error.name} adding user to ecogroup`, error);
+    response.status(500).json({ message: `${error.name} adding user to ecogroup`, error });
     console.log(`${error.name} adding user to ecogroup`, error);
     response.status(500).json({ message: `${error.name} adding user to ecogroup`, error });
   }
@@ -257,6 +277,8 @@ router.delete("/ecogroup", authenticateToken, async (request, response) => {
       .json({ message: `${error.name} deleting EcoGroup from user ${userID}`, error });
   }
 });
+
+
 
 
 

@@ -123,58 +123,25 @@ async function addUser(user) {
 
   const idToken = await user.getIdToken(true);
 
-  try {
-    const addUserToGroupPromise = fetch("/ecogroups/add-user", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        groupID: ID,
-      }),
-    });
-
-    const addGroupToUserPromise = fetch("/users/ecogroup", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ecoGroupID: ID,
-      }),
-    });
-
-    const addEcoActionsToUserPromise = fetch("/users/ecoaction", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ecoGroupID: ID,
-      }),
-    });
-
-    const [addUserToGroupResponse, addGroupToUserResponse, addEcoActionsToUserResponse] =
-      await Promise.all([addUserToGroupPromise, addGroupToUserPromise, addEcoActionsToUserPromise]);
-
-    if (addGroupToUserResponse.ok && addUserToGroupResponse.ok && addEcoActionsToUserResponse.ok) {
-      console.log("Successfully joined group (according to backend).");
-      window.location.reload();
-    } else {
-      console.error("Backend reported an error joining group:");
+    try {
+        const response = await fetch("/ecogroups/add-user", { //replace with desired endpoint
+            method: "PUT", // GET, POST, PUT, DELETE
+            headers: {
+                Authorization: `Bearer ${idToken}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                groupID: ID,
+            }),
+        });
+    } catch (error) {
+        console.error(error.name, error);
     }
-  } catch (error) {
-    console.error("Network or other error during fetch:", error);
-  }
+    
 
-  location.reload();
+    window.location.reload();
 }
-
-if (joinGroupButton) {
-  joinGroupButton.addEventListener("click", function () {
+document.getElementById("join-group").addEventListener("click", function() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         addUser(user);
