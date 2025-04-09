@@ -1,12 +1,12 @@
 .card {
   margin: 0pt 20pt 20pt 20pt;
-  width: 75%;
+  width: clamp(350px, 70%, 850px);
 }
 
 #dailyChallenges-go-here {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 
 .card-body {

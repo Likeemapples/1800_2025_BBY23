@@ -13,35 +13,61 @@ router.put("/", (request, response) => {
 });
 
 router.get("/", async (request, response) => {
-  let ecoactionsIDs = request.headers["ecoactionsids"];
-  ecoactionsIDs = ecoactionsIDs ? ecoactionsIDs.split(",") : [];
+  let ecoactionsIDHeader = request.headers["ecoactionsids"]; // Use a clearer variable name
+  // Trim whitespace from header, split, filter empty strings, trim each ID
+  const ecoactionsIDs = ecoactionsIDHeader
+    ? ecoactionsIDHeader
+        .trim()
+        .split(",")
+        .map((id) => id.trim())
+        .filter((id) => id)
+    : [];
+
+  if (ecoactionsIDs.length === 0) {
+    // Handle case with no IDs early
+    return response.json({ success: true, ecoactionsDocs: [], ecoactionsIDs: [] });
+  }
+
+  console.log(`Fetching data for ${ecoactionsIDs.length} EcoAction IDs...`);
 
   try {
-    // Wait for all async operations using Promise.all
-    const ecoactionsDocs = await Promise.all(
+    const results = await Promise.all(
       ecoactionsIDs.map(async (id) => {
-        const ecoactionDocSnapshot = await db.collection("ecoactions").doc(id).get();
-        return ecoactionDocSnapshot.exists ? { id, ...ecoactionDocSnapshot.data() } : null;
+        const firestorePromise = db.collection("ecoactions").doc(id).get();
+        const cloudinaryPromise = cloudinary.api
+          .resource(`ecoactions/${id}/bannerImage`)
+          .then((imageInfo) => imageInfo.secure_url)
+          .catch((error) => {
+            console.error(`Failed to fetch banner image for ${id}:`, error.message);
+            return "";
+          });
+        const [ecoactionDocSnapshot, bannerImage] = await Promise.all([
+          firestorePromise,
+          cloudinaryPromise,
+        ]);
+
+        if (ecoactionDocSnapshot.exists) {
+          return {
+            id: id,
+            ...ecoactionDocSnapshot.data(),
+            bannerImage: bannerImage,
+          };
+        } else {
+          console.warn(`EcoAction document with ID ${id} not found.`);
+          return null;
+        }
       })
     );
 
-    for (const doc of ecoactionsDocs) {
-      if (!doc) continue;
-
-      let bannerImage = "";
-      try {
-        const imageInfo = await cloudinary.api.resource(`ecoactions/${doc.id}/bannerImage`);
-        bannerImage = imageInfo.secure_url;
-      } catch (error) {
-        console.error(`Failed to fetch banner image for ${doc.id}:`, error.message);
-      }
-
-      doc.bannerImage = bannerImage;
-    }
-
-    response.json({ success: true, ecoactionsDocs, ecoactionsIDs });
+    // Filter out any null results (where Firestore doc wasn't found)
+    const successfulEcoactionsDocs = results.filter((doc) => doc !== null);
+    console.log(`Successfully processed ${successfulEcoactionsDocs.length} EcoActions.`);
+    response.json({ success: true, ecoactionsDocs: successfulEcoactionsDocs, ecoactionsIDs }); // Send the combined data
   } catch (error) {
-    response.status(500).json({ success: false, message: error.message });
+    console.error("Error fetching EcoAction data:", error);
+    response
+      .status(500)
+      .json({ success: false, message: "Failed to fetch EcoAction data.", error: error.message });
   }
 });
 

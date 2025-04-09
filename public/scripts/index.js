@@ -2,17 +2,17 @@ new FinisherHeader({
   count: 10,
   size: {
     min: 400,
-    max: 1300,
+    max: 1000,
     pulse: 0,
   },
   speed: {
     x: {
       min: 0.1,
-      max: 0.2,
+      max: 0.3,
     },
     y: {
       min: 0.1,
-      max: 0.2,
+      max: 0.3,
     },
   },
   colors: {
