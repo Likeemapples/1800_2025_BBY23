@@ -1,55 +1,61 @@
-const CHART_TITLE_FONT = {
-  size: 25,
-  family: "'Arial', sans-serif",
-  weight: "bold",
-};
-
 const COLOURS = [
   "#1B5E20", // Very Dark Pine Green
   "#558B2F", // Strong Leaf Green
   "#A9D18E", // Soft Sage Green
   "#8FBC8F", // Dark Sea Green
   "#2E7D32", // Deep Forest Green
-  "#F5F5DC", // Beige
-  "#B2D8B4", // Washed Mint Green
-
-  "#C5E1A5", // Pale Leaf Green
-
-  "#90EE90", // LightGreen
-  "#D4E2D4", // Very Pale Sage/Gray-Green
-
-  // Mid-Tone & Natural Greens
-  "#7CB342", // Healthy Grass Green
-
   "#779155", // Muted Olive Green
-
-  "#6B8E23", // OliveDrab
-  "#4CAF50", // Standard Medium Green
-
-  // Deep & Forest Greens
   "#386641", // Mossy Forest Green
 
+  "#A0522D", // Sienna
+  "#C5E1A5", // Pale Leaf Green
+  "#D4E2D4", // Very Pale Sage/Gray-Green
+  "#7CB342", // Healthy Grass Green
+  "#6B8E23", // OliveDrab
+  "#4CAF50", // Standard Medium Green
   "#556B2F", // Dark Olive Green
   "#006400", // DarkGreen
-
-  // Light & Sandy Browns
-
   "#D2B48C", // Tan
   "#BCB88A", // Light Khaki/Dry Earth
   "#E0CDB6", // Pale Driftwood
-
-  // Mid-Tone & Woodsy Browns
   "#CD853F", // Peru
-  "#A0522D", // Sienna
-  // "#B8860B", // DarkGoldenrod (Commented out - maybe less earthy for some)
   "#8B7355", // Medium Wood Brown
-
-  // Dark & Soil Browns
   "#8B4513", // Saddle Brown / Rich Soil
   "#654321", // Dark Brown / Tree Bark
   "#5D4037", // Deep Earth Brown
   "#3E2723", // Very Dark Espresso
 ];
+
+const CHART_TITLE_FONT = {
+  size: 25,
+  family: "'Arial', sans-serif",
+  weight: "bold",
+};
+
+const DONUT_OPTIONS_COMMON = {
+  cutout: "68%",
+  maintainAspectRatio: false,
+  devicePixelRatio: 2, // for some reason will be blurry without this
+};
+
+const DONUT_ECOACTIONS_OPTIONS_COMMON = {
+  ...DONUT_OPTIONS_COMMON,
+  plugins: {
+    tooltip: {
+      displayColors: false,
+    },
+    title: { display: false },
+    legend: { display: false },
+  },
+};
+
+const DONUT_DATASET_COMMON = {
+  backgroundColor: COLOURS,
+  borderWidth: 10,
+  borderColor: "white",
+  borderRadius: 25,
+  hoverBorderColor: "white",
+};
 
 const GREEN_PRIMARY = window.getComputedStyle(document.body).getPropertyValue("--green-primary");
 const GREEN_SECONDARY = window
@@ -106,7 +112,7 @@ async function createStats(user) {
   document.getElementById("loader").classList.toggle("hidden");
   document.querySelector("main").classList.toggle("hidden");
 
-  console.log("completedEcoActionsByCategory_thisWeek", completedEcoActionsByCategory_thisWeek);
+  console.log("weeklyEcoPoints", weeklyEcoPoints);
 
   for (const kpi in kpis) {
     document.querySelector(`#${kpi} .kpi-value`).textContent = kpis[kpi];
@@ -120,30 +126,14 @@ async function createStats(user) {
         labels: Object.keys(completedEcoActionsByCategory_thisWeek),
         datasets: [
           {
-            label: "EcoPoints",
+            label: "EcoActions",
             data: Object.values(completedEcoActionsByCategory_thisWeek),
-            backgroundColor: COLOURS,
-            borderWidth: 10,
-            borderColor: "white",
-            borderRadius: 25,
-            hoverBorderColor: "white",
+            ...DONUT_DATASET_COMMON,
           },
         ],
       },
-      options: {
-        cutout: "68%",
-        maintainAspectRatio: false,
-        devicePixelRatio: 2, // for some reason will be blurry without this
-        plugins: {
-          tooltip: {
-            displayColors: false,
-            callbacks: { label: (label) => `${label.formattedValue} 🪙` },
-          },
-          title: { display: false },
-          legend: { display: false },
-        },
-      },
-      plugins: [getDonutCenterText(totalWeekCompletedEcoActions, "EcoActions")],
+      options: DONUT_ECOACTIONS_OPTIONS_COMMON,
+      plugins: [getDonutCenterText(totalWeekCompletedEcoActions, "Completed", "EcoActions")],
     }
   );
 
@@ -155,30 +145,14 @@ async function createStats(user) {
         labels: Object.keys(completedEcoActionsByCategory),
         datasets: [
           {
-            label: "EcoPoints",
+            label: "EcoActions",
             data: Object.values(completedEcoActionsByCategory),
-            backgroundColor: COLOURS,
-            borderWidth: 10,
-            borderColor: "white",
-            borderRadius: 25,
-            hoverBorderColor: "white",
+            ...DONUT_DATASET_COMMON,
           },
         ],
       },
-      options: {
-        cutout: "68%",
-        maintainAspectRatio: false,
-        devicePixelRatio: 2, // for some reason will be blurry without this
-        plugins: {
-          tooltip: {
-            displayColors: false,
-            callbacks: { label: (label) => `${label.formattedValue} 🪙` },
-          },
-          title: { display: false },
-          legend: { display: false },
-        },
-      },
-      plugins: [getDonutCenterText(lifetimeEcoActions, "EcoActions")],
+      options: DONUT_ECOACTIONS_OPTIONS_COMMON,
+      plugins: [getDonutCenterText(lifetimeEcoActions, "Completed", "EcoActions")],
     }
   );
 
@@ -192,18 +166,12 @@ async function createStats(user) {
           {
             label: "EcoPoints",
             data: Object.values(ecoPointsBreakdown_thisWeek),
-            backgroundColor: COLOURS,
-            borderWidth: 10,
-            borderColor: "white",
-            borderRadius: 25,
-            hoverBorderColor: "white",
+            ...DONUT_DATASET_COMMON,
           },
         ],
       },
       options: {
-        cutout: "68%",
-        maintainAspectRatio: false,
-        devicePixelRatio: 2, // for some reason will be blurry without this
+        ...DONUT_OPTIONS_COMMON,
         plugins: {
           tooltip: {
             displayColors: false,
@@ -289,26 +257,44 @@ async function createStats(user) {
   });
 }
 
-function getDonutCenterText(number, text) {
+/**
+ * Returns a plugin that adds text to the center of a donut chart.
+ * @param {number} number - the number to display in the center of the donut chart
+ * @param {string} text1 - the text to display below the number
+ * @param {string} [text2] - the text to display below the text1 (optional)
+ * @returns {object} a plugin for Chart.js
+ */
+function getDonutCenterText(number, text1, text2) {
   return {
     id: "donutCenterText",
     beforeDatasetsDraw(chart, args, options) {
       const { ctx, data } = chart;
       const centerX = chart.getDatasetMeta(0).data[0].x;
       const centerY = chart.getDatasetMeta(0).data[0].y;
+      let centerYOffset = text2 ? 8 : 0;
       ctx.save();
 
       ctx.font = "bolder 50px 'Arial', sans-serif";
       ctx.fillStyle = `black`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(`${number}`, centerX, centerY - 5);
+      ctx.fillText(`${number}`, centerX, centerY - 5 - centerYOffset);
 
       ctx.font = "normal 14px 'Arial', sans-serif";
       ctx.fillStyle = `#6c757d`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(`${text}`, centerX, centerY + 25);
+      ctx.fillText(`${text1}`, centerX, centerY + 28 - centerYOffset);
+
+      if (text2) {
+        ctx.font = "normal 14px 'Arial', sans-serif";
+        ctx.fillStyle = `#6c757d`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(`${text2}`, centerX, centerY + 45 - centerYOffset);
+      }
+
+      ctx.restore();
     },
   };
 }

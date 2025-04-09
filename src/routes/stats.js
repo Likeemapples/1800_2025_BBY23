@@ -3,7 +3,7 @@ import { db, admin } from "../config/firebase.js";
 
 const router = Router();
 const WEEK_IN_MILLISECONDS = 6.048e8;
-const NUM_WEEKS_TO_DISPLAY_IN_CHART = 6;
+const NUM_WEEKS_TO_DISPLAY_IN_CHART = 9;
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -55,34 +55,43 @@ router.get("/", authenticateToken, async (request, response) => {
     //   );
 
     const minDate = new Date(
-      currentWeekStart.getTime() - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
+      currentWeekStart.getTime() - (NUM_WEEKS_TO_DISPLAY_IN_CHART - 3) * WEEK_IN_MILLISECONDS
     );
 
-    //change to promise.all
-
-    const weeklyEcoPoints = await calcWeeklyEcoPoints(
+    const weeklyEcoPoints_promise = calcWeeklyEcoPoints(
       allEcoActions,
       completedEcoActionDates,
       currentWeekStart,
       minDate
     );
-
-    const {
-      ecoPointsBreakdown_thisWeek,
-      totalWeekEcoPoints,
-      totalWeekCompletedEcoActions,
-      activityStreak,
-    } = await getThisWeekEcoPointsBreakdown(
+    const thisWeekEcoPointsBreakdown_promise = getThisWeekEcoPointsBreakdown(
       completedEcoActionsCollectionRef,
       currentWeekStart,
       allEcoActions
     );
-
-    const {
-      lifetimeEcoPoints,
-      breakdown: completedEcoActionsByCategory,
-      thisWeekBreakdown: completedEcoActionsByCategory_thisWeek,
-    } = await calcLifetimeKPIs(allEcoActions, completedEcoActionDates, currentWeekStart);
+    const lifetimeKPIs_promise = calcLifetimeKPIs(
+      allEcoActions,
+      completedEcoActionDates,
+      currentWeekStart
+    );
+    const [
+      weeklyEcoPoints,
+      {
+        ecoPointsBreakdown_thisWeek,
+        totalWeekEcoPoints,
+        totalWeekCompletedEcoActions,
+        activityStreak,
+      },
+      {
+        lifetimeEcoPoints,
+        breakdown: completedEcoActionsByCategory,
+        thisWeekBreakdown: completedEcoActionsByCategory_thisWeek,
+      },
+    ] = await Promise.all([
+      weeklyEcoPoints_promise,
+      thisWeekEcoPointsBreakdown_promise,
+      lifetimeKPIs_promise,
+    ]);
 
     const kpis = {
       "lifetime-ecopoints": lifetimeEcoPoints ?? 0,
@@ -117,15 +126,10 @@ async function calcLifetimeKPIs(ecoActions, completedEcoActions, currentWeekStar
   for (const ecoAction in completedEcoActions) {
     const { category, ecoPoints } = ecoActions[ecoAction];
 
-    breakdown[category] = (breakdown[category] || 0) + ecoPoints;
-
-    console.log("ecoAction", ecoAction);
-
+    breakdown[category] = (breakdown[category] || 0) + 1;
     for (const date of completedEcoActions[ecoAction]) {
-      console.log("date", date);
-
       if (date >= currentWeekStart) {
-        thisWeekBreakdown[category] = (thisWeekBreakdown[category] || 0) + ecoPoints;
+        thisWeekBreakdown[category] = (thisWeekBreakdown[category] || 0) + 1;
       }
     }
 
@@ -170,8 +174,6 @@ async function getThisWeekEcoPointsBreakdown(
   days.sort((a, b) => a - b);
   let prevDay = 0;
   for (const day of days) {
-    console.log("day", day);
-
     if (prevDay + 1 == day) {
       activityStreak++;
     }
@@ -202,7 +204,6 @@ async function getCompletedEcoActionDates(collectionRef) {
 
   querySnapshot.forEach((doc) => {
     const { ecoActionID, timestamp: date } = doc.data();
-    console.log("doc data", doc.data());
 
     if (!completedEcoActionDates[ecoActionID]) {
       completedEcoActionDates[ecoActionID] = [];
@@ -246,14 +247,15 @@ async function calcWeeklyEcoPoints(
     ])
   );
 
-  for (const completedEcoAction in recentCompletedEcoActionDates) {
-    const weekStarts = recentCompletedEcoActionDates[completedEcoAction].map((date) =>
-      getWeekStart(date)
-    );
+  for (const ecoAction in recentCompletedEcoActionDates) {
+    console.log("ecoAction", ecoAction);
+
+    const weekStarts = recentCompletedEcoActionDates[ecoAction].map((date) => getWeekStart(date));
 
     for (const weekStart of weekStarts) {
-      const stringWeekStart = weekStart.toISOString();
-      weeklyEcoPointsSums[stringWeekStart] += allEcoActions[completedEcoAction].ecoPoints;
+      console.log("weekStart", weekStart);
+
+      weeklyEcoPointsSums[weekStart.toISOString()] += allEcoActions[ecoAction].ecoPoints;
     }
   }
 
@@ -309,10 +311,12 @@ function populateRecentWeeksStartDates(currentWeekStart) {
 function getWeekStart(date) {
   // avoid mutating original date
   const newDate = new Date(date);
-  const day = newDate.getDay();
-  const weekStartDate = new Date(newDate.setDate(newDate.getDate() - day + (day == 0 ? -6 : 1)));
+  const day = newDate.getUTCDay();
+  const weekStartDate = new Date(
+    newDate.setUTCDate(newDate.getUTCDate() - day + (day == 0 ? -6 : 1))
+  );
 
-  weekStartDate.setHours(0, 0, 0, 0);
+  weekStartDate.setUTCHours(0, 0, 0, 0);
 
   return weekStartDate;
 }
