@@ -111,6 +111,7 @@ document.addEventListener("firebaseReady", function () {
   document.getElementById("finishBtn").addEventListener("click", (event) => {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
+        await deleteEcoaction(user);
         await postEcoaction(user);
         localStorage.removeItem("ecoactionToFinish");
         window.location.href = "/html/finish-animation.html";

@@ -154,6 +154,8 @@ main {
     .kpis #lifetime-ecopoints img {
       max-width: 50px;
       filter: invert(1);
+      position: relative;
+      left: -4px;
     }
 
     #container {

@@ -1,5 +1,12 @@
 .card {
   margin: 0pt 20pt 20pt 20pt;
+  width: 75%;
+}
+
+#dailyChallenges-go-here {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .card-body {
@@ -95,7 +102,10 @@ header,
 }
 
 .coin {
-  width: 10pt;
+  max-width: 25px;
+  filter: brightness(0) /* Make black */ sepia(1) /* Give it a color tone to rotate */
+    hue-rotate(90deg) /* Rotate towards green (adjust this value!) */ saturate(500%)
+    /* Boost saturation (adjust!) */ brightness(110%); /* Adjust brightness (adjust!) */
 }
 
 @media (max-width: 810px) {
