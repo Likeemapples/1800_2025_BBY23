@@ -248,13 +248,9 @@ async function calcWeeklyEcoPoints(
   );
 
   for (const ecoAction in recentCompletedEcoActionDates) {
-    console.log("ecoAction", ecoAction);
-
     const weekStarts = recentCompletedEcoActionDates[ecoAction].map((date) => getWeekStart(date));
 
     for (const weekStart of weekStarts) {
-      console.log("weekStart", weekStart);
-
       weeklyEcoPointsSums[weekStart.toISOString()] += allEcoActions[ecoAction].ecoPoints;
     }
   }
