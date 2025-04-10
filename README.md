@@ -224,6 +224,8 @@ Example:
     -   Users cannot create custom EcoActions specifically for a group.
     -   EcoPoints are only displayed on the Stats page and not readily visible elsewhere.
     -   The EcoActions page lacks a "Completed EcoActions" section to display finished actions sorted by date.
+    -   The Profile page has a section for statistics (like EcoPoints and groups joined) that is currently non-functional and hardcoded.
+    -   There is no functionality for users to view the profiles of other users.
 
 ###   Future Work
 
@@ -244,6 +246,8 @@ Example:
     -   Implement the ability for users to create and suggest custom EcoActions for their groups.
     -   Add a widget to the top navbar to display the user's EcoPoints.
     -   Add a "Completed EcoActions" section to the EcoActions page to display finished actions sorted by date.
+    -   Implement the functionality to correctly display user statistics on the Profile page.
+    -   Implement the ability for users to view the profiles of other users.
 
 ---
 
