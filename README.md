@@ -210,22 +210,40 @@ Example:
 
 ## Limitations and Future Work
 
-### Limitations
+###   Limitations
 
-Example:
+    -   Group EcoActions functionality is still under development.
+    -   The page currently labeled "EcoGroups" should be the "Explore" page.
+    -   The intended EcoGroups page (a list of joined groups) is not implemented.
+    -   Some UX/UI bugs need to be addressed.
+    -   Leaderboards feature is not yet implemented.
+    -   Finished EcoActions do not disappear from the EcoActions list as intended.
+    -   Groups lack administration features.
+    -   The group interface lacks features like chat and viewing group posts.
+    -   Users cannot leave groups.
+    -   Users cannot create custom EcoActions specifically for a group.
+    -   EcoPoints are only displayed on the Stats page and not readily visible elsewhere.
+    -   The EcoActions page lacks a "Completed EcoActions" section to display finished actions sorted by date.
 
-- Currently, the app only supports city-based weather searches.
-- Limited to basic weather parameters like temperature, humidity, and conditions.
-- The user interface can be further enhanced for accessibility.
+###   Future Work
 
-### Future Work
-
-Example:
-
-- Add support for location-based weather detection using GPS.
-- Implement additional weather parameters like wind speed and UV index.
-- Create a dark mode for better usability in low-light conditions.
-- Integrate user accounts for saving favorite locations.
+    -   Complete group EcoActions functionality.
+    -   Rename the page currently labeled "EcoGroups" to "Explore" and implement the intended Explore page functionality.
+    -   Implement the EcoGroups page to display a list of groups the user has joined.
+    -   Finalize the Explore page with robust search and filtering.
+    -   Implement the leaderboards feature for enhanced gamification.
+    -   Conduct further usability testing and address UX/UI issues.
+    -   Refine the user interface for improved user experience.
+    -   Add mobile navbar text labels for better usability.
+    -   Ensure consistent styling and navigation across all pages.
+    -   Implement the feature where finished EcoActions disappear from the EcoActions list for a day.
+    -   Implement recurring EcoActions with frequencies set by the group.
+    -   Add group administration features (e.g., managing members, settings).
+    -   Improve the group interface with features like a group chat, the ability to view group posts, and more detailed group information.
+    -   Implement the ability for users to leave groups.
+    -   Implement the ability for users to create and suggest custom EcoActions for their groups.
+    -   Add a widget to the top navbar to display the user's EcoPoints.
+    -   Add a "Completed EcoActions" section to the EcoActions page to display finished actions sorted by date.
 
 ---
 
