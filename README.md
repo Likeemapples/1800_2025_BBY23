@@ -227,8 +227,8 @@ Example:
 ---
 
 ## Resources
-
----
+- In-app icons from Feather v4.28.0 (Open Source https://feathericons.com/)
+- Logo homemade!
 
 ## Limitations and Future Work
 
