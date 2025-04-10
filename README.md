@@ -2,42 +2,47 @@
 
 ## Overview
 
-Summarize your project's purpose, problem solved, key features, user benefits, development context, and main technologies used.
+EcoAction is a web application designed to connect environmentally conscious individuals and empower them to make a tangible impact through collective action. The app facilitates this by providing users with "EcoActions," which are small, achievable challenges that can be completed individually or in groups. EcoAction aims to combat the feeling of isolation in environmental efforts by enabling users to track their contributions, connect with others, and visualize their progress.
 
-Example:
-
-This client-side JavaScript web application provides real-time weather updates for cities worldwide. It simplifies accessing weather information through an intuitive mobile-first interface, allowing users to input a city name and receive data on temperature, humidity, and conditions.
-
-Developed for the [Course Name] course, applying User-Centred Design practices, agile project management processes, integrating a weather API, and Firebase backend services.
+Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction utilizes a SCRUM methodology with weekly sprints, leveraging technologies like Firebase for backend services, and JavaScript for dynamic front-end functionality.
 
 ---
 
 ## Names of Contributors
 
-- Hi, my name is Jason!
-- Hi, Hazel here!
-- Hello, I'm Yehor.
+- Jason
+- Hazel
+- Yehor
 
 ---
 
 ## Features
 
-Example:
-
-- Real-time weather updates for any city.
-- Responsive design for desktop and mobile.
-- Displays temperature, humidity, and weather conditions.
+-   **EcoActions:** Users can view and complete a variety of environmentally friendly tasks.
+-   **EcoGroups:** Users can form or join groups to collaborate on EcoActions and track collective progress.
+-   **User Profiles:** Users can create profiles to track their individual contributions and connect with others.
+-   **Statistics and Visualization:** The app provides charts and graphs to visualize user progress and impact.
+-   **Authentication:** Secure user authentication using Firebase.
 
 ---
 
 ## Technologies Used
 
-Example:
-
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Firebase for hosting
-- **Database**: Firestore
-- **API**: OpenWeatherMap API
+-   **Communication:** Discord
+-   **Project Management:** Trello
+-   **Frontend:** HTML5, CSS, SCSS, SASS, Bootstrap, JavaScript
+-   **Backend:** NodeJS, ExpressJS
+-   **Database:** Firebase (Firestore)
+-   **Image Storage:** Cloudinary
+-   **Charting Library:** ChartJS
+-   **Live Reloading:** LiveReload
+-   **Backend Auto-Restart:** Nodemon
+-   **IDE:** VSCode
+-   **AI Assistance:** ChatGPT (for logo and assets)
+-   **Version Control:** Git
+-   **Repository Hosting:** GitHub
+-   **UI/UX Design:** Figma
+-   **Hosting:** Contabo VPS running Linux (Ubuntu)
 
 ---
 
