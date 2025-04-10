@@ -43,9 +43,8 @@ Example:
 
 ## Usage
 
-Example:
-
-1. Open your browser and visit `http://localhost:3000`.
+Visit the Welcome page:
+1. Open your browser and visit `http://localhost:8050`.
 2. Enter the name of the city in the search bar and press enter.
 3. View the weather information displayed on the screen.
 
