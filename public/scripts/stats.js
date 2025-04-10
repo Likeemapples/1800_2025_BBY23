@@ -62,6 +62,10 @@ const GREEN_SECONDARY = window
   .getComputedStyle(document.body)
   .getPropertyValue("--green-secondary");
 
+const WEEK_IN_MILLISECONDS = 6.048e8;
+const MOBILE_QUERY = window.matchMedia("(max-width: 810px)");
+let NUM_WEEKS_TO_DISPLAY_IN_CHART = 6;
+
 async function getFirebaseConfig() {
   const response = await fetch("/firebase-config");
   const firebaseConfig = await response.json();
@@ -106,9 +110,10 @@ async function createStats(user) {
     totalWeekCompletedEcoActions,
     totalWeekEcoPoints,
     weeklyEcoPoints,
-    minDate,
+    currentWeekStart,
     kpis,
   } = await getUserStats(user);
+
   document.getElementById("loader").classList.toggle("hidden");
   document.querySelector("main").classList.toggle("hidden");
 
@@ -185,75 +190,87 @@ async function createStats(user) {
     }
   );
 
-  const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-ecopoints-over-time"), {
-    type: "bar",
-    data: {
-      datasets: [
-        {
-          label: "Weekly EcoPoints",
-          data: weeklyEcoPoints,
-          borderSkipped: false,
-          borderRadius: 5,
-          backgroundColor: `${GREEN_SECONDARY}`,
-          barThickness: 50,
-          barPercentage: 0.1,
-        },
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          type: "time",
-          time: {
-            unit: "week",
-            round: "week",
-            displayFormats: { week: "M/d" },
+  const weeklyEcoPointsChart = await new Chart(
+    document.getElementById("weekly-ecopoints-over-time"),
+    {
+      type: "bar",
+      data: {
+        datasets: [
+          {
+            label: "Weekly EcoPoints",
+            data: weeklyEcoPoints,
+            borderSkipped: false,
+            borderRadius: 5,
+            backgroundColor: `${GREEN_SECONDARY}`,
+            barThickness: 50,
+            barPercentage: 0.1,
           },
-          min: minDate,
-          max: new Date(),
-          grid: {
-            display: false,
-            drawTicks: false,
-          },
-          border: { display: false },
-        },
-        y: {
-          title: { display: false },
-          grid: {
-            displayTicks: false,
-            color: (context) => (context.tick.value === 0 ? "transparent" : "rgba(0, 0, 0, 0.1)"),
-          },
-          border: { display: false },
-        },
+        ],
       },
-      layout: { padding: 10 },
-      plugins: {
-        tooltip: {
-          displayColors: false,
-          callbacks: {
-            // hide the title section of tooltip popup
-            title: (title) => {
-              const titleDate = new Date(title[0].parsed.x);
-              return `Week of ${titleDate.toLocaleDateString("en-US", {
-                month: "numeric",
-                day: "numeric",
-              })}`;
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: "time",
+            time: {
+              unit: "week",
+              round: "week",
+              displayFormats: { week: "M/d" },
             },
-            label: (label) => `${label.formattedValue} 🪙`,
+            min: new Date(currentWeekStart - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS),
+            max: new Date(),
+            grid: {
+              display: false,
+              drawTicks: false,
+            },
+            border: { display: false },
+          },
+          y: {
+            title: { display: false },
+            grid: {
+              displayTicks: false,
+              color: (context) => (context.tick.value === 0 ? "transparent" : "rgba(0, 0, 0, 0.1)"),
+            },
+            border: { display: false },
           },
         },
-        title: {
-          display: true,
-          text: "Weekly EcoPoints",
-          align: "start",
-          padding: { bottom: 30 },
-          font: CHART_TITLE_FONT,
-          color: `black`,
+        layout: { padding: 10 },
+        plugins: {
+          tooltip: {
+            displayColors: false,
+            callbacks: {
+              // hide the title section of tooltip popup
+              title: (title) => {
+                const titleDate = new Date(title[0].parsed.x);
+                return `Week of ${titleDate.toLocaleDateString("en-US", {
+                  month: "numeric",
+                  day: "numeric",
+                })}`;
+              },
+              label: (label) => `${label.formattedValue} 🪙`,
+            },
+          },
+          title: {
+            display: true,
+            text: "Weekly EcoPoints",
+            align: "start",
+            padding: { bottom: 30 },
+            font: CHART_TITLE_FONT,
+            color: `black`,
+          },
+          legend: { display: false },
         },
-        legend: { display: false },
       },
-    },
+    }
+  );
+
+  // update num of datapoints in weeklyEcoPointsChart when window size changes
+  MOBILE_QUERY.addEventListener("change", () => {
+    NUM_WEEKS_TO_DISPLAY_IN_CHART = MOBILE_QUERY.matches ? 4 : 6;
+    weeklyEcoPointsChart.options.scales.x.min = new Date(
+      currentWeekStart - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
+    );
+    weeklyEcoPointsChart.update();
   });
 }
 

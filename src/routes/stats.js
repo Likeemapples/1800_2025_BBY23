@@ -3,7 +3,7 @@ import { db, admin } from "../config/firebase.js";
 
 const router = Router();
 const WEEK_IN_MILLISECONDS = 6.048e8;
-const NUM_WEEKS_TO_DISPLAY_IN_CHART = 9;
+const NUM_WEEKS_TO_DISPLAY_IN_CHART = 6;
 
 async function authenticateToken(request, response, next) {
   const authHeader = request.headers.authorization;
@@ -55,7 +55,7 @@ router.get("/", authenticateToken, async (request, response) => {
     //   );
 
     const minDate = new Date(
-      currentWeekStart.getTime() - (NUM_WEEKS_TO_DISPLAY_IN_CHART - 3) * WEEK_IN_MILLISECONDS
+      currentWeekStart.getTime() - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
     );
 
     const weeklyEcoPoints_promise = calcWeeklyEcoPoints(
@@ -107,7 +107,7 @@ router.get("/", authenticateToken, async (request, response) => {
       lifetimeEcoActions,
       totalWeekEcoPoints,
       weeklyEcoPoints,
-      minDate,
+      currentWeekStart: currentWeekStart.getTime(),
       kpis,
     });
   } catch (error) {
