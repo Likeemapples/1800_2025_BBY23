@@ -1,9 +1,3 @@
-## CapWise
-
-* [General info](#general-info)
-* [Technologies](#technologies)
-* [Contents](#content)
-
 # EcoAction Project
 
 ## Overview
@@ -18,7 +12,12 @@ Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction uti
 
 - Jason
 - Hazel
-- Yehor
+- Yehor Skudilov
+
+---
+
+## Contact 
+* Yehor Skudilov - yskudilov@my.bcit.ca 
 
 ---
 
@@ -229,39 +228,39 @@ Example:
 
 ###   Limitations
 
-    -   Group EcoActions functionality is still under development.
-    -   The page currently labeled "EcoGroups" should be the "Explore" page.
-    -   The intended EcoGroups page (a list of joined groups) is not implemented.
-    -   Some UX/UI bugs need to be addressed.
-    -   Leaderboards feature is not yet implemented.
-    -   Finished EcoActions do not disappear from the EcoActions list as intended.
-    -   Groups lack administration features.
-    -   The group interface lacks features like chat and viewing group posts.
-    -   Users cannot leave groups.
-    -   Users cannot create custom EcoActions specifically for a group.
-    -   EcoPoints are only displayed on the Stats page and not readily visible elsewhere.
-    -   The EcoActions page lacks a "Completed EcoActions" section to display finished actions sorted by date.
-    -   The Profile page has a section for statistics (like EcoPoints and groups joined) that is currently non-functional and hardcoded.
-    -   There is no functionality for users to view the profiles of other users.
+-   Group EcoActions functionality is still under development.
+-   The page currently labeled "EcoGroups" should be the "Explore" page.
+-   The intended EcoGroups page (a list of joined groups) is not implemented.
+-   Some UX/UI bugs need to be addressed.
+-   Leaderboards feature is not yet implemented.
+-   Finished EcoActions do not disappear from the EcoActions list as intended.
+-   Groups lack administration features.
+-   The group interface lacks features like chat and viewing group posts.
+-   Users cannot leave groups.
+-   Users cannot create custom EcoActions specifically for a group.
+-   EcoPoints are only displayed on the Stats page and not readily visible elsewhere.
+-   The EcoActions page lacks a "Completed EcoActions" section to display finished actions sorted by date.
+-   The Profile page has a section for statistics (like EcoPoints and groups joined) that is currently non-functional and hardcoded.
+-   There is no functionality for users to view the profiles of other users.
 
 ###   Future Work
 
-    -   Complete group EcoActions functionality.
-    -   Rename the page currently labeled "EcoGroups" to "Explore" and implement the intended Explore page functionality.
-    -   Implement the EcoGroups page to display a list of groups the user has joined.
-    -   Finalize the Explore page with robust search and filtering.
-    -   Implement the leaderboards feature for enhanced gamification.
-    -   Conduct further usability testing and address UX/UI issues.
-    -   Refine the user interface for improved user experience.
-    -   Add mobile navbar text labels for better usability.
-    -   Ensure consistent styling and navigation across all pages.
-    -   Implement the feature where finished EcoActions disappear from the EcoActions list for a day.
-    -   Implement recurring EcoActions with frequencies set by the group.
-    -   Add group administration features (e.g., managing members, settings).
-    -   Improve the group interface with features like a group chat, the ability to view group posts, and more detailed group information.
-    -   Implement the ability for users to leave groups.
-    -   Implement the ability for users to create and suggest custom EcoActions for their groups.
-    -   Add a widget to the top navbar to display the user's EcoPoints.
-    -   Add a "Completed EcoActions" section to the EcoActions page to display finished actions sorted by date.
-    -   Implement the functionality to correctly display user statistics on the Profile page.
-    -   Implement the ability for users to view the profiles of other users.
+-   Complete group EcoActions functionality.
+-   Rename the page currently labeled "EcoGroups" to "Explore" and implement the intended Explore page functionality.
+-   Implement the EcoGroups page to display a list of groups the user has joined.
+-   Finalize the Explore page with robust search and filtering.
+-   Implement the leaderboards feature for enhanced gamification.
+-   Conduct further usability testing and address UX/UI issues.
+-   Refine the user interface for improved user experience.
+-   Add mobile navbar text labels for better usability.
+-   Ensure consistent styling and navigation across all pages.
+-   Implement the feature where finished EcoActions disappear from the EcoActions list for a day.
+-   Implement recurring EcoActions with frequencies set by the group.
+-   Add group administration features (e.g., managing members, settings).
+-   Improve the group interface with features like a group chat, the ability to view group posts, and more detailed group information.
+-   Implement the ability for users to leave groups.
+-   Implement the ability for users to create and suggest custom EcoActions for their groups.
+-   Add a widget to the top navbar to display the user's EcoPoints.
+-   Add a "Completed EcoActions" section to the EcoActions page to display finished actions sorted by date.
+-   Implement the functionality to correctly display user statistics on the Profile page.
+-   Implement the ability for users to view the profiles of other users.
