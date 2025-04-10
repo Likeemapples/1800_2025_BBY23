@@ -48,6 +48,14 @@ Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction uti
 
 ## Usage
 
+Run the web-app
+1. Go to the 1800_2025_BBY23 directory
+2. Open the directory in terminal
+3. Run the fillowing command to start the aplication.
+```
+node app.js
+```
+
 Visit the Welcome page:
 1. Open your browser and visit `http://localhost:8050`.
 2. You will be welcomed with the landng page that shows what our app does.
