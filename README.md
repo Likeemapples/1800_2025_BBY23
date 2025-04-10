@@ -57,7 +57,10 @@ node app.js
 ```
 
 Visit the Welcome page:
-1. Open your browser and visit ```http://localhost:8050```.
+1. Open your browser and visit 
+```
+http://localhost:8050
+```
 2. You will be welcomed with the landng page that shows what our app does.
 
 User Registration:
