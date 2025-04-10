@@ -94,18 +94,106 @@ Creating a group:
 
 ## Project Structure
 
-Example:
-
 ```
-project-name/
-├── src/
-│   ├── index.html
-│   ├── style.css
-│   ├── app.js
-│   └── components/
+1800_2025_BBY23
+├── .gitattributes
+├── .gitignore
+├── app.js
+├── package-lock.json
 ├── package.json
+├── public
+│   ├── assets
+│   │   ├── chart-simple-solid.svg
+│   │   ├── ecoaction.svg
+│   │   ├── ecopoints1.png
+│   │   ├── ecopoints2.png
+│   │   ├── file(1).svg
+│   │   ├── images
+│   │   │   ├── 000_17D62L.jpg
+│   │   │   ├── 2A563CF5-ADAF-4B46-A452-CC8520972AD7-1180x885.jpg
+│   │   │   ├── AM01.jpg
+│   │   │   ├── BBY01.jpg
+│   │   │   ├── blog_x-impressive-tree-planting-organizations-exceeding-expectations.jpg
+│   │   │   ├── coin.png
+│   │   │   ├── ecoaction.ico
+│   │   │   ├── hike1.jpg
+│   │   │   ├── hike2.jpg
+│   │   │   ├── hike3.jpg
+│   │   │   ├── image-not-found.jpg
+│   │   │   ├── login-bg.jpg
+│   │   │   ├── logo.svg
+│   │   │   ├── park-clean-up.jpg
+│   │   │   └── profile-icon.png
+│   │   ├── logo.png
+│   │   └── logo2.png
+│   ├── html
+│   │   ├── 404.html
+│   │   ├── app-shell
+│   │   │   ├── footer-nav.html
+│   │   │   ├── footer.html
+│   │   │   ├── head.html
+│   │   │   └── nav-bar.html
+│   │   ├── ecoactions.html
+│   │   ├── finish-animation.html
+│   │   ├── finish-ecoaction.html
+│   │   ├── group-creation.html
+│   │   ├── group.html
+│   │   ├── groups.html
+│   │   ├── help.html
+│   │   ├── index.html
+│   │   ├── login.html
+│   │   ├── my-groups.html
+│   │   ├── profile-public.html
+│   │   ├── profile.html
+│   │   └── stats.html
+│   ├── scripts
+│   │   ├── app-shell.js
+│   │   ├── ecoactions.js
+│   │   ├── finish-animation.js
+│   │   ├── finish-ecoaction.js
+│   │   ├── finisher-header.es5.min.js
+│   │   ├── group-creation.js
+│   │   ├── group.js
+│   │   ├── groups.js
+│   │   ├── index.js
+│   │   ├── load-component.js
+│   │   ├── login.js
+│   │   ├── my-groups.js
+│   │   ├── profile.js
+│   │   ├── sample-request.js
+│   │   ├── search.js
+│   │   └── stats.js
+│   └── styles
+│       ├── app-shell
+│       │   ├── app-shell.css
+│       │   ├── footer-navbar.css
+│       │   ├── footer.css
+│       │   └── navbar.css
+│       ├── ecoactions.css
+│       ├── finish-animation.css
+│       ├── finish-ecoaction.css
+│       ├── groups.css
+│       ├── index.css
+│       ├── loader.css
+│       ├── login.css
+│       ├── profile-public.css
+│       ├── profile.css
+│       ├── stats.css
+│       └── theme.css
 ├── README.md
-└── .gitignore
+└── src
+    ├── config
+    │   ├── auth-template.js
+    │   ├── auth.js
+    │   ├── cloudinary.js
+    │   └── firebase.js
+    ├── populate-firestore.js
+    ├── populate-user.js
+    └── routes
+        ├── ecoactions.js
+        ├── ecogroups.js
+        ├── stats.js
+        └── users.js
 ```
 
 ---
