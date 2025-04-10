@@ -226,6 +226,10 @@ Example:
 
 ---
 
+## Resources
+
+---
+
 ## Limitations and Future Work
 
 ###   Limitations
