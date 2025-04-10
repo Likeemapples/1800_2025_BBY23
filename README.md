@@ -1,3 +1,9 @@
+## CapWise
+
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Contents](#content)
+
 # EcoAction Project
 
 ## Overview
@@ -51,7 +57,7 @@ Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction uti
 Run the web-app
 1. Go to the 1800_2025_BBY23 directory
 2. Open the directory in terminal
-3. Run the fillowing command to start the aplication.
+3. Run the fillowing command to start the aplication
 ```
 node app.js
 ```
@@ -259,10 +265,3 @@ Example:
     -   Add a "Completed EcoActions" section to the EcoActions page to display finished actions sorted by date.
     -   Implement the functionality to correctly display user statistics on the Profile page.
     -   Implement the ability for users to view the profiles of other users.
-
----
-
-## License
-
-Example:
-This project is licensed under the MIT License. See the LICENSE file for details.
