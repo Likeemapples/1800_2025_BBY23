@@ -182,7 +182,7 @@ Creating a group:
 │   │   ├── search.js
 │   │   └── stats.js
 │   └── styles                        # styles
-│       ├── app-shell
+│       ├── app-shell                 # styles for app-shell components
 │       │   ├── app-shell.css
 │       │   ├── footer-navbar.css
 │       │   ├── footer.css
