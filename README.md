@@ -18,7 +18,7 @@ Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction uti
 
 ## Contact 
 * Yehor Skudilov - yskudilov@my.bcit.ca 
-* Jason - 
+* Jason - firkus.jason@gmail.com
 * Hazel - 
 
 ---
@@ -58,7 +58,7 @@ Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction uti
 Run the web-app
 1. Go to the 1800_2025_BBY23 directory
 2. Open the directory in terminal
-3. Run the fillowing command to start the aplication
+3. Run the following command to start the aplication
 ```
 node app.js
 ```
@@ -224,7 +224,7 @@ Creating a group:
 -   The page currently labeled "EcoGroups" should be the "Explore" page.
 -   The intended EcoGroups page (a list of joined groups) is not implemented.
 -   Some UX/UI bugs need to be addressed.
--   Leaderboards feature is not yet implemented.
+-   Leaderboards page/feature is not yet implemented.
 -   Finished EcoActions do not disappear from the EcoActions list as intended.
 -   Groups lack administration features.
 -   The group interface lacks features like chat and viewing group posts.
