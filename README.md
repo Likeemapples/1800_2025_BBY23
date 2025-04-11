@@ -202,8 +202,8 @@ Creating a group:
 └── src                                # folder for all back end server files
     ├── config                         # config files loaded in each entrypoint
     │   ├── auth-template.js           # template for creating auth.js locally
-    │   ├── auth.js                    # contains all API keys and config information for firebase and cloudinary, not committed to repo
-    │   ├── cloudinary.js              # initializes cloudinary, image-hosting provider
+    │   ├── auth.js                    # contains all API keys and config information for firebase and cloudinary, not committed to github
+    │   ├── cloudinary.js              # initializes cloudinary, image-hosting provider, from constants in auth.js
     │   └── firebase.js                # initializes firebase from constants in auth.js
     ├── populate-firestore.js          # contains functions for creating a dummy set of EcoActions and EcoGroups
     ├── populate-user.js               # contains functions for populating a user with a random set of EcoActions and EcoGroups
