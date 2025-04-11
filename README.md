@@ -19,7 +19,7 @@ Developed for the COMP1800 Projects 1 and Web Development courses, EcoAction uti
 ## Contact 
 * Yehor Skudilov - yskudilov@my.bcit.ca 
 * Jason - firkus.jason@gmail.com
-* Hazel - 
+* Hazel - ifulljames@my.bcit.ca
 
 ---
 
