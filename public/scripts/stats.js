@@ -26,8 +26,15 @@ const COLOURS = [
   "#3E2723", // Very Dark Espresso
 ];
 
+const MEDIA_QUERIES = {
+  DESKTOP: window.matchMedia("(min-width: 1010px)"),
+  MOBILE: window.matchMedia("(max-width: 810px)"),
+  SMALL_MOBILE: window.matchMedia("(max-width: 600px) and (min-width: 451px)"),
+  VERY_SMALL_MOBILE: window.matchMedia("(max-width: 450px)"),
+};
+
 const CHART_TITLE_FONT = {
-  size: 25,
+  size: MEDIA_QUERIES.MOBILE.matches ? 20 : 25,
   family: "'Arial', sans-serif",
   weight: "bold",
 };
@@ -38,15 +45,12 @@ const DONUT_OPTIONS_COMMON = {
   devicePixelRatio: 2, // for some reason will be blurry without this
 };
 
-const DONUT_ECOACTIONS_OPTIONS_COMMON = {
-  ...DONUT_OPTIONS_COMMON,
-  plugins: {
-    tooltip: {
-      displayColors: false,
-    },
-    title: { display: false },
-    legend: { display: false },
+const DONUT_ECOACTIONS_PLUGINS_COMMON = {
+  tooltip: {
+    displayColors: false,
   },
+  title: { display: false },
+  legend: { display: false },
 };
 
 const DONUT_DATASET_COMMON = {
@@ -63,8 +67,7 @@ const GREEN_SECONDARY = window
   .getPropertyValue("--green-secondary");
 
 const WEEK_IN_MILLISECONDS = 6.048e8;
-const MOBILE_QUERY = window.matchMedia("(max-width: 810px)");
-let NUM_WEEKS_TO_DISPLAY_IN_CHART = 6;
+let NUM_WEEKS_TO_DISPLAY_IN_CHART = MEDIA_QUERIES.MOBILE.matches ? 4 : 6;
 
 async function getFirebaseConfig() {
   const response = await fetch("/firebase-config");
@@ -137,8 +140,19 @@ async function createStats(user) {
           },
         ],
       },
-      options: DONUT_ECOACTIONS_OPTIONS_COMMON,
-      plugins: [getDonutCenterText(totalWeekCompletedEcoActions, "Completed", "EcoActions")],
+      options: {
+        ...DONUT_OPTIONS_COMMON,
+        plugins: {
+          ...DONUT_ECOACTIONS_PLUGINS_COMMON,
+          donutCenterText: {
+            number: totalWeekCompletedEcoActions,
+            text1: "Completed",
+            text2: "EcoActions",
+            ...getDonutChartOffsets(true),
+          },
+        },
+      },
+      plugins: [donutCenterTextPlugin()],
     }
   );
 
@@ -156,8 +170,19 @@ async function createStats(user) {
           },
         ],
       },
-      options: DONUT_ECOACTIONS_OPTIONS_COMMON,
-      plugins: [getDonutCenterText(lifetimeEcoActions, "Completed", "EcoActions")],
+      options: {
+        ...DONUT_OPTIONS_COMMON,
+        plugins: {
+          ...DONUT_ECOACTIONS_PLUGINS_COMMON,
+          donutCenterText: {
+            number: lifetimeEcoActions,
+            text1: "Completed",
+            text2: "EcoActions",
+            ...getDonutChartOffsets(true),
+          },
+        },
+      },
+      plugins: [donutCenterTextPlugin()],
     }
   );
 
@@ -184,131 +209,220 @@ async function createStats(user) {
           },
           title: { display: false },
           legend: { display: false },
+          donutCenterText: {
+            number: totalWeekEcoPoints,
+            text1: "EcoPoints",
+            ...getDonutChartOffsets(false),
+          },
         },
       },
-      plugins: [getDonutCenterText(totalWeekEcoPoints, "EcoPoints")],
+      plugins: [donutCenterTextPlugin()],
     }
   );
 
-  const weeklyEcoPointsChart = await new Chart(
-    document.getElementById("weekly-ecopoints-over-time"),
-    {
-      type: "bar",
-      data: {
-        datasets: [
-          {
-            label: "Weekly EcoPoints",
-            data: weeklyEcoPoints,
-            borderSkipped: false,
-            borderRadius: 5,
-            backgroundColor: `${GREEN_SECONDARY}`,
-            barThickness: 50,
-            barPercentage: 0.1,
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: "time",
-            time: {
-              unit: "week",
-              round: "week",
-              displayFormats: { week: "M/d" },
-            },
-            min: new Date(currentWeekStart - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS),
-            max: new Date(),
-            grid: {
-              display: false,
-              drawTicks: false,
-            },
-            border: { display: false },
-          },
-          y: {
-            title: { display: false },
-            grid: {
-              displayTicks: false,
-              color: (context) => (context.tick.value === 0 ? "transparent" : "rgba(0, 0, 0, 0.1)"),
-            },
-            border: { display: false },
-          },
+  const weeklyEcoPointsChart = new Chart(document.getElementById("weekly-ecopoints-over-time"), {
+    type: "bar",
+    data: {
+      datasets: [
+        {
+          label: "Weekly EcoPoints",
+          data: weeklyEcoPoints,
+          borderSkipped: false,
+          borderRadius: 5,
+          backgroundColor: `${GREEN_SECONDARY}`,
+          barThickness: 50,
+          barPercentage: 0.1,
         },
-        layout: { padding: 10 },
-        plugins: {
-          tooltip: {
-            displayColors: false,
-            callbacks: {
-              // hide the title section of tooltip popup
-              title: (title) => {
-                const titleDate = new Date(title[0].parsed.x);
-                return `Week of ${titleDate.toLocaleDateString("en-US", {
-                  month: "numeric",
-                  day: "numeric",
-                })}`;
-              },
-              label: (label) => `${label.formattedValue} 🪙`,
-            },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          type: "time",
+          time: {
+            unit: "week",
+            round: "week",
+            displayFormats: { week: "M/d" },
           },
-          title: {
-            display: true,
-            text: "Weekly EcoPoints",
-            align: "start",
-            padding: { bottom: 30 },
-            font: CHART_TITLE_FONT,
-            color: `black`,
+          min: new Date(currentWeekStart - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS),
+          max: new Date(),
+          grid: {
+            display: false,
+            drawTicks: false,
           },
-          legend: { display: false },
+          border: { display: false },
+        },
+        y: {
+          title: { display: false },
+          grid: {
+            displayTicks: false,
+            color: (context) => (context.tick.value === 0 ? "transparent" : "rgba(0, 0, 0, 0.1)"),
+          },
+          border: { display: false },
         },
       },
-    }
-  );
-
-  // update num of datapoints in weeklyEcoPointsChart when window size changes
-  MOBILE_QUERY.addEventListener("change", () => {
-    NUM_WEEKS_TO_DISPLAY_IN_CHART = MOBILE_QUERY.matches ? 4 : 6;
-    weeklyEcoPointsChart.options.scales.x.min = new Date(
-      currentWeekStart - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
-    );
-    weeklyEcoPointsChart.update();
+      layout: { padding: 10 },
+      plugins: {
+        tooltip: {
+          displayColors: false,
+          callbacks: {
+            // hide the title section of tooltip popup
+            title: (title) => {
+              const titleDate = new Date(title[0].parsed.x);
+              return `Week of ${titleDate.toLocaleDateString("en-US", {
+                month: "numeric",
+                day: "numeric",
+              })}`;
+            },
+            label: (label) => `${label.formattedValue} 🪙`,
+          },
+        },
+        title: {
+          display: true,
+          text: "Weekly EcoPoints",
+          align: "start",
+          padding: { bottom: 30 },
+          font: CHART_TITLE_FONT,
+          color: `black`,
+        },
+        legend: { display: false },
+      },
+    },
   });
+
+  for (const query in MEDIA_QUERIES) {
+    MEDIA_QUERIES[query].addEventListener("change", (event) => {
+      NUM_WEEKS_TO_DISPLAY_IN_CHART = MEDIA_QUERIES.MOBILE.matches ? 4 : 6;
+      CHART_TITLE_FONT.size = MEDIA_QUERIES.MOBILE.matches ? 20 : 25;
+
+      console.log("event.matches", event.matches);
+
+      thisWeekCompletedEcoActionsByCategory.options.plugins.donutCenterText = {
+        number: totalWeekCompletedEcoActions,
+        text1: "Completed",
+        text2: "EcoActions",
+        ...getDonutChartOffsets(true),
+      };
+      lifetimeCompletedEcoActionsByCategory.options.plugins.donutCenterText = {
+        number: lifetimeEcoActions,
+        text1: "Completed",
+        text2: "EcoActions",
+        ...getDonutChartOffsets(true),
+      };
+      thisWeekEcoPointsBreakdown.options.plugins.donutCenterText = {
+        number: totalWeekEcoPoints,
+        text1: "EcoPoints",
+        ...getDonutChartOffsets(false),
+      };
+      weeklyEcoPointsChart.options.scales.x.min = new Date(
+        currentWeekStart - NUM_WEEKS_TO_DISPLAY_IN_CHART * WEEK_IN_MILLISECONDS
+      );
+      weeklyEcoPointsChart.options.plugins.title.font = CHART_TITLE_FONT;
+
+      thisWeekCompletedEcoActionsByCategory.update();
+      lifetimeCompletedEcoActionsByCategory.update();
+      thisWeekEcoPointsBreakdown.update();
+      weeklyEcoPointsChart.update();
+      console.log("Charts and center text options updated.");
+    });
+  }
 }
 
 /**
- * Returns a plugin that adds text to the center of a donut chart.
- * @param {number} number - the number to display in the center of the donut chart
- * @param {string} text1 - the text to display below the number
- * @param {string} [text2] - the text to display below the text1 (optional)
+ * Calculates the vertical offset of a donut chart's number and description based
+ * on if it has a second line of text.
+ * @param {boolean} hasText2 - Whether the chart has a second line of text.
+ * @returns {Object} An object with two properties: `offsetNum` and `offsetDesc`,
+ * both of which are numbers.
+ */
+function getDonutChartOffsets(hasText2) {
+  let offsetNum, offsetDesc;
+  if (hasText2) {
+    offsetNum = 8;
+    offsetDesc = 8;
+    if (MEDIA_QUERIES.MOBILE.matches) {
+      offsetDesc += 11;
+    }
+  } else {
+    offsetNum = 0;
+    offsetDesc = 0;
+
+    if (MEDIA_QUERIES.SMALL_MOBILE.matches || MEDIA_QUERIES.VERY_SMALL_MOBILE.matches) {
+      offsetDesc += 11;
+    } else if (MEDIA_QUERIES.MOBILE.matches) {
+      offsetDesc += 7;
+    }
+  }
+  return { offsetNum, offsetDesc };
+}
+
+/**
+ * Computes the pixel value of a CSS clamp function with px and vw units.
+ * clamp(minPx, preferredVw, maxPx)
+ *
+ * @param {number} minPx - The minimum value in pixels.
+ * @param {number} preferredVw - The preferred value in vw units (e.g., 5 for 5vw).
+ * @param {number} maxPx - The maximum value in pixels.
+ * @returns {number} The calculated pixel value after clamping.
+ */
+function computeClamp(minPx, preferredVw, maxPx) {
+  const preferredValuePx = (preferredVw / 100) * window.innerWidth;
+  const clampedAtMin = Math.max(minPx, preferredValuePx);
+  const clampedValuePx = Math.min(maxPx, clampedAtMin);
+
+  return clampedValuePx;
+}
+
+/**
+ * Returns a plugin that adds text to the center of a donut chart,
+ * reading data from plugin options.
  * @returns {object} a plugin for Chart.js
  */
-function getDonutCenterText(number, text1, text2) {
+function donutCenterTextPlugin() {
   return {
     id: "donutCenterText",
-    beforeDatasetsDraw(chart, args, options) {
-      const { ctx, data } = chart;
-      const centerX = chart.getDatasetMeta(0).data[0].x;
-      const centerY = chart.getDatasetMeta(0).data[0].y;
-      let centerYOffset = text2 ? 8 : 0;
+    afterDatasetsDraw(chart, args, options) {
+      const number = options.number ?? "";
+      const text1 = options.text1 ?? "";
+      const text2 = options.text2;
+
+      const meta = chart.getDatasetMeta(0);
+      if (!meta || !meta.data || !meta.data.length) {
+        console.warn("Plugin exiting: Chart metadata not ready.");
+        return;
+      }
+      if (number === "" && text1 === "") {
+        console.warn("Plugin exiting: No number or text1 provided in options.");
+        return;
+      }
+
+      const { ctx } = chart;
+      const arc = meta.data[0];
+      const centerX = arc.x;
+      const centerY = arc.y;
+      const descriptionFont = `normal ${computeClamp(10, 1.5, 14)}px 'Arial', sans-serif`;
+
       ctx.save();
 
-      ctx.font = "bolder 50px 'Arial', sans-serif";
+      ctx.font = `bolder ${computeClamp(25, 5, 50)}px 'Arial', sans-serif`;
       ctx.fillStyle = `black`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(`${number}`, centerX, centerY - 5 - centerYOffset);
+      ctx.fillText(`${number}`, centerX, centerY - 5 - options.offsetNum);
 
-      ctx.font = "normal 14px 'Arial', sans-serif";
+      ctx.font = descriptionFont;
       ctx.fillStyle = `#6c757d`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(`${text1}`, centerX, centerY + 28 - centerYOffset);
+      ctx.fillText(`${text1}`, centerX, centerY + 28 - options.offsetDesc);
 
       if (text2) {
-        ctx.font = "normal 14px 'Arial', sans-serif";
+        ctx.font = descriptionFont;
         ctx.fillStyle = `#6c757d`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(`${text2}`, centerX, centerY + 45 - centerYOffset);
+        ctx.fillText(`${text2}`, centerX, centerY + 43 - options.offsetDesc);
       }
 
       ctx.restore();
