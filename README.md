@@ -116,11 +116,11 @@ Creating a group:
 1800_2025_BBY23
 ├── .gitattributes
 ├── .gitignore
-├── app.js
-├── package-lock.json
-├── package.json
-├── public
-│   ├── assets
+├── app.js                            # Main NodeJS entrypoint for the app
+├── package-lock.json                 # npm
+├── package.json                      # npm
+├── public                            # files served to the client
+│   ├── assets                        # images, icons and other assets
 │   │   ├── chart-simple-solid.svg
 │   │   ├── ecoaction.svg
 │   │   ├── ecopoints1.png
@@ -144,9 +144,9 @@ Creating a group:
 │   │   │   └── profile-icon.png
 │   │   ├── logo.png
 │   │   └── logo2.png
-│   ├── html
+│   ├── html                            # HTML pages 
 │   │   ├── 404.html
-│   │   ├── app-shell
+│   │   ├── app-shell                   # app-shell components that are reused throughout the app
 │   │   │   ├── footer-nav.html
 │   │   │   ├── footer.html
 │   │   │   ├── head.html
@@ -164,7 +164,7 @@ Creating a group:
 │   │   ├── profile-public.html
 │   │   ├── profile.html
 │   │   └── stats.html
-│   ├── scripts
+│   ├── scripts                        # client JS files
 │   │   ├── app-shell.js
 │   │   ├── ecoactions.js
 │   │   ├── finish-animation.js
@@ -181,7 +181,7 @@ Creating a group:
 │   │   ├── sample-request.js
 │   │   ├── search.js
 │   │   └── stats.js
-│   └── styles
+│   └── styles                        # styles
 │       ├── app-shell
 │       │   ├── app-shell.css
 │       │   ├── footer-navbar.css
@@ -199,15 +199,15 @@ Creating a group:
 │       ├── stats.css
 │       └── theme.css
 ├── README.md
-└── src
-    ├── config
-    │   ├── auth-template.js
-    │   ├── auth.js
-    │   ├── cloudinary.js
-    │   └── firebase.js
-    ├── populate-firestore.js
-    ├── populate-user.js
-    └── routes
+└── src                                # folder for all back end server files
+    ├── config                         # config files loaded in each entrypoint
+    │   ├── auth-template.js           # template for creating auth.js locally
+    │   ├── auth.js                    # contains all API keys and config information for firebase and cloudinary, not committed to repo
+    │   ├── cloudinary.js              # initializes cloudinary, image-hosting provider
+    │   └── firebase.js                # initializes firebase from constants in auth.js
+    ├── populate-firestore.js          # contains functions for creating a dummy set of EcoActions and EcoGroups
+    ├── populate-user.js               # contains functions for populating a user with a random set of EcoActions and EcoGroups
+    └── routes                         # route files, each file represents a group of endpoints
         ├── ecoactions.js
         ├── ecogroups.js
         ├── stats.js
@@ -256,3 +256,11 @@ Creating a group:
 -   Add a "Completed EcoActions" section to the EcoActions page to display finished actions sorted by date.
 -   Implement the functionality to correctly display user statistics on the Profile page.
 -   Implement the ability for users to view the profiles of other users.
+
+## Resources
+- Main app icons from Lucide (https://lucide.dev/)
+- Logo and some icons generated via ChatGPT
+
+## Acknowledgements
+* <a href="https://fonts.google.com/">Google Fonts</a>
+* <a href="https://getbootstrap.com/">Bootstrap</a>
