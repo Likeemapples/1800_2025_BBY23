@@ -216,23 +216,6 @@ Creating a group:
 
 ---
 
-## Acknowledgments
-
-Example:
-
-- Weather data sourced from [OpenWeatherMap](https://openweathermap.org/).
-- Code snippets for \_\_\_ algoirthm were adapted from resources such as [Stack Overflow](https://stackoverflow.com/) and [MDN Web Docs](https://developer.mozilla.org/).
-- Icons sourced from [FontAwesome](https://fontawesome.com/) and images from [Unsplash](https://unsplash.com/).
-
----
-
-## Resources
-
-Example:
-
-- In-app icons from Feather v4.28.0 (Open Source https://feathericons.com/)
-- Logo homemade!
-
 ## Limitations and Future Work
 
 ###   Limitations
